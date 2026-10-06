@@ -1109,6 +1109,7 @@
       renderPlan(plan);
       setStatus($("publish-status"), "Preview applied on this page only (not posted yet).", "info");
       closeOverlay($("admin-editor"));
+      window.__sapnaAllowScroll = true;
       document.getElementById("workout")?.scrollIntoView({ behavior: "smooth" });
     });
 
@@ -1188,6 +1189,7 @@
       const target = document.getElementById("workout");
       if (!target) return;
       e.preventDefault();
+      window.__sapnaAllowScroll = true;
       history.replaceState(null, "", "#workout");
       target.scrollIntoView({ behavior: "smooth", block: "start" });
     });
@@ -1216,6 +1218,8 @@
     /* Layout can shift after plan/GIF load — keep first paint at hero top */
     pinInitialLanding();
     requestAnimationFrame(pinInitialLanding);
+    setTimeout(pinInitialLanding, 50);
+    setTimeout(pinInitialLanding, 200);
   }
 
   init();

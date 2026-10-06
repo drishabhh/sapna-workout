@@ -92,7 +92,7 @@ body {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
-  padding: clamp(4.5rem, 14vw, 6.5rem) clamp(1.25rem, 5vw, 2.75rem) 3.25rem;
+  padding: clamp(3.25rem, 10vw, 5rem) clamp(1.25rem, 5vw, 2.75rem) 3.25rem;
   max-width: var(--max);
   margin: 0 auto;
   position: relative;
