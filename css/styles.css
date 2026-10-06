@@ -1088,3 +1088,11 @@ body.admin-open {
 .admin-move.sortable-drag {
   box-shadow: var(--shadow-soft);
 }
+
+.gif-menu-item.is-equipment {
+  border-color: rgba(217, 181, 106, 0.45);
+  background: linear-gradient(135deg, rgba(217, 181, 106, 0.12), rgba(12, 36, 33, 0.55));
+}
+.gif-menu-item.is-equipment strong {
+  color: var(--gold-soft, #e8c98a);
+}

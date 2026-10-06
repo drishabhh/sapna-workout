@@ -1,5 +1,5 @@
 {
-  "version": 2,
+  "version": 3,
   "updatedAt": "2026-10-06",
   "sources": [
     {
@@ -25,6 +25,11 @@
     }
   ],
   "bodyParts": [
+    {
+      "id": "dumbbell",
+      "label": "Dumbbell",
+      "kind": "equipment"
+    },
     {
       "id": "back",
       "label": "Back"
@@ -139,10 +144,14 @@
       "equipment": "local",
       "muscle": "legs",
       "aliases": [
-        "goblet squat",
-        "db squat"
+        "db",
+        "db squat",
+        "dumb bell",
+        "dumbbell",
+        "goblet squat"
       ],
-      "source": "local"
+      "source": "local",
+      "isDumbbell": true
     },
     {
       "id": "local-leg-curl",
@@ -2490,10 +2499,15 @@
         "alternate",
         "biceps",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
-        "dumbbellalternatebicepscurl"
+        "dumbbellalternatebicepscurl",
+        "free weight",
+        "free weights"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-alternate-biceps-curl-with-arm-blaster",
@@ -2511,11 +2525,16 @@
         "biceps",
         "blaster",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellalternatebicepscurlwitharmblaster",
+        "free weight",
+        "free weights",
         "with"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-alternate-hammer-preacher-curl",
@@ -2530,12 +2549,17 @@
       "aliases": [
         "alternate",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellalternatehammerpreachercurl",
+        "free weight",
+        "free weights",
         "hammer",
         "preacher"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-alternate-preacher-curl",
@@ -2550,11 +2574,16 @@
       "aliases": [
         "alternate",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellalternatepreachercurl",
+        "free weight",
+        "free weights",
         "preacher"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-alternate-seated-hammer-curl",
@@ -2569,12 +2598,17 @@
       "aliases": [
         "alternate",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellalternateseatedhammercurl",
+        "free weight",
+        "free weights",
         "hammer",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-alternating-bicep-curl-with-leg-raised-on-exercise-ball",
@@ -2591,14 +2625,19 @@
         "ball",
         "bicep",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellalternatingbicepcurlwithlegraisedonexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "leg",
         "raised",
         "with"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-alternating-seated-bicep-curl-on-exercise-ball",
@@ -2615,12 +2654,17 @@
         "ball",
         "bicep",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellalternatingseatedbicepcurlonexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-bicep-curl-lunge-with-bowling-motion",
@@ -2636,13 +2680,18 @@
         "bicep",
         "bowling",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellbicepcurllungewithbowlingmotion",
+        "free weight",
+        "free weights",
         "lunge",
         "motion",
         "with"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-bicep-curl-on-exercise-ball-with-leg-raised",
@@ -2658,14 +2707,19 @@
         "ball",
         "bicep",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellbicepcurlonexerciseballwithlegraised",
         "exercise",
+        "free weight",
+        "free weights",
         "leg",
         "raised",
         "with"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-bicep-curl-with-stork-stance",
@@ -2680,13 +2734,18 @@
       "aliases": [
         "bicep",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellbicepcurlwithstorkstance",
+        "free weight",
+        "free weights",
         "stance",
         "stork",
         "with"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-biceps-curl",
@@ -2701,10 +2760,15 @@
       "aliases": [
         "biceps",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
-        "dumbbellbicepscurl"
+        "dumbbellbicepscurl",
+        "free weight",
+        "free weights"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-biceps-curl-reverse",
@@ -2719,11 +2783,16 @@
       "aliases": [
         "biceps",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellbicepscurlreverse",
+        "free weight",
+        "free weights",
         "reverse"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-biceps-curl-squat",
@@ -2738,11 +2807,16 @@
       "aliases": [
         "biceps",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellbicepscurlsquat",
+        "free weight",
+        "free weights",
         "squat"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-biceps-curl-v-sit-on-bosu-ball",
@@ -2759,11 +2833,16 @@
         "biceps",
         "bosu",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellbicepscurlvsitonbosuball",
+        "free weight",
+        "free weights",
         "sit"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-biceps-curl-with-arm-blaster",
@@ -2780,11 +2859,16 @@
         "biceps",
         "blaster",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellbicepscurlwitharmblaster",
+        "free weight",
+        "free weights",
         "with"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-close-grip-press",
@@ -2798,12 +2882,17 @@
       "muscle": "triceps",
       "aliases": [
         "close",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellclosegrippress",
+        "free weight",
+        "free weights",
         "grip",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-close-grip-press-1731",
@@ -2818,12 +2907,17 @@
       "aliases": [
         "1731",
         "close",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellclosegrippress1731",
+        "free weight",
+        "free weights",
         "grip",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-concentration-curl",
@@ -2838,10 +2932,15 @@
       "aliases": [
         "concentration",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
-        "dumbbellconcentrationcurl"
+        "dumbbellconcentrationcurl",
+        "free weight",
+        "free weights"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-cross-body-hammer-curl",
@@ -2857,11 +2956,16 @@
         "body",
         "cross",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellcrossbodyhammercurl",
+        "free weight",
+        "free weights",
         "hammer"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-cross-body-hammer-curl-v-2",
@@ -2877,12 +2981,17 @@
         "body",
         "cross",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbell cross body hammer curl v 2",
         "dumbbellcrossbodyhammercurlv2",
+        "free weight",
+        "free weights",
         "hammer"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-decline-one-arm-hammer-press",
@@ -2896,14 +3005,19 @@
       "muscle": "triceps",
       "aliases": [
         "arm",
+        "db",
         "decline",
+        "dumb bell",
         "dumbbell",
         "dumbbelldeclineonearmhammerpress",
+        "free weight",
+        "free weights",
         "hammer",
         "one",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-decline-triceps-extension",
@@ -2916,13 +3030,18 @@
       "equipment": "dumbbell",
       "muscle": "triceps",
       "aliases": [
+        "db",
         "decline",
+        "dumb bell",
         "dumbbell",
         "dumbbelldeclinetricepsextension",
         "extension",
+        "free weight",
+        "free weights",
         "triceps"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "forearms-dumbbell-finger-curls",
@@ -2936,11 +3055,16 @@
       "muscle": "forearms",
       "aliases": [
         "curls",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellfingercurls",
-        "finger"
+        "finger",
+        "free weight",
+        "free weights"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-forward-lunge-triceps-extension",
@@ -2953,14 +3077,19 @@
       "equipment": "dumbbell",
       "muscle": "triceps",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellforwardlungetricepsextension",
         "extension",
         "forward",
+        "free weight",
+        "free weights",
         "lunge",
         "triceps"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-hammer-curl",
@@ -2974,11 +3103,16 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellhammercurl",
+        "free weight",
+        "free weights",
         "hammer"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-hammer-curl-on-exercise-ball",
@@ -2993,12 +3127,17 @@
       "aliases": [
         "ball",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellhammercurlonexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "hammer"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-hammer-curl-v-2",
@@ -3012,12 +3151,17 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbell hammer curl v 2",
         "dumbbellhammercurlv2",
+        "free weight",
+        "free weights",
         "hammer"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-hammer-curls-with-arm-blaster",
@@ -3033,12 +3177,17 @@
         "arm",
         "blaster",
         "curls",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellhammercurlswitharmblaster",
+        "free weight",
+        "free weights",
         "hammer",
         "with"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-high-curl",
@@ -3052,11 +3201,16 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellhighcurl",
+        "free weight",
+        "free weights",
         "high"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-incline-biceps-curl",
@@ -3071,11 +3225,16 @@
       "aliases": [
         "biceps",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclinebicepscurl",
+        "free weight",
+        "free weights",
         "incline"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-incline-curl",
@@ -3089,11 +3248,16 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclinecurl",
+        "free weight",
+        "free weights",
         "incline"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-incline-curl-v-2",
@@ -3107,12 +3271,17 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbell incline curl v 2",
         "dumbbellinclinecurlv2",
+        "free weight",
+        "free weights",
         "incline"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-incline-hammer-curl",
@@ -3126,12 +3295,17 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclinehammercurl",
+        "free weight",
+        "free weights",
         "hammer",
         "incline"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-incline-hammer-press-on-exercise-ball",
@@ -3145,14 +3319,19 @@
       "muscle": "triceps",
       "aliases": [
         "ball",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclinehammerpressonexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "hammer",
         "incline",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-incline-inner-biceps-curl",
@@ -3167,12 +3346,17 @@
       "aliases": [
         "biceps",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclineinnerbicepscurl",
+        "free weight",
+        "free weights",
         "incline",
         "inner"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-incline-one-arm-hammer-press",
@@ -3186,14 +3370,19 @@
       "muscle": "triceps",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclineonearmhammerpress",
+        "free weight",
+        "free weights",
         "hammer",
         "incline",
         "one",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-incline-one-arm-hammer-press-on-exercise-ball",
@@ -3208,15 +3397,20 @@
       "aliases": [
         "arm",
         "ball",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclineonearmhammerpressonexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "hammer",
         "incline",
         "one",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-incline-triceps-extension",
@@ -3229,13 +3423,18 @@
       "equipment": "dumbbell",
       "muscle": "triceps",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclinetricepsextension",
         "extension",
+        "free weight",
+        "free weights",
         "incline",
         "triceps"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-incline-two-arm-extension",
@@ -3249,13 +3448,18 @@
       "muscle": "triceps",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclinetwoarmextension",
         "extension",
+        "free weight",
+        "free weights",
         "incline",
         "two"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-kickback",
@@ -3268,11 +3472,16 @@
       "equipment": "dumbbell",
       "muscle": "triceps",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellkickback",
+        "free weight",
+        "free weights",
         "kickback"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-kickbacks-on-exercise-ball",
@@ -3286,12 +3495,17 @@
       "muscle": "triceps",
       "aliases": [
         "ball",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellkickbacksonexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "kickbacks"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-kneeling-bicep-curl-exercise-ball",
@@ -3307,12 +3521,17 @@
         "ball",
         "bicep",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellkneelingbicepcurlexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "kneeling"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-lunge-with-bicep-curl",
@@ -3327,12 +3546,17 @@
       "aliases": [
         "bicep",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllungewithbicepcurl",
+        "free weight",
+        "free weights",
         "lunge",
         "with"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-lying-alternate-extension",
@@ -3346,12 +3570,17 @@
       "muscle": "triceps",
       "aliases": [
         "alternate",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingalternateextension",
         "extension",
+        "free weight",
+        "free weights",
         "lying"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-lying-elbow-press",
@@ -3364,13 +3593,18 @@
       "equipment": "dumbbell",
       "muscle": "triceps",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingelbowpress",
         "elbow",
+        "free weight",
+        "free weights",
         "lying",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-lying-extension-across-face",
@@ -3384,13 +3618,18 @@
       "muscle": "triceps",
       "aliases": [
         "across",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingextensionacrossface",
         "extension",
         "face",
+        "free weight",
+        "free weights",
         "lying"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-lying-one-arm-pronated-triceps-extension",
@@ -3404,15 +3643,20 @@
       "muscle": "triceps",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingonearmpronatedtricepsextension",
         "extension",
+        "free weight",
+        "free weights",
         "lying",
         "one",
         "pronated",
         "triceps"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-lying-one-arm-supinated-triceps-extension",
@@ -3426,15 +3670,20 @@
       "muscle": "triceps",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingonearmsupinatedtricepsextension",
         "extension",
+        "free weight",
+        "free weights",
         "lying",
         "one",
         "supinated",
         "triceps"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "forearms-dumbbell-lying-pronation",
@@ -3447,12 +3696,17 @@
       "equipment": "dumbbell",
       "muscle": "forearms",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingpronation",
+        "free weight",
+        "free weights",
         "lying",
         "pronation"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "forearms-dumbbell-lying-pronation-on-floor",
@@ -3465,13 +3719,18 @@
       "equipment": "dumbbell",
       "muscle": "forearms",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingpronationonfloor",
         "floor",
+        "free weight",
+        "free weights",
         "lying",
         "pronation"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-lying-single-extension",
@@ -3484,13 +3743,18 @@
       "equipment": "dumbbell",
       "muscle": "triceps",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingsingleextension",
         "extension",
+        "free weight",
+        "free weights",
         "lying",
         "single"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "forearms-dumbbell-lying-supination",
@@ -3503,12 +3767,17 @@
       "equipment": "dumbbell",
       "muscle": "forearms",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingsupination",
+        "free weight",
+        "free weights",
         "lying",
         "supination"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "forearms-dumbbell-lying-supination-on-floor",
@@ -3521,13 +3790,18 @@
       "equipment": "dumbbell",
       "muscle": "forearms",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingsupinationonfloor",
         "floor",
+        "free weight",
+        "free weights",
         "lying",
         "supination"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-lying-supine-biceps-curl",
@@ -3542,12 +3816,17 @@
       "aliases": [
         "biceps",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingsupinebicepscurl",
+        "free weight",
+        "free weights",
         "lying",
         "supine"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-lying-supine-curl",
@@ -3561,12 +3840,17 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingsupinecurl",
+        "free weight",
+        "free weights",
         "lying",
         "supine"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-lying-triceps-extension",
@@ -3579,13 +3863,18 @@
       "equipment": "dumbbell",
       "muscle": "triceps",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingtricepsextension",
         "extension",
+        "free weight",
+        "free weights",
         "lying",
         "triceps"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-lying-wide-curl",
@@ -3599,12 +3888,17 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingwidecurl",
+        "free weight",
+        "free weights",
         "lying",
         "wide"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-neutral-grip-bench-press",
@@ -3618,13 +3912,18 @@
       "muscle": "triceps",
       "aliases": [
         "bench",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellneutralgripbenchpress",
+        "free weight",
+        "free weights",
         "grip",
         "neutral",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-one-arm-concentration-curl-on-stability-ball",
@@ -3641,12 +3940,17 @@
         "ball",
         "concentration",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmconcentrationcurlonstabilityball",
+        "free weight",
+        "free weights",
         "one",
         "stability"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-one-arm-french-press-on-exercise-ball",
@@ -3661,14 +3965,19 @@
       "aliases": [
         "arm",
         "ball",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmfrenchpressonexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "french",
         "one",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-one-arm-hammer-preacher-curl",
@@ -3683,13 +3992,18 @@
       "aliases": [
         "arm",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmhammerpreachercurl",
+        "free weight",
+        "free weights",
         "hammer",
         "one",
         "preacher"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-one-arm-hammer-press-on-exercise-ball",
@@ -3704,14 +4018,19 @@
       "aliases": [
         "arm",
         "ball",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmhammerpressonexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "hammer",
         "one",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-one-arm-kickback",
@@ -3725,12 +4044,17 @@
       "muscle": "triceps",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmkickback",
+        "free weight",
+        "free weights",
         "kickback",
         "one"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-one-arm-prone-curl",
@@ -3745,12 +4069,17 @@
       "aliases": [
         "arm",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmpronecurl",
+        "free weight",
+        "free weights",
         "one",
         "prone"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-one-arm-prone-hammer-curl",
@@ -3765,13 +4094,18 @@
       "aliases": [
         "arm",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmpronehammercurl",
+        "free weight",
+        "free weights",
         "hammer",
         "one",
         "prone"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-one-arm-reverse-preacher-curl",
@@ -3786,13 +4120,18 @@
       "aliases": [
         "arm",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmreversepreachercurl",
+        "free weight",
+        "free weights",
         "one",
         "preacher",
         "reverse"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-one-arm-reverse-spider-curl",
@@ -3807,13 +4146,18 @@
       "aliases": [
         "arm",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmreversespidercurl",
+        "free weight",
+        "free weights",
         "one",
         "reverse",
         "spider"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "forearms-dumbbell-one-arm-reverse-wrist-curl",
@@ -3828,13 +4172,18 @@
       "aliases": [
         "arm",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmreversewristcurl",
+        "free weight",
+        "free weights",
         "one",
         "reverse",
         "wrist"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-one-arm-seated-bicep-curl-on-exercise-ball",
@@ -3851,13 +4200,18 @@
         "ball",
         "bicep",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmseatedbicepcurlonexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "one",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-one-arm-seated-hammer-curl",
@@ -3872,13 +4226,18 @@
       "aliases": [
         "arm",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmseatedhammercurl",
+        "free weight",
+        "free weights",
         "hammer",
         "one",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "forearms-dumbbell-one-arm-seated-neutral-wrist-curl",
@@ -3893,14 +4252,19 @@
       "aliases": [
         "arm",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmseatedneutralwristcurl",
+        "free weight",
+        "free weights",
         "neutral",
         "one",
         "seated",
         "wrist"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-one-arm-standing-curl",
@@ -3915,12 +4279,17 @@
       "aliases": [
         "arm",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmstandingcurl",
+        "free weight",
+        "free weights",
         "one",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-one-arm-standing-hammer-curl",
@@ -3935,13 +4304,18 @@
       "aliases": [
         "arm",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmstandinghammercurl",
+        "free weight",
+        "free weights",
         "hammer",
         "one",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-one-arm-triceps-extension-on-bench",
@@ -3956,13 +4330,18 @@
       "aliases": [
         "arm",
         "bench",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmtricepsextensiononbench",
         "extension",
+        "free weight",
+        "free weights",
         "one",
         "triceps"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "forearms-dumbbell-one-arm-wrist-curl",
@@ -3977,12 +4356,17 @@
       "aliases": [
         "arm",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmwristcurl",
+        "free weight",
+        "free weights",
         "one",
         "wrist"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-one-arm-zottman-preacher-curl",
@@ -3997,13 +4381,18 @@
       "aliases": [
         "arm",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmzottmanpreachercurl",
+        "free weight",
+        "free weights",
         "one",
         "preacher",
         "zottman"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-over-bench-neutral-wrist-curl",
@@ -4018,13 +4407,18 @@
       "aliases": [
         "bench",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelloverbenchneutralwristcurl",
+        "free weight",
+        "free weights",
         "neutral",
         "over",
         "wrist"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-over-bench-one-arm-neutral-wrist-curl",
@@ -4040,14 +4434,19 @@
         "arm",
         "bench",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelloverbenchonearmneutralwristcurl",
+        "free weight",
+        "free weights",
         "neutral",
         "one",
         "over",
         "wrist"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "forearms-dumbbell-over-bench-one-arm-reverse-wrist-curl",
@@ -4063,14 +4462,19 @@
         "arm",
         "bench",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelloverbenchonearmreversewristcurl",
+        "free weight",
+        "free weights",
         "one",
         "over",
         "reverse",
         "wrist"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "forearms-dumbbell-over-bench-one-arm-wrist-curl",
@@ -4086,13 +4490,18 @@
         "arm",
         "bench",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelloverbenchonearmwristcurl",
+        "free weight",
+        "free weights",
         "one",
         "over",
         "wrist"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "forearms-dumbbell-over-bench-revers-wrist-curl",
@@ -4107,13 +4516,18 @@
       "aliases": [
         "bench",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelloverbenchreverswristcurl",
+        "free weight",
+        "free weights",
         "over",
         "revers",
         "wrist"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "forearms-dumbbell-over-bench-wrist-curl",
@@ -4128,12 +4542,17 @@
       "aliases": [
         "bench",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelloverbenchwristcurl",
+        "free weight",
+        "free weights",
         "over",
         "wrist"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-palms-in-incline-bench-press",
@@ -4147,13 +4566,18 @@
       "muscle": "triceps",
       "aliases": [
         "bench",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellpalmsininclinebenchpress",
+        "free weight",
+        "free weights",
         "incline",
         "palms",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-peacher-hammer-curl",
@@ -4167,12 +4591,17 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellpeacherhammercurl",
+        "free weight",
+        "free weights",
         "hammer",
         "peacher"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-preacher-curl",
@@ -4186,11 +4615,16 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellpreachercurl",
+        "free weight",
+        "free weights",
         "preacher"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-preacher-curl-over-exercise-ball",
@@ -4205,13 +4639,18 @@
       "aliases": [
         "ball",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellpreachercurloverexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "over",
         "preacher"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-pronate-grip-triceps-extension",
@@ -4224,14 +4663,19 @@
       "equipment": "dumbbell",
       "muscle": "triceps",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellpronategriptricepsextension",
         "extension",
+        "free weight",
+        "free weights",
         "grip",
         "pronate",
         "triceps"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-prone-incline-curl",
@@ -4245,12 +4689,17 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellproneinclinecurl",
+        "free weight",
+        "free weights",
         "incline",
         "prone"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-prone-incline-hammer-curl",
@@ -4264,13 +4713,18 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellproneinclinehammercurl",
+        "free weight",
+        "free weights",
         "hammer",
         "incline",
         "prone"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-revers-grip-biceps-curl",
@@ -4285,12 +4739,17 @@
       "aliases": [
         "biceps",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellreversgripbicepscurl",
+        "free weight",
+        "free weights",
         "grip",
         "revers"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-reverse-preacher-curl",
@@ -4304,12 +4763,17 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellreversepreachercurl",
+        "free weight",
+        "free weights",
         "preacher",
         "reverse"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-reverse-spider-curl",
@@ -4323,12 +4787,17 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellreversespidercurl",
+        "free weight",
+        "free weights",
         "reverse",
         "spider"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "forearms-dumbbell-reverse-wrist-curl",
@@ -4342,12 +4811,17 @@
       "muscle": "forearms",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellreversewristcurl",
+        "free weight",
+        "free weights",
         "reverse",
         "wrist"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-seated-alternate-hammer-curl-on-exercise-ball",
@@ -4363,13 +4837,18 @@
         "alternate",
         "ball",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedalternatehammercurlonexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "hammer",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-seated-bench-extension",
@@ -4383,12 +4862,17 @@
       "muscle": "triceps",
       "aliases": [
         "bench",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedbenchextension",
         "extension",
+        "free weight",
+        "free weights",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-seated-bent-over-alternate-kickback",
@@ -4403,13 +4887,18 @@
       "aliases": [
         "alternate",
         "bent",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedbentoveralternatekickback",
+        "free weight",
+        "free weights",
         "kickback",
         "over",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-seated-bent-over-triceps-extension",
@@ -4423,14 +4912,19 @@
       "muscle": "triceps",
       "aliases": [
         "bent",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedbentovertricepsextension",
         "extension",
+        "free weight",
+        "free weights",
         "over",
         "seated",
         "triceps"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-seated-bicep-curl",
@@ -4445,11 +4939,16 @@
       "aliases": [
         "bicep",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedbicepcurl",
+        "free weight",
+        "free weights",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-seated-biceps-curl-on-stability-ball",
@@ -4465,12 +4964,17 @@
         "ball",
         "biceps",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedbicepscurlonstabilityball",
+        "free weight",
+        "free weights",
         "seated",
         "stability"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-seated-biceps-curl-to-shoulder-press",
@@ -4485,13 +4989,18 @@
       "aliases": [
         "biceps",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedbicepscurltoshoulderpress",
+        "free weight",
+        "free weights",
         "press",
         "seated",
         "shoulder"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-seated-curl",
@@ -4505,11 +5014,16 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedcurl",
+        "free weight",
+        "free weights",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-seated-hammer-curl",
@@ -4523,12 +5037,17 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedhammercurl",
+        "free weight",
+        "free weights",
         "hammer",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-seated-inner-biceps-curl",
@@ -4543,12 +5062,17 @@
       "aliases": [
         "biceps",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedinnerbicepscurl",
+        "free weight",
+        "free weights",
         "inner",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-seated-kickback",
@@ -4561,12 +5085,17 @@
       "equipment": "dumbbell",
       "muscle": "triceps",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedkickback",
+        "free weight",
+        "free weights",
         "kickback",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-seated-neutral-wrist-curl",
@@ -4580,13 +5109,18 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedneutralwristcurl",
+        "free weight",
+        "free weights",
         "neutral",
         "seated",
         "wrist"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-seated-one-arm-bicep-curl-on-exercise-ball-with-leg-raised",
@@ -4603,16 +5137,21 @@
         "ball",
         "bicep",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedonearmbicepcurlonexerciseballwithlegraised",
         "exercise",
+        "free weight",
+        "free weights",
         "leg",
         "one",
         "raised",
         "seated",
         "with"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-seated-one-arm-kickback",
@@ -4626,13 +5165,18 @@
       "muscle": "triceps",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedonearmkickback",
+        "free weight",
+        "free weights",
         "kickback",
         "one",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "forearms-dumbbell-seated-one-arm-rotate",
@@ -4646,13 +5190,18 @@
       "muscle": "forearms",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedonearmrotate",
+        "free weight",
+        "free weights",
         "one",
         "rotate",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "forearms-dumbbell-seated-palms-up-wrist-curl",
@@ -4666,13 +5215,18 @@
       "muscle": "forearms",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedpalmsupwristcurl",
+        "free weight",
+        "free weights",
         "palms",
         "seated",
         "wrist"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-seated-preacher-curl",
@@ -4686,12 +5240,17 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedpreachercurl",
+        "free weight",
+        "free weights",
         "preacher",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-seated-revers-grip-concentration-curl",
@@ -4706,13 +5265,18 @@
       "aliases": [
         "concentration",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedreversgripconcentrationcurl",
+        "free weight",
+        "free weights",
         "grip",
         "revers",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-seated-reverse-grip-one-arm-overhead-tricep-extension",
@@ -4726,9 +5290,13 @@
       "muscle": "triceps",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedreversegriponearmoverheadtricepextension",
         "extension",
+        "free weight",
+        "free weights",
         "grip",
         "one",
         "overhead",
@@ -4736,7 +5304,8 @@
         "seated",
         "tricep"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-seated-triceps-extension",
@@ -4749,13 +5318,18 @@
       "equipment": "dumbbell",
       "muscle": "triceps",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedtricepsextension",
         "extension",
+        "free weight",
+        "free weights",
         "seated",
         "triceps"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-standing-alternate-hammer-curl-and-press",
@@ -4771,13 +5345,18 @@
         "alternate",
         "and",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingalternatehammercurlandpress",
+        "free weight",
+        "free weights",
         "hammer",
         "press",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-standing-alternating-tricep-kickback",
@@ -4791,13 +5370,18 @@
       "muscle": "triceps",
       "aliases": [
         "alternating",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingalternatingtricepkickback",
+        "free weight",
+        "free weights",
         "kickback",
         "standing",
         "tricep"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-standing-bent-over-one-arm-triceps-extension",
@@ -4812,15 +5396,20 @@
       "aliases": [
         "arm",
         "bent",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingbentoveronearmtricepsextension",
         "extension",
+        "free weight",
+        "free weights",
         "one",
         "over",
         "standing",
         "triceps"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-standing-bent-over-two-arm-triceps-extension",
@@ -4835,15 +5424,20 @@
       "aliases": [
         "arm",
         "bent",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingbentovertwoarmtricepsextension",
         "extension",
+        "free weight",
+        "free weights",
         "over",
         "standing",
         "triceps",
         "two"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-standing-biceps-curl",
@@ -4858,11 +5452,16 @@
       "aliases": [
         "biceps",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingbicepscurl",
+        "free weight",
+        "free weights",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-standing-concentration-curl",
@@ -4877,11 +5476,16 @@
       "aliases": [
         "concentration",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingconcentrationcurl",
+        "free weight",
+        "free weights",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-standing-inner-biceps-curl-v-2",
@@ -4896,13 +5500,18 @@
       "aliases": [
         "biceps",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbell standing inner biceps curl v 2",
         "dumbbellstandinginnerbicepscurlv2",
+        "free weight",
+        "free weights",
         "inner",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-standing-kickback",
@@ -4915,12 +5524,17 @@
       "equipment": "dumbbell",
       "muscle": "triceps",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingkickback",
+        "free weight",
+        "free weights",
         "kickback",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-standing-one-arm-concentration-curl",
@@ -4936,12 +5550,17 @@
         "arm",
         "concentration",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingonearmconcentrationcurl",
+        "free weight",
+        "free weights",
         "one",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-standing-one-arm-curl-over-incline-bench",
@@ -4957,14 +5576,19 @@
         "arm",
         "bench",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingonearmcurloverinclinebench",
+        "free weight",
+        "free weights",
         "incline",
         "one",
         "over",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-standing-one-arm-curl-over-incline-bench-1680",
@@ -4981,14 +5605,19 @@
         "arm",
         "bench",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingonearmcurloverinclinebench1680",
+        "free weight",
+        "free weights",
         "incline",
         "one",
         "over",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-standing-one-arm-extension",
@@ -5002,13 +5631,18 @@
       "muscle": "triceps",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingonearmextension",
         "extension",
+        "free weight",
+        "free weights",
         "one",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-standing-one-arm-reverse-curl",
@@ -5023,13 +5657,18 @@
       "aliases": [
         "arm",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingonearmreversecurl",
+        "free weight",
+        "free weights",
         "one",
         "reverse",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-standing-preacher-curl",
@@ -5043,12 +5682,17 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingpreachercurl",
+        "free weight",
+        "free weights",
         "preacher",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-standing-reverse-curl",
@@ -5062,12 +5706,17 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingreversecurl",
+        "free weight",
+        "free weights",
         "reverse",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-standing-triceps-extension",
@@ -5080,13 +5729,18 @@
       "equipment": "dumbbell",
       "muscle": "triceps",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingtricepsextension",
         "extension",
+        "free weight",
+        "free weights",
         "standing",
         "triceps"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-standing-zottman-preacher-curl",
@@ -5100,13 +5754,18 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingzottmanpreachercurl",
+        "free weight",
+        "free weights",
         "preacher",
         "standing",
         "zottman"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-step-up-single-leg-balance-with-bicep-curl",
@@ -5122,14 +5781,19 @@
         "balance",
         "bicep",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstepupsinglelegbalancewithbicepcurl",
+        "free weight",
+        "free weights",
         "leg",
         "single",
         "step",
         "with"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-tate-press",
@@ -5142,12 +5806,17 @@
       "equipment": "dumbbell",
       "muscle": "triceps",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelltatepress",
+        "free weight",
+        "free weights",
         "press",
         "tate"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-tricep-kickback-with-stork-stance",
@@ -5160,15 +5829,20 @@
       "equipment": "dumbbell",
       "muscle": "triceps",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelltricepkickbackwithstorkstance",
+        "free weight",
+        "free weights",
         "kickback",
         "stance",
         "stork",
         "tricep",
         "with"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbell-twisting-bench-press",
@@ -5182,12 +5856,17 @@
       "muscle": "triceps",
       "aliases": [
         "bench",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelltwistingbenchpress",
+        "free weight",
+        "free weights",
         "press",
         "twisting"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-waiter-biceps-curl",
@@ -5202,11 +5881,16 @@
       "aliases": [
         "biceps",
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellwaiterbicepscurl",
+        "free weight",
+        "free weights",
         "waiter"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-zottman-curl",
@@ -5220,11 +5904,16 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellzottmancurl",
+        "free weight",
+        "free weights",
         "zottman"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "biceps-dumbbell-zottman-preacher-curl",
@@ -5238,12 +5927,17 @@
       "muscle": "biceps",
       "aliases": [
         "curl",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellzottmanpreachercurl",
+        "free weight",
+        "free weights",
         "preacher",
         "zottman"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-dumbbells-seated-triceps-extension",
@@ -5256,13 +5950,19 @@
       "equipment": "dumbbell",
       "muscle": "triceps",
       "aliases": [
+        "db",
+        "dumb bell",
+        "dumbbell",
         "dumbbells",
         "dumbbellsseatedtricepsextension",
         "extension",
+        "free weight",
+        "free weights",
         "seated",
         "triceps"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-elbow-dips",
@@ -6168,13 +6868,18 @@
       "muscle": "triceps",
       "aliases": [
         "close",
+        "db",
+        "dumb bell",
         "dumbbell",
+        "free weight",
+        "free weights",
         "grip",
         "off",
         "push",
         "pushupclosegripoffdumbbell"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "triceps-push-up-on-lower-arms",
@@ -8520,12 +9225,17 @@
       "muscle": "upper-back",
       "aliases": [
         "bent",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellbentoverrow",
+        "free weight",
+        "free weights",
         "over",
         "row"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "traps-dumbbell-decline-shrug",
@@ -8538,12 +9248,17 @@
       "equipment": "dumbbell",
       "muscle": "traps",
       "aliases": [
+        "db",
         "decline",
+        "dumb bell",
         "dumbbell",
         "dumbbelldeclineshrug",
+        "free weight",
+        "free weights",
         "shrug"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "traps-dumbbell-decline-shrug-v-2",
@@ -8556,13 +9271,18 @@
       "equipment": "dumbbell",
       "muscle": "traps",
       "aliases": [
+        "db",
         "decline",
+        "dumb bell",
         "dumbbell",
         "dumbbell decline shrug v 2",
         "dumbbelldeclineshrugv2",
+        "free weight",
+        "free weights",
         "shrug"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "upper-back-dumbbell-incline-row",
@@ -8575,12 +9295,17 @@
       "equipment": "dumbbell",
       "muscle": "upper-back",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclinerow",
+        "free weight",
+        "free weights",
         "incline",
         "row"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "traps-dumbbell-incline-shrug",
@@ -8593,12 +9318,17 @@
       "equipment": "dumbbell",
       "muscle": "traps",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclineshrug",
+        "free weight",
+        "free weights",
         "incline",
         "shrug"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "upper-back-dumbbell-incline-y-raise",
@@ -8611,12 +9341,17 @@
       "equipment": "dumbbell",
       "muscle": "upper-back",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclineyraise",
+        "free weight",
+        "free weights",
         "incline",
         "raise"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "upper-back-dumbbell-lying-rear-delt-row",
@@ -8629,14 +9364,19 @@
       "equipment": "dumbbell",
       "muscle": "upper-back",
       "aliases": [
+        "db",
         "delt",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingreardeltrow",
+        "free weight",
+        "free weights",
         "lying",
         "rear",
         "row"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "upper-back-dumbbell-one-arm-bent-over-row",
@@ -8651,13 +9391,18 @@
       "aliases": [
         "arm",
         "bent",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmbentoverrow",
+        "free weight",
+        "free weights",
         "one",
         "over",
         "row"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "upper-back-dumbbell-palm-rotational-bent-over-row",
@@ -8671,14 +9416,19 @@
       "muscle": "upper-back",
       "aliases": [
         "bent",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellpalmrotationalbentoverrow",
+        "free weight",
+        "free weights",
         "over",
         "palm",
         "rotational",
         "row"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "upper-back-dumbbell-reverse-grip-incline-bench-one-arm-row",
@@ -8693,15 +9443,20 @@
       "aliases": [
         "arm",
         "bench",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellreversegripinclinebenchonearmrow",
+        "free weight",
+        "free weights",
         "grip",
         "incline",
         "one",
         "reverse",
         "row"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "upper-back-dumbbell-reverse-grip-incline-bench-two-arm-row",
@@ -8716,15 +9471,20 @@
       "aliases": [
         "arm",
         "bench",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellreversegripinclinebenchtwoarmrow",
+        "free weight",
+        "free weights",
         "grip",
         "incline",
         "reverse",
         "row",
         "two"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "upper-back-dumbbell-reverse-grip-row-female",
@@ -8737,14 +9497,19 @@
       "equipment": "dumbbell",
       "muscle": "upper-back",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellreversegriprowfemale",
         "female",
+        "free weight",
+        "free weights",
         "grip",
         "reverse",
         "row"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "traps-dumbbell-shrug",
@@ -8757,11 +9522,16 @@
       "equipment": "dumbbell",
       "muscle": "traps",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellshrug",
+        "free weight",
+        "free weights",
         "shrug"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "upper-back-dumbbell-side-plank-with-rear-fly",
@@ -8774,15 +9544,20 @@
       "equipment": "dumbbell",
       "muscle": "upper-back",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellsideplankwithrearfly",
         "fly",
+        "free weight",
+        "free weights",
         "plank",
         "rear",
         "side",
         "with"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "upper-back-elbow-lift-reverse-push-up",
@@ -10677,10 +11452,15 @@
       "muscle": "cardio",
       "aliases": [
         "burpee",
+        "db",
+        "dumb bell",
         "dumbbell",
-        "dumbbellburpee"
+        "dumbbellburpee",
+        "free weight",
+        "free weights"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "cardio-half-knee-bends-male",
@@ -12037,11 +12817,16 @@
       "muscle": "pectorals",
       "aliases": [
         "around",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellaroundpullover",
+        "free weight",
+        "free weights",
         "pullover"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-bench-press",
@@ -12055,11 +12840,16 @@
       "muscle": "pectorals",
       "aliases": [
         "bench",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellbenchpress",
+        "free weight",
+        "free weights",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-decline-bench-press",
@@ -12073,12 +12863,17 @@
       "muscle": "pectorals",
       "aliases": [
         "bench",
+        "db",
         "decline",
+        "dumb bell",
         "dumbbell",
         "dumbbelldeclinebenchpress",
+        "free weight",
+        "free weights",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-decline-fly",
@@ -12091,12 +12886,17 @@
       "equipment": "dumbbell",
       "muscle": "pectorals",
       "aliases": [
+        "db",
         "decline",
+        "dumb bell",
         "dumbbell",
         "dumbbelldeclinefly",
-        "fly"
+        "fly",
+        "free weight",
+        "free weights"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-decline-hammer-press",
@@ -12109,13 +12909,18 @@
       "equipment": "dumbbell",
       "muscle": "pectorals",
       "aliases": [
+        "db",
         "decline",
+        "dumb bell",
         "dumbbell",
         "dumbbelldeclinehammerpress",
+        "free weight",
+        "free weights",
         "hammer",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-decline-one-arm-fly",
@@ -12129,13 +12934,18 @@
       "muscle": "pectorals",
       "aliases": [
         "arm",
+        "db",
         "decline",
+        "dumb bell",
         "dumbbell",
         "dumbbelldeclineonearmfly",
         "fly",
+        "free weight",
+        "free weights",
         "one"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-decline-twist-fly",
@@ -12148,13 +12958,18 @@
       "equipment": "dumbbell",
       "muscle": "pectorals",
       "aliases": [
+        "db",
         "decline",
+        "dumb bell",
         "dumbbell",
         "dumbbelldeclinetwistfly",
         "fly",
+        "free weight",
+        "free weights",
         "twist"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-fly",
@@ -12167,11 +12982,16 @@
       "equipment": "dumbbell",
       "muscle": "pectorals",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellfly",
-        "fly"
+        "fly",
+        "free weight",
+        "free weights"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-fly-on-exercise-ball",
@@ -12185,12 +13005,17 @@
       "muscle": "pectorals",
       "aliases": [
         "ball",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellflyonexerciseball",
         "exercise",
-        "fly"
+        "fly",
+        "free weight",
+        "free weights"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-incline-alternate-press",
@@ -12204,12 +13029,17 @@
       "muscle": "pectorals",
       "aliases": [
         "alternate",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclinealternatepress",
+        "free weight",
+        "free weights",
         "incline",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-incline-bench-press",
@@ -12223,12 +13053,17 @@
       "muscle": "pectorals",
       "aliases": [
         "bench",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclinebenchpress",
+        "free weight",
+        "free weights",
         "incline",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-incline-breeding",
@@ -12242,11 +13077,16 @@
       "muscle": "pectorals",
       "aliases": [
         "breeding",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclinebreeding",
+        "free weight",
+        "free weights",
         "incline"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-incline-fly",
@@ -12259,12 +13099,17 @@
       "equipment": "dumbbell",
       "muscle": "pectorals",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclinefly",
         "fly",
+        "free weight",
+        "free weights",
         "incline"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-incline-fly-on-exercise-ball",
@@ -12278,13 +13123,18 @@
       "muscle": "pectorals",
       "aliases": [
         "ball",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclineflyonexerciseball",
         "exercise",
         "fly",
+        "free weight",
+        "free weights",
         "incline"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-incline-hammer-press",
@@ -12297,13 +13147,18 @@
       "equipment": "dumbbell",
       "muscle": "pectorals",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclinehammerpress",
+        "free weight",
+        "free weights",
         "hammer",
         "incline",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-incline-one-arm-fly",
@@ -12317,13 +13172,18 @@
       "muscle": "pectorals",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclineonearmfly",
         "fly",
+        "free weight",
+        "free weights",
         "incline",
         "one"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-incline-one-arm-fly-on-exercise-ball",
@@ -12338,14 +13198,19 @@
       "aliases": [
         "arm",
         "ball",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclineonearmflyonexerciseball",
         "exercise",
         "fly",
+        "free weight",
+        "free weights",
         "incline",
         "one"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-incline-one-arm-press",
@@ -12359,13 +13224,18 @@
       "muscle": "pectorals",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclineonearmpress",
+        "free weight",
+        "free weights",
         "incline",
         "one",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-incline-one-arm-press-on-exercise-ball",
@@ -12380,14 +13250,19 @@
       "aliases": [
         "arm",
         "ball",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclineonearmpressonexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "incline",
         "one",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-incline-palm-in-press",
@@ -12400,13 +13275,18 @@
       "equipment": "dumbbell",
       "muscle": "pectorals",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclinepalminpress",
+        "free weight",
+        "free weights",
         "incline",
         "palm",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-incline-press-on-exercise-ball",
@@ -12420,13 +13300,18 @@
       "muscle": "pectorals",
       "aliases": [
         "ball",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclinepressonexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "incline",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "serratus-anterior-dumbbell-incline-shoulder-raise",
@@ -12439,13 +13324,18 @@
       "equipment": "dumbbell",
       "muscle": "serratus-anterior",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclineshoulderraise",
+        "free weight",
+        "free weights",
         "incline",
         "raise",
         "shoulder"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-incline-twisted-flyes",
@@ -12458,13 +13348,18 @@
       "equipment": "dumbbell",
       "muscle": "pectorals",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclinetwistedflyes",
         "flyes",
+        "free weight",
+        "free weights",
         "incline",
         "twisted"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-lying-hammer-press",
@@ -12477,13 +13372,18 @@
       "equipment": "dumbbell",
       "muscle": "pectorals",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyinghammerpress",
+        "free weight",
+        "free weights",
         "hammer",
         "lying",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-lying-one-arm-press",
@@ -12497,13 +13397,18 @@
       "muscle": "pectorals",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingonearmpress",
+        "free weight",
+        "free weights",
         "lying",
         "one",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-lying-one-arm-press-v-2",
@@ -12517,14 +13422,19 @@
       "muscle": "pectorals",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbell lying one arm press v 2",
         "dumbbelllyingonearmpressv2",
+        "free weight",
+        "free weights",
         "lying",
         "one",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-lying-pullover-on-exercise-ball",
@@ -12538,13 +13448,18 @@
       "muscle": "pectorals",
       "aliases": [
         "ball",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingpulloveronexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "lying",
         "pullover"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-one-arm-bench-fly",
@@ -12559,12 +13474,17 @@
       "aliases": [
         "arm",
         "bench",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmbenchfly",
         "fly",
+        "free weight",
+        "free weights",
         "one"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-one-arm-chest-fly-on-exercise-ball",
@@ -12580,13 +13500,18 @@
         "arm",
         "ball",
         "chest",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmchestflyonexerciseball",
         "exercise",
         "fly",
+        "free weight",
+        "free weights",
         "one"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-one-arm-decline-chest-press",
@@ -12601,13 +13526,18 @@
       "aliases": [
         "arm",
         "chest",
+        "db",
         "decline",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmdeclinechestpress",
+        "free weight",
+        "free weights",
         "one",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-one-arm-fly-on-exercise-ball",
@@ -12622,13 +13552,18 @@
       "aliases": [
         "arm",
         "ball",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmflyonexerciseball",
         "exercise",
         "fly",
+        "free weight",
+        "free weights",
         "one"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-one-arm-incline-chest-press",
@@ -12643,13 +13578,18 @@
       "aliases": [
         "arm",
         "chest",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearminclinechestpress",
+        "free weight",
+        "free weights",
         "incline",
         "one",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-one-arm-press-on-exercise-ball",
@@ -12664,13 +13604,18 @@
       "aliases": [
         "arm",
         "ball",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmpressonexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "one",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-one-arm-pullover-on-exercise-ball",
@@ -12685,13 +13630,18 @@
       "aliases": [
         "arm",
         "ball",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmpulloveronexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "one",
         "pullover"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-one-arm-reverse-grip-press",
@@ -12705,14 +13655,19 @@
       "muscle": "pectorals",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmreversegrippress",
+        "free weight",
+        "free weights",
         "grip",
         "one",
         "press",
         "reverse"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-one-leg-fly-on-exercise-ball",
@@ -12726,14 +13681,19 @@
       "muscle": "pectorals",
       "aliases": [
         "ball",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonelegflyonexerciseball",
         "exercise",
         "fly",
+        "free weight",
+        "free weights",
         "leg",
         "one"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-press-on-exercise-ball",
@@ -12747,12 +13707,17 @@
       "muscle": "pectorals",
       "aliases": [
         "ball",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellpressonexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-pullover",
@@ -12765,11 +13730,16 @@
       "equipment": "dumbbell",
       "muscle": "pectorals",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellpullover",
+        "free weight",
+        "free weights",
         "pullover"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-pullover-hip-extension-on-exercise-ball",
@@ -12783,14 +13753,19 @@
       "muscle": "pectorals",
       "aliases": [
         "ball",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellpulloverhipextensiononexerciseball",
         "exercise",
         "extension",
+        "free weight",
+        "free weights",
         "hip",
         "pullover"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-pullover-on-exercise-ball",
@@ -12804,12 +13779,17 @@
       "muscle": "pectorals",
       "aliases": [
         "ball",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellpulloveronexerciseball",
         "exercise",
+        "free weight",
+        "free weights",
         "pullover"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-reverse-bench-press",
@@ -12823,12 +13803,17 @@
       "muscle": "pectorals",
       "aliases": [
         "bench",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellreversebenchpress",
+        "free weight",
+        "free weights",
         "press",
         "reverse"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-dumbbell-straight-arm-pullover",
@@ -12842,12 +13827,17 @@
       "muscle": "pectorals",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstraightarmpullover",
+        "free weight",
+        "free weights",
         "pullover",
         "straight"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-exercise-ball-pike-push-up",
@@ -12933,12 +13923,17 @@
       "equipment": "dumbbell",
       "muscle": "pectorals",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "fly",
+        "free weight",
+        "free weights",
         "hyght",
         "hyghtdumbbellfly"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "pectorals-incline-push-up",
@@ -15343,11 +16338,16 @@
       "muscle": "abs",
       "aliases": [
         "bend",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellsidebend",
+        "free weight",
+        "free weights",
         "side"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "abs-elbow-to-knee",
@@ -18838,11 +19838,16 @@
       "muscle": "glutes",
       "aliases": [
         "bench",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellbenchsquat",
+        "free weight",
+        "free weights",
         "squat"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "glutes-dumbbell-clean",
@@ -18856,10 +19861,15 @@
       "muscle": "glutes",
       "aliases": [
         "clean",
+        "db",
+        "dumb bell",
         "dumbbell",
-        "dumbbellclean"
+        "dumbbellclean",
+        "free weight",
+        "free weights"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "glutes-dumbbell-contralateral-forward-lunge",
@@ -18873,12 +19883,17 @@
       "muscle": "glutes",
       "aliases": [
         "contralateral",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellcontralateralforwardlunge",
         "forward",
+        "free weight",
+        "free weights",
         "lunge"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "glutes-dumbbell-deadlift",
@@ -18891,11 +19906,16 @@
       "equipment": "dumbbell",
       "muscle": "glutes",
       "aliases": [
+        "db",
         "deadlift",
+        "dumb bell",
         "dumbbell",
-        "dumbbelldeadlift"
+        "dumbbelldeadlift",
+        "free weight",
+        "free weights"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "quads-dumbbell-goblet-squat",
@@ -18908,12 +19928,17 @@
       "equipment": "dumbbell",
       "muscle": "quads",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellgobletsquat",
+        "free weight",
+        "free weights",
         "goblet",
         "squat"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "glutes-dumbbell-lunge",
@@ -18926,11 +19951,16 @@
       "equipment": "dumbbell",
       "muscle": "glutes",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllunge",
+        "free weight",
+        "free weights",
         "lunge"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "hamstrings-dumbbell-lying-femoral",
@@ -18943,12 +19973,17 @@
       "equipment": "dumbbell",
       "muscle": "hamstrings",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingfemoral",
         "femoral",
+        "free weight",
+        "free weights",
         "lying"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "glutes-dumbbell-one-arm-snatch",
@@ -18962,12 +19997,17 @@
       "muscle": "glutes",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmsnatch",
+        "free weight",
+        "free weights",
         "one",
         "snatch"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "glutes-dumbbell-plyo-squat",
@@ -18980,12 +20020,17 @@
       "equipment": "dumbbell",
       "muscle": "glutes",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellplyosquat",
+        "free weight",
+        "free weights",
         "plyo",
         "squat"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "glutes-dumbbell-rear-lunge",
@@ -18998,12 +20043,17 @@
       "equipment": "dumbbell",
       "muscle": "glutes",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellrearlunge",
+        "free weight",
+        "free weights",
         "lunge",
         "rear"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "glutes-dumbbell-romanian-deadlift",
@@ -19016,12 +20066,17 @@
       "equipment": "dumbbell",
       "muscle": "glutes",
       "aliases": [
+        "db",
         "deadlift",
+        "dumb bell",
         "dumbbell",
         "dumbbellromaniandeadlift",
+        "free weight",
+        "free weights",
         "romanian"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "calves-dumbbell-seated-calf-raise",
@@ -19035,12 +20090,17 @@
       "muscle": "calves",
       "aliases": [
         "calf",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedcalfraise",
+        "free weight",
+        "free weights",
         "raise",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "calves-dumbbell-seated-one-leg-calf-raise",
@@ -19054,14 +20114,19 @@
       "muscle": "calves",
       "aliases": [
         "calf",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedonelegcalfraise",
+        "free weight",
+        "free weights",
         "leg",
         "one",
         "raise",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "calves-dumbbell-seated-one-leg-calf-raise-hammer-grip",
@@ -19075,8 +20140,12 @@
       "muscle": "calves",
       "aliases": [
         "calf",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedonelegcalfraisehammergrip",
+        "free weight",
+        "free weights",
         "grip",
         "hammer",
         "leg",
@@ -19084,7 +20153,8 @@
         "raise",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "calves-dumbbell-seated-one-leg-calf-raise-palm-up",
@@ -19098,15 +20168,20 @@
       "muscle": "calves",
       "aliases": [
         "calf",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedonelegcalfraisepalmup",
+        "free weight",
+        "free weights",
         "leg",
         "one",
         "palm",
         "raise",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "calves-dumbbell-single-leg-calf-raise",
@@ -19120,13 +20195,18 @@
       "muscle": "calves",
       "aliases": [
         "calf",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellsinglelegcalfraise",
+        "free weight",
+        "free weights",
         "leg",
         "raise",
         "single"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "glutes-dumbbell-single-leg-deadlift",
@@ -19139,13 +20219,18 @@
       "equipment": "dumbbell",
       "muscle": "glutes",
       "aliases": [
+        "db",
         "deadlift",
+        "dumb bell",
         "dumbbell",
         "dumbbellsinglelegdeadlift",
+        "free weight",
+        "free weights",
         "leg",
         "single"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "glutes-dumbbell-single-leg-deadlift-with-stepbox-support",
@@ -19158,16 +20243,21 @@
       "equipment": "dumbbell",
       "muscle": "glutes",
       "aliases": [
+        "db",
         "deadlift",
+        "dumb bell",
         "dumbbell",
         "dumbbellsinglelegdeadliftwithstepboxsupport",
+        "free weight",
+        "free weights",
         "leg",
         "single",
         "stepbox",
         "support",
         "with"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "quads-dumbbell-single-leg-split-squat",
@@ -19180,14 +20270,19 @@
       "equipment": "dumbbell",
       "muscle": "quads",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellsinglelegsplitsquat",
+        "free weight",
+        "free weights",
         "leg",
         "single",
         "split",
         "squat"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "glutes-dumbbell-single-leg-squat",
@@ -19200,13 +20295,18 @@
       "equipment": "dumbbell",
       "muscle": "glutes",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellsinglelegsquat",
+        "free weight",
+        "free weights",
         "leg",
         "single",
         "squat"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "glutes-dumbbell-squat",
@@ -19219,11 +20319,16 @@
       "equipment": "dumbbell",
       "muscle": "glutes",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellsquat",
+        "free weight",
+        "free weights",
         "squat"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "calves-dumbbell-standing-calf-raise",
@@ -19237,12 +20342,17 @@
       "muscle": "calves",
       "aliases": [
         "calf",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingcalfraise",
+        "free weight",
+        "free weights",
         "raise",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "glutes-dumbbell-step-up",
@@ -19255,11 +20365,16 @@
       "equipment": "dumbbell",
       "muscle": "glutes",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstepup",
+        "free weight",
+        "free weights",
         "step"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "quads-dumbbell-step-up-lunge",
@@ -19272,12 +20387,17 @@
       "equipment": "dumbbell",
       "muscle": "quads",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstepuplunge",
+        "free weight",
+        "free weights",
         "lunge",
         "step"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "quads-dumbbell-step-up-split-squat",
@@ -19290,13 +20410,18 @@
       "equipment": "dumbbell",
       "muscle": "quads",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstepupsplitsquat",
+        "free weight",
+        "free weights",
         "split",
         "squat",
         "step"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "glutes-dumbbell-stiff-leg-deadlift",
@@ -19309,13 +20434,18 @@
       "equipment": "dumbbell",
       "muscle": "glutes",
       "aliases": [
+        "db",
         "deadlift",
+        "dumb bell",
         "dumbbell",
         "dumbbellstifflegdeadlift",
+        "free weight",
+        "free weights",
         "leg",
         "stiff"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "glutes-dumbbell-straight-leg-deadlift",
@@ -19328,13 +20458,18 @@
       "equipment": "dumbbell",
       "muscle": "glutes",
       "aliases": [
+        "db",
         "deadlift",
+        "dumb bell",
         "dumbbell",
         "dumbbellstraightlegdeadlift",
+        "free weight",
+        "free weights",
         "leg",
         "straight"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "glutes-dumbbell-sumo-pull-through",
@@ -19347,13 +20482,18 @@
       "equipment": "dumbbell",
       "muscle": "glutes",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellsumopullthrough",
+        "free weight",
+        "free weights",
         "pull",
         "sumo",
         "through"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "quads-dumbbell-supported-squat",
@@ -19366,12 +20506,17 @@
       "equipment": "dumbbell",
       "muscle": "quads",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellsupportedsquat",
+        "free weight",
+        "free weights",
         "squat",
         "supported"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "calves-exercise-ball-on-the-wall-calf-raise",
@@ -20954,13 +22099,18 @@
       "muscle": "calves",
       "aliases": [
         "calf",
+        "db",
+        "dumb bell",
         "dumbbell",
+        "free weight",
+        "free weights",
         "leg",
         "raise",
         "single",
         "singlelegcalfraiseonadumbbell"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "hamstrings-single-leg-platform-slide",
@@ -22844,12 +23994,17 @@
       "muscle": "delts",
       "aliases": [
         "alternate",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellalternatesidepress",
+        "free weight",
+        "free weights",
         "press",
         "side"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-arnold-press",
@@ -22863,11 +24018,16 @@
       "muscle": "delts",
       "aliases": [
         "arnold",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellarnoldpress",
+        "free weight",
+        "free weights",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-arnold-press-v-2",
@@ -22881,12 +24041,17 @@
       "muscle": "delts",
       "aliases": [
         "arnold",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbell arnold press v 2",
         "dumbbellarnoldpressv2",
+        "free weight",
+        "free weights",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-bench-seated-press",
@@ -22900,12 +24065,17 @@
       "muscle": "delts",
       "aliases": [
         "bench",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellbenchseatedpress",
+        "free weight",
+        "free weights",
         "press",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-cuban-press",
@@ -22919,11 +24089,16 @@
       "muscle": "delts",
       "aliases": [
         "cuban",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellcubanpress",
+        "free weight",
+        "free weights",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-cuban-press-v-2",
@@ -22937,12 +24112,17 @@
       "muscle": "delts",
       "aliases": [
         "cuban",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbell cuban press v 2",
         "dumbbellcubanpressv2",
+        "free weight",
+        "free weights",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-front-raise",
@@ -22955,12 +24135,17 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellfrontraise",
+        "free weight",
+        "free weights",
         "front",
         "raise"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-front-raise-v-2",
@@ -22973,13 +24158,18 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbell front raise v 2",
         "dumbbellfrontraisev2",
+        "free weight",
+        "free weights",
         "front",
         "raise"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-full-can-lateral-raise",
@@ -22993,13 +24183,18 @@
       "muscle": "delts",
       "aliases": [
         "can",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellfullcanlateralraise",
+        "free weight",
+        "free weights",
         "full",
         "lateral",
         "raise"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-incline-one-arm-lateral-raise",
@@ -23013,14 +24208,19 @@
       "muscle": "delts",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclineonearmlateralraise",
+        "free weight",
+        "free weights",
         "incline",
         "lateral",
         "one",
         "raise"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-incline-raise",
@@ -23033,12 +24233,17 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclineraise",
+        "free weight",
+        "free weights",
         "incline",
         "raise"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-incline-rear-lateral-raise",
@@ -23051,14 +24256,19 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclinerearlateralraise",
+        "free weight",
+        "free weights",
         "incline",
         "lateral",
         "raise",
         "rear"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-incline-t-raise",
@@ -23071,12 +24281,17 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellinclinetraise",
+        "free weight",
+        "free weights",
         "incline",
         "raise"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-iron-cross",
@@ -23090,11 +24305,16 @@
       "muscle": "delts",
       "aliases": [
         "cross",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellironcross",
+        "free weight",
+        "free weights",
         "iron"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-lateral-raise",
@@ -23107,12 +24327,17 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllateralraise",
+        "free weight",
+        "free weights",
         "lateral",
         "raise"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-lateral-to-front-raise",
@@ -23125,13 +24350,18 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllateraltofrontraise",
+        "free weight",
+        "free weights",
         "front",
         "lateral",
         "raise"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-lying-external-shoulder-rotation",
@@ -23144,14 +24374,19 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingexternalshoulderrotation",
         "external",
+        "free weight",
+        "free weights",
         "lying",
         "rotation",
         "shoulder"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-lying-on-floor-rear-delt-raise",
@@ -23164,15 +24399,20 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
         "delt",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingonfloorreardeltraise",
         "floor",
+        "free weight",
+        "free weights",
         "lying",
         "raise",
         "rear"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-lying-one-arm-deltoid-rear",
@@ -23186,14 +24426,19 @@
       "muscle": "delts",
       "aliases": [
         "arm",
+        "db",
         "deltoid",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingonearmdeltoidrear",
+        "free weight",
+        "free weights",
         "lying",
         "one",
         "rear"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-lying-one-arm-rear-lateral-raise",
@@ -23207,15 +24452,20 @@
       "muscle": "delts",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingonearmrearlateralraise",
+        "free weight",
+        "free weights",
         "lateral",
         "lying",
         "one",
         "raise",
         "rear"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-lying-rear-lateral-raise",
@@ -23228,14 +24478,19 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelllyingrearlateralraise",
+        "free weight",
+        "free weights",
         "lateral",
         "lying",
         "raise",
         "rear"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-one-arm-lateral-raise",
@@ -23249,13 +24504,18 @@
       "muscle": "delts",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmlateralraise",
+        "free weight",
+        "free weights",
         "lateral",
         "one",
         "raise"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-one-arm-lateral-raise-with-support",
@@ -23269,15 +24529,20 @@
       "muscle": "delts",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmlateralraisewithsupport",
+        "free weight",
+        "free weights",
         "lateral",
         "one",
         "raise",
         "support",
         "with"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-one-arm-reverse-fly-with-support",
@@ -23291,15 +24556,20 @@
       "muscle": "delts",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmreverseflywithsupport",
         "fly",
+        "free weight",
+        "free weights",
         "one",
         "reverse",
         "support",
         "with"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-one-arm-shoulder-press",
@@ -23313,13 +24583,18 @@
       "muscle": "delts",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmshoulderpress",
+        "free weight",
+        "free weights",
         "one",
         "press",
         "shoulder"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-one-arm-shoulder-press-v-2",
@@ -23333,14 +24608,19 @@
       "muscle": "delts",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbell one arm shoulder press v 2",
         "dumbbellonearmshoulderpressv2",
+        "free weight",
+        "free weights",
         "one",
         "press",
         "shoulder"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-one-arm-upright-row",
@@ -23354,13 +24634,18 @@
       "muscle": "delts",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellonearmuprightrow",
+        "free weight",
+        "free weights",
         "one",
         "row",
         "upright"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-push-press",
@@ -23373,12 +24658,17 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellpushpress",
+        "free weight",
+        "free weights",
         "press",
         "push"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-raise",
@@ -23391,11 +24681,16 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellraise",
+        "free weight",
+        "free weights",
         "raise"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-rear-delt-raise",
@@ -23408,13 +24703,18 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
         "delt",
+        "dumb bell",
         "dumbbell",
         "dumbbellreardeltraise",
+        "free weight",
+        "free weights",
         "raise",
         "rear"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-rear-delt-row-shoulder",
@@ -23427,14 +24727,19 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
         "delt",
+        "dumb bell",
         "dumbbell",
         "dumbbellreardeltrowshoulder",
+        "free weight",
+        "free weights",
         "rear",
         "row",
         "shoulder"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-rear-fly",
@@ -23447,12 +24752,17 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellrearfly",
         "fly",
+        "free weight",
+        "free weights",
         "rear"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-rear-lateral-raise",
@@ -23465,13 +24775,18 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellrearlateralraise",
+        "free weight",
+        "free weights",
         "lateral",
         "raise",
         "rear"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-rear-lateral-raise-support-head",
@@ -23484,15 +24799,20 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellrearlateralraisesupporthead",
+        "free weight",
+        "free weights",
         "head",
         "lateral",
         "raise",
         "rear",
         "support"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-reverse-fly",
@@ -23505,12 +24825,17 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellreversefly",
         "fly",
+        "free weight",
+        "free weights",
         "reverse"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-rotation-reverse-fly",
@@ -23523,13 +24848,18 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellrotationreversefly",
         "fly",
+        "free weight",
+        "free weights",
         "reverse",
         "rotation"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-scott-press",
@@ -23542,12 +24872,17 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellscottpress",
+        "free weight",
+        "free weights",
         "press",
         "scott"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-seated-alternate-front-raise",
@@ -23561,13 +24896,18 @@
       "muscle": "delts",
       "aliases": [
         "alternate",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedalternatefrontraise",
+        "free weight",
+        "free weights",
         "front",
         "raise",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-seated-alternate-press",
@@ -23581,12 +24921,17 @@
       "muscle": "delts",
       "aliases": [
         "alternate",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedalternatepress",
+        "free weight",
+        "free weights",
         "press",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-seated-alternate-shoulder",
@@ -23600,12 +24945,17 @@
       "muscle": "delts",
       "aliases": [
         "alternate",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedalternateshoulder",
+        "free weight",
+        "free weights",
         "seated",
         "shoulder"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-seated-bent-arm-lateral-raise",
@@ -23620,13 +24970,18 @@
       "aliases": [
         "arm",
         "bent",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedbentarmlateralraise",
+        "free weight",
+        "free weights",
         "lateral",
         "raise",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-seated-front-raise",
@@ -23639,13 +24994,18 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedfrontraise",
+        "free weight",
+        "free weights",
         "front",
         "raise",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-seated-lateral-raise",
@@ -23658,13 +25018,18 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedlateralraise",
+        "free weight",
+        "free weights",
         "lateral",
         "raise",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-seated-lateral-raise-v-2",
@@ -23677,14 +25042,19 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbell seated lateral raise v 2",
         "dumbbellseatedlateralraisev2",
+        "free weight",
+        "free weights",
         "lateral",
         "raise",
         "seated"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-seated-shoulder-press",
@@ -23697,13 +25067,18 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedshoulderpress",
+        "free weight",
+        "free weights",
         "press",
         "seated",
         "shoulder"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-seated-shoulder-press-parallel-grip",
@@ -23716,15 +25091,20 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellseatedshoulderpressparallelgrip",
+        "free weight",
+        "free weights",
         "grip",
         "parallel",
         "press",
         "seated",
         "shoulder"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-side-lying-one-hand-raise",
@@ -23737,15 +25117,20 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellsidelyingonehandraise",
+        "free weight",
+        "free weights",
         "hand",
         "lying",
         "one",
         "raise",
         "side"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-single-arm-overhead-carry",
@@ -23760,12 +25145,17 @@
       "aliases": [
         "arm",
         "carry",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellsinglearmoverheadcarry",
+        "free weight",
+        "free weights",
         "overhead",
         "single"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-standing-alternate-overhead-press",
@@ -23779,13 +25169,18 @@
       "muscle": "delts",
       "aliases": [
         "alternate",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingalternateoverheadpress",
+        "free weight",
+        "free weights",
         "overhead",
         "press",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-standing-alternate-raise",
@@ -23799,12 +25194,17 @@
       "muscle": "delts",
       "aliases": [
         "alternate",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingalternateraise",
+        "free weight",
+        "free weights",
         "raise",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-standing-around-world",
@@ -23818,12 +25218,17 @@
       "muscle": "delts",
       "aliases": [
         "around",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingaroundworld",
+        "free weight",
+        "free weights",
         "standing",
         "world"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-standing-front-raise-above-head",
@@ -23837,14 +25242,19 @@
       "muscle": "delts",
       "aliases": [
         "above",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingfrontraiseabovehead",
+        "free weight",
+        "free weights",
         "front",
         "head",
         "raise",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-standing-one-arm-palm-in-press",
@@ -23858,14 +25268,19 @@
       "muscle": "delts",
       "aliases": [
         "arm",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingonearmpalminpress",
+        "free weight",
+        "free weights",
         "one",
         "palm",
         "press",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-standing-overhead-press",
@@ -23878,13 +25293,18 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingoverheadpress",
+        "free weight",
+        "free weights",
         "overhead",
         "press",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-standing-palms-in-press",
@@ -23897,13 +25317,18 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellstandingpalmsinpress",
+        "free weight",
+        "free weights",
         "palms",
         "press",
         "standing"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-upright-row",
@@ -23916,12 +25341,17 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelluprightrow",
+        "free weight",
+        "free weights",
         "row",
         "upright"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-upright-row-back-pov",
@@ -23935,13 +25365,18 @@
       "muscle": "delts",
       "aliases": [
         "back",
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelluprightrowbackpov",
+        "free weight",
+        "free weights",
         "pov",
         "row",
         "upright"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-upright-shoulder-external-rotation",
@@ -23954,14 +25389,19 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbelluprightshoulderexternalrotation",
         "external",
+        "free weight",
+        "free weights",
         "rotation",
         "shoulder",
         "upright"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-dumbbell-w-press",
@@ -23974,11 +25414,16 @@
       "equipment": "dumbbell",
       "muscle": "delts",
       "aliases": [
+        "db",
+        "dumb bell",
         "dumbbell",
         "dumbbellwpress",
+        "free weight",
+        "free weights",
         "press"
       ],
-      "source": "ExerciseGymGifsDB"
+      "source": "ExerciseGymGifsDB",
+      "isDumbbell": true
     },
     {
       "id": "delts-ez-barbell-anti-gravity-press",
@@ -25803,5 +27248,6 @@
       ],
       "source": "ExerciseGymGifsDB"
     }
-  ]
+  ],
+  "dumbbellCount": 288
 }

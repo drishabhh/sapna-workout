@@ -18,6 +18,7 @@
       { id: "exercises", label: "Exercises" },
     ],
     bodyParts: [
+      { id: "dumbbell", label: "Dumbbell", kind: "equipment" },
       { id: "back", label: "Back" },
       { id: "chest", label: "Chest" },
       { id: "shoulders", label: "Shoulders" },
@@ -355,11 +356,23 @@
     return q.split(" ").filter(Boolean).every((tok) => hay.includes(tok) || compact.includes(tok));
   }
 
+  function isDumbbellGif(g) {
+    if (g?.isDumbbell) return true;
+    const eq = String(g?.equipment || "").toLowerCase();
+    if (eq === "dumbbell") return true;
+    const hay = normalizeQuery([g?.name, g?.id, ...(g?.aliases || [])].join(" "));
+    return hay.includes("dumbbell") || /(^|\s)db(\s|$)/.test(hay);
+  }
+
   function filterLibrary({ group, bodyPart, query } = {}) {
     const q = normalizeQuery(query);
     let list = gifLibrary.gifs || [];
     if (group) list = list.filter((g) => g.group === group || (!g.group && group === "exercises"));
-    if (bodyPart) list = list.filter((g) => (g.bodyPart || "full-body") === bodyPart);
+    if (bodyPart === "dumbbell") {
+      list = list.filter((g) => isDumbbellGif(g));
+    } else if (bodyPart) {
+      list = list.filter((g) => (g.bodyPart || "full-body") === bodyPart);
+    }
     if (q) list = list.filter((g) => gifMatchesQuery(g, q));
     return list;
   }
@@ -453,14 +466,15 @@
       const parts = gifLibrary.bodyParts || [];
       // Only show body parts that have items in this group
       const available = parts.filter((p) => filterLibrary({ group: gifBrowser.group, bodyPart: p.id }).length);
-      body.innerHTML = `<p class="admin-hint">Pick a body part</p>
+      body.innerHTML = `<p class="admin-hint">Pick Dumbbell (all DB moves) or a body part</p>
         <div class="gif-menu-list">
           ${available
             .map((p) => {
               const count = filterLibrary({ group: gifBrowser.group, bodyPart: p.id }).length;
-              return `<button type="button" class="gif-menu-item" data-gif-body="${escapeAttr(p.id)}">
+              const equip = p.kind === "equipment" || p.id === "dumbbell";
+              return `<button type="button" class="gif-menu-item ${equip ? "is-equipment" : ""}" data-gif-body="${escapeAttr(p.id)}">
                 <strong>${escapeHtml(p.label)}</strong>
-                <span>${count}</span>
+                <span>${count}${equip ? " · all dumbbell" : ""}</span>
               </button>`;
             })
             .join("")}
@@ -478,7 +492,7 @@
       bodyPart: gifBrowser.bodyPart,
       query: gifBrowser.query,
     });
-    const MAX = 60;
+    const MAX = gifBrowser.bodyPart === "dumbbell" ? 120 : 60;
     const shown = filtered.slice(0, MAX);
     const grid = shown
       .map((g) => {
@@ -489,8 +503,9 @@
         </button>`;
       })
       .join("");
+    const searchPh = gifBrowser.bodyPart === "dumbbell" ? "Search dumbbell moves (try “db press”)…" : "Search (try “lat pull down”)…";
     body.innerHTML = `
-      <input type="search" class="gif-search" id="gif-browser-search" placeholder="Search (try “lat pull down”)…" value="${escapeAttr(gifBrowser.query)}" enterkeyhint="search" />
+      <input type="search" class="gif-search" id="gif-browser-search" placeholder="${escapeAttr(searchPh)}" value="${escapeAttr(gifBrowser.query)}" enterkeyhint="search" />
       <p class="gif-picker-more">${filtered.length} result${filtered.length === 1 ? "" : "s"}${filtered.length > MAX ? ` · showing ${MAX}` : ""}</p>
       <div class="gif-picker">${grid || `<p class="admin-hint">No matches — try another search</p>`}</div>`;
     const search = $("gif-browser-search");
@@ -505,7 +520,7 @@
         });
         const move = draftMoves[gifBrowser.moveIndex];
         const selected = move?.gif || "";
-        const MAX = 60;
+        const MAX = gifBrowser.bodyPart === "dumbbell" ? 120 : 60;
         const shown = filtered.slice(0, MAX);
         const gridHtml = shown
           .map((g) => {
