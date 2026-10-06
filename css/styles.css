@@ -886,3 +886,75 @@ body.admin-open {
     transition: none;
   }
 }
+
+.admin-preview {
+  cursor: pointer;
+  appearance: none;
+  width: 100%;
+  font: inherit;
+  color: inherit;
+  text-align: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.admin-preview:focus-visible {
+  outline: 2px solid rgba(126, 200, 184, 0.55);
+  outline-offset: 2px;
+}
+
+.gif-browser-head {
+  gap: 0.5rem;
+}
+
+.gif-browser-head h2 {
+  flex: 1;
+  font-size: 1.15rem;
+}
+
+.gif-browser-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-bottom: 1rem;
+}
+
+.gif-menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.gif-menu-item {
+  appearance: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 52px;
+  padding: 0.85rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(15, 47, 44, 0.55);
+  color: var(--cream);
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gif-menu-item strong {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+}
+
+.gif-menu-item span {
+  color: rgba(244, 239, 230, 0.55);
+  font-size: 0.85rem;
+}
+
+.gif-menu-item:hover,
+.gif-menu-item:focus-visible {
+  border-color: var(--teal);
+  outline: none;
+}

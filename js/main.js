@@ -7,34 +7,32 @@
 
   const LIBRARY_PATH = "data/gif-library.json";
   const FALLBACK_GIFS = [
-    { id: "local-arm-circles", name: "Arm circles", path: "media/arm-circles.gif", thumb: "media/arm-circles.gif", category: "stretch" },
-    { id: "local-torso-rotations", name: "Torso rotations", path: "media/torso-rotations.gif", thumb: "media/torso-rotations.gif", category: "stretch" },
-    { id: "local-leg-swings", name: "Leg swings", path: "media/leg-swings.gif", thumb: "media/leg-swings.gif", category: "stretch" },
-    { id: "local-bodyweight-squats", name: "Bodyweight squats", path: "media/bodyweight-squats.gif", thumb: "media/bodyweight-squats.gif", category: "stretch" },
-    { id: "local-cycle-walk", name: "Cycle / walk", path: "media/cycle-walk.gif", thumb: "media/cycle-walk.gif", category: "cardio" },
-    { id: "local-chest-press", name: "Chest press", path: "media/chest-press.gif", thumb: "media/chest-press.gif", category: "strength-chest" },
-    { id: "local-shoulder-press", name: "Shoulder press", path: "media/shoulder-press.gif", thumb: "media/shoulder-press.gif", category: "strength-shoulders" },
-    { id: "local-lat-pulldown", name: "Lat pulldown", path: "media/lat-pulldown.gif", thumb: "media/lat-pulldown.gif", category: "strength-back" },
-    { id: "local-cable-row", name: "Cable row", path: "media/cable-row.gif", thumb: "media/cable-row.gif", category: "strength-back" },
-    { id: "local-leg-curl", name: "Leg curl", path: "media/leg-curl.gif", thumb: "media/leg-curl.gif", category: "strength-legs" },
-    { id: "local-db-squats", name: "DB squats", path: "media/db-squats.gif", thumb: "media/db-squats.gif", category: "strength-legs" },
+    { id: "local-arm-circles", name: "Arm circles", path: "media/arm-circles.gif", thumb: "media/arm-circles.gif", group: "stretching", bodyPart: "arms", aliases: ["arm circle"] },
+    { id: "local-lat-pulldown", name: "Lat pulldown", path: "media/lat-pulldown.gif", thumb: "media/lat-pulldown.gif", group: "exercises", bodyPart: "back", aliases: ["lat pull down", "lat pull-down"] },
+    { id: "local-chest-press", name: "Chest press", path: "media/chest-press.gif", thumb: "media/chest-press.gif", group: "exercises", bodyPart: "chest", aliases: [] },
   ];
 
-  /** @type {{categories: Array<{id:string,label:string}>, gifs: Array<any>}} */
+  /** @type {any} */
   let gifLibrary = {
-    categories: [
-      { id: "stretch", label: "Stretch" },
+    groups: [
+      { id: "stretching", label: "Stretching" },
+      { id: "exercises", label: "Exercises" },
+    ],
+    bodyParts: [
+      { id: "back", label: "Back" },
+      { id: "chest", label: "Chest" },
+      { id: "shoulders", label: "Shoulders" },
+      { id: "arms", label: "Arms" },
+      { id: "legs", label: "Legs" },
+      { id: "core", label: "Core" },
       { id: "cardio", label: "Cardio" },
-      { id: "strength-chest", label: "Chest" },
-      { id: "strength-back", label: "Back" },
-      { id: "strength-shoulders", label: "Shoulders" },
-      { id: "strength-arms", label: "Arms" },
-      { id: "strength-legs", label: "Legs" },
-      { id: "strength-core", label: "Core" },
-      { id: "plyometrics", label: "Plyo" },
+      { id: "full-body", label: "Full body" },
     ],
     gifs: FALLBACK_GIFS,
   };
+
+  /** @type {{moveIndex:number, level:string, group:string, bodyPart:string, query:string}} */
+  let gifBrowser = { moveIndex: -1, level: "root", group: "", bodyPart: "", query: "" };
 
   const DEFAULT_PLAN = {
     updatedAt: null,
@@ -324,87 +322,207 @@
       const data = await res.json();
       if (data?.gifs?.length) {
         gifLibrary = {
-          categories: data.categories || gifLibrary.categories,
+          groups: data.groups || gifLibrary.groups,
+          bodyParts: data.bodyParts || gifLibrary.bodyParts,
           gifs: data.gifs,
         };
-        // Refresh open admin pickers if editor already visible
-        document.querySelectorAll(".admin-move").forEach((card) => refreshPickerGrid(card));
       }
     } catch (err) {
       console.warn("GIF library load failed, using fallback", err);
     }
   }
 
-  function filterLibrary(query, category) {
-    const q = (query || "").trim().toLowerCase();
+  function normalizeQuery(q) {
+    return String(q || "")
+      .toLowerCase()
+      .replace(/[-_]/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
+  function gifMatchesQuery(g, q) {
+    if (!q) return true;
+    const hay = normalizeQuery(
+      [g.name, g.id, g.muscle, g.equipment, g.bodyPart, g.group, ...(g.aliases || [])].join(" ")
+    );
+    const compact = hay.replace(/\s+/g, "");
+    const qCompact = q.replace(/\s+/g, "");
+    if (hay.includes(q) || compact.includes(qCompact)) return true;
+    // all tokens must appear
+    return q.split(" ").filter(Boolean).every((tok) => hay.includes(tok) || compact.includes(tok));
+  }
+
+  function filterLibrary({ group, bodyPart, query } = {}) {
+    const q = normalizeQuery(query);
     let list = gifLibrary.gifs || [];
-    if (category && category !== "all") {
-      list = list.filter((g) => g.category === category);
-    }
-    if (q) {
-      list = list.filter((g) => {
-        const hay = `${g.name || ""} ${g.id || ""} ${g.category || ""}`.toLowerCase();
-        return hay.includes(q);
-      });
-    }
-    // Prefer selected / local matches first already in array order
+    if (group) list = list.filter((g) => g.group === group || (!g.group && group === "exercises"));
+    if (bodyPart) list = list.filter((g) => (g.bodyPart || "full-body") === bodyPart);
+    if (q) list = list.filter((g) => gifMatchesQuery(g, q));
     return list;
   }
 
-  function gifGridHtml(selectedGif, query, category) {
-    const MAX = 48;
-    const filtered = filterLibrary(query, category);
+  function openOverlayEl(el) {
+    if (!el) return;
+    el.hidden = false;
+    el.removeAttribute("hidden");
+    el.classList.add("is-open");
+    el.style.cssText =
+      "display:flex !important; position:fixed !important; inset:0 !important; z-index:100000 !important; opacity:1 !important; visibility:visible !important; pointer-events:auto !important; background:rgba(4,14,12,0.82);";
+    document.body.classList.add("admin-open");
+  }
+
+  function closeOverlayEl(el) {
+    if (!el) return;
+    el.hidden = true;
+    el.setAttribute("hidden", "");
+    el.classList.remove("is-open");
+    el.style.cssText = "";
+  }
+
+  function openGifBrowser(moveIndex) {
+    gifBrowser = { moveIndex, level: "root", group: "", bodyPart: "", query: "" };
+    openOverlayEl($("gif-browser"));
+    renderGifBrowser();
+  }
+
+  function closeGifBrowser() {
+    closeOverlayEl($("gif-browser"));
+    gifBrowser.moveIndex = -1;
+  }
+
+  function gifBrowserBack() {
+    if (gifBrowser.level === "gifs") {
+      gifBrowser.level = "body";
+      gifBrowser.bodyPart = "";
+      gifBrowser.query = "";
+    } else if (gifBrowser.level === "body") {
+      gifBrowser.level = "root";
+      gifBrowser.group = "";
+    } else {
+      closeGifBrowser();
+      return;
+    }
+    renderGifBrowser();
+  }
+
+  function renderGifBrowser() {
+    const title = $("gif-browser-title");
+    const back = $("gif-browser-back");
+    const body = $("gif-browser-body");
+    if (!body) return;
+    const move = draftMoves[gifBrowser.moveIndex];
+    const selected = move?.gif || "";
+
+    if (gifBrowser.level === "root") {
+      title.textContent = "Choose GIF";
+      back.hidden = true;
+      const groups = gifLibrary.groups || [];
+      body.innerHTML = `<p class="admin-hint">${(gifLibrary.gifs || []).length} demos · pick a category</p>
+        <div class="gif-menu-list">
+          ${groups
+            .map((g) => {
+              const count = filterLibrary({ group: g.id }).length;
+              return `<button type="button" class="gif-menu-item" data-gif-group="${escapeAttr(g.id)}">
+                <strong>${escapeHtml(g.label)}</strong>
+                <span>${count} GIFs</span>
+              </button>`;
+            })
+            .join("")}
+        </div>`;
+      return;
+    }
+
+    if (gifBrowser.level === "body") {
+      const groupLabel = (gifLibrary.groups || []).find((g) => g.id === gifBrowser.group)?.label || gifBrowser.group;
+      title.textContent = groupLabel;
+      back.hidden = false;
+      const parts = gifLibrary.bodyParts || [];
+      // Only show body parts that have items in this group
+      const available = parts.filter((p) => filterLibrary({ group: gifBrowser.group, bodyPart: p.id }).length);
+      body.innerHTML = `<p class="admin-hint">Pick a body part</p>
+        <div class="gif-menu-list">
+          ${available
+            .map((p) => {
+              const count = filterLibrary({ group: gifBrowser.group, bodyPart: p.id }).length;
+              return `<button type="button" class="gif-menu-item" data-gif-body="${escapeAttr(p.id)}">
+                <strong>${escapeHtml(p.label)}</strong>
+                <span>${count}</span>
+              </button>`;
+            })
+            .join("")}
+        </div>`;
+      return;
+    }
+
+    // gifs level
+    const groupLabel = (gifLibrary.groups || []).find((g) => g.id === gifBrowser.group)?.label || "";
+    const partLabel = (gifLibrary.bodyParts || []).find((p) => p.id === gifBrowser.bodyPart)?.label || "";
+    title.textContent = `${groupLabel} · ${partLabel}`;
+    back.hidden = false;
+    const filtered = filterLibrary({
+      group: gifBrowser.group,
+      bodyPart: gifBrowser.bodyPart,
+      query: gifBrowser.query,
+    });
+    const MAX = 60;
     const shown = filtered.slice(0, MAX);
-    const options = shown
+    const grid = shown
       .map((g) => {
-        const selected = selectedGif === g.path ? "is-selected" : "";
-        const thumb = g.path || g.thumb; // GIF URL — .thumb.webp 404s on jsDelivr @v1.1.0
-        return `<button type="button" class="gif-pick ${selected}" data-pick-gif="${escapeAttr(g.path)}" title="${escapeAttr(g.name)}">
-          <img src="${escapeAttr(thumb)}" alt="" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${escapeAttr(g.path)}';" />
+        const sel = selected === g.path ? "is-selected" : "";
+        return `<button type="button" class="gif-pick ${sel}" data-pick-gif="${escapeAttr(g.path)}" title="${escapeAttr(g.name)}">
+          <img src="${escapeAttr(g.path)}" alt="" loading="lazy" decoding="async" />
           <span>${escapeHtml(g.name)}</span>
         </button>`;
       })
       .join("");
-    const more =
-      filtered.length > MAX
-        ? `<p class="gif-picker-more">Showing ${MAX} of ${filtered.length} — refine search</p>`
-        : filtered.length
-          ? `<p class="gif-picker-more">${filtered.length} GIF${filtered.length === 1 ? "" : "s"}</p>`
-          : `<p class="gif-picker-more">No matches</p>`;
-    return `<div class="gif-picker" role="listbox" aria-label="Built-in GIFs">${options || ""}</div>${more}`;
+    body.innerHTML = `
+      <input type="search" class="gif-search" id="gif-browser-search" placeholder="Search (try “lat pull down”)…" value="${escapeAttr(gifBrowser.query)}" enterkeyhint="search" />
+      <p class="gif-picker-more">${filtered.length} result${filtered.length === 1 ? "" : "s"}${filtered.length > MAX ? ` · showing ${MAX}` : ""}</p>
+      <div class="gif-picker">${grid || `<p class="admin-hint">No matches — try another search</p>`}</div>`;
+    const search = $("gif-browser-search");
+    if (search && !search.__bound) {
+      search.__bound = true;
+      search.addEventListener("input", () => {
+        gifBrowser.query = search.value;
+        const filtered = filterLibrary({
+          group: gifBrowser.group,
+          bodyPart: gifBrowser.bodyPart,
+          query: gifBrowser.query,
+        });
+        const move = draftMoves[gifBrowser.moveIndex];
+        const selected = move?.gif || "";
+        const MAX = 60;
+        const shown = filtered.slice(0, MAX);
+        const gridHtml = shown
+          .map((g) => {
+            const sel = selected === g.path ? "is-selected" : "";
+            return `<button type="button" class="gif-pick ${sel}" data-pick-gif="${escapeAttr(g.path)}" title="${escapeAttr(g.name)}">
+              <img src="${escapeAttr(g.path)}" alt="" loading="lazy" decoding="async" />
+              <span>${escapeHtml(g.name)}</span>
+            </button>`;
+          })
+          .join("");
+        const more = body.querySelector(".gif-picker-more");
+        const grid = body.querySelector(".gif-picker");
+        if (more) more.textContent = `${filtered.length} result${filtered.length === 1 ? "" : "s"}${filtered.length > MAX ? ` · showing ${MAX}` : ""}`;
+        if (grid) grid.innerHTML = gridHtml || `<p class="admin-hint">No matches — try another search</p>`;
+      });
+    }
   }
 
-  function categoryChipsHtml(active) {
-    const cats = [{ id: "all", label: "All" }, ...(gifLibrary.categories || [])];
-    return `<div class="gif-cats" role="tablist">
-      ${cats
-        .map(
-          (c) =>
-            `<button type="button" class="gif-cat ${active === c.id ? "is-active" : ""}" data-gif-cat="${escapeAttr(c.id)}">${escapeHtml(c.label)}</button>`
-        )
-        .join("")}
-    </div>`;
-  }
-
-  function builtinPickerHtml(selectedGif, query = "", category = "all") {
-    const count = (gifLibrary.gifs || []).length;
-    return `<div class="gif-library" data-gif-library>
-      <p class="admin-hint gif-lib-meta">${count} named GIFs · search or filter, then tap a thumbnail</p>
-      <input type="search" class="gif-search" data-gif-search placeholder="Search stretches, squats, curls…" value="${escapeAttr(query)}" enterkeyhint="search" />
-      ${categoryChipsHtml(category)}
-      <div data-gif-grid>${gifGridHtml(selectedGif, query, category)}</div>
-    </div>`;
-  }
-
-  function refreshPickerGrid(card) {
-    const lib = card.querySelector("[data-gif-library]");
-    if (!lib) return;
-    const index = Number(card.dataset.index);
-    const move = draftMoves[index];
-    const q = lib.querySelector("[data-gif-search]")?.value || "";
-    const active = lib.querySelector(".gif-cat.is-active")?.getAttribute("data-gif-cat") || "all";
-    const grid = lib.querySelector("[data-gif-grid]");
-    if (grid) grid.innerHTML = gifGridHtml(move?.gif || "", q, active);
+  function selectGifForMove(path) {
+    const idx = gifBrowser.moveIndex;
+    if (idx < 0 || !draftMoves[idx]) return;
+    const move = draftMoves[idx];
+    if (move._objectUrl) {
+      URL.revokeObjectURL(move._objectUrl);
+      move._objectUrl = null;
+    }
+    move.pendingFile = null;
+    move.gif = path;
+    move.demo = "img";
+    closeGifBrowser();
+    renderAdminMoves();
   }
 
   function renderAdminMoves() {
@@ -418,11 +536,12 @@
         const pending = move.pendingFile ? ` · pending upload: ${escapeHtml(move.pendingFile.name)}` : "";
         const preview = previewSrcForMove(move);
         const useSvg = move.demo === "svg-leg-swing" && !move.gif && !move.pendingFile;
-        const previewBlock = useSvg
-          ? `<div class="admin-preview admin-preview-svg" data-preview>${legSwingSvg()}</div>`
+        const previewInner = useSvg
+          ? legSwingSvg()
           : preview
-            ? `<div class="admin-preview" data-preview><img src="${escapeAttr(preview)}" alt="Preview: ${escapeAttr(move.name)}" /></div>`
-            : `<div class="admin-preview admin-preview-empty" data-preview><span>No GIF selected</span></div>`;
+            ? `<img src="${escapeAttr(preview)}" alt="Preview: ${escapeAttr(move.name)}" />`
+            : `<span>No GIF selected — tap to choose</span>`;
+        const previewBlock = `<button type="button" class="admin-preview ${useSvg ? "admin-preview-svg" : preview ? "" : "admin-preview-empty"}" data-preview data-open-gif title="Choose GIF">${previewInner}</button>`;
         return `<article class="admin-move" data-index="${index}">
           <div class="admin-move-top">
             <strong>#${index + 1}</strong>
@@ -433,6 +552,9 @@
             </div>
           </div>
           ${previewBlock}
+          <div class="admin-actions" style="margin-bottom:0.75rem">
+            <button type="button" class="btn-ghost" data-open-gif>Choose GIF</button>
+          </div>
           <label class="field">
             <span>Name</span>
             <input type="text" data-field="name" value="${escapeAttr(move.name)}" />
@@ -448,12 +570,8 @@
             <span>Sets / reps / weight (shown as written)</span>
             <input type="text" data-field="rx" value="${escapeAttr(move.rx)}" placeholder="e.g. 5 kg · 2 sets × 12" />
           </label>
-          <div class="field">
-            <span>Built-in GIF</span>
-            ${builtinPickerHtml(move.gif)}
-          </div>
           <label class="field">
-            <span>Custom GIF URL / path (optional)</span>
+            <span>GIF path (set via Choose GIF, or paste URL)</span>
             <input type="text" data-field="gif" value="${escapeAttr(move.gif)}" placeholder="media/… or https://…" />
           </label>
           <label class="field">
@@ -474,18 +592,19 @@
     if (!box) return;
     const useSvg = move.demo === "svg-leg-swing" && !move.gif && !move.pendingFile;
     const preview = previewSrcForMove(move);
+    const base = "admin-preview";
     if (useSvg) {
-      box.className = "admin-preview admin-preview-svg";
+      box.className = `${base} admin-preview-svg`;
       box.innerHTML = legSwingSvg();
       return;
     }
     if (preview) {
-      box.className = "admin-preview";
+      box.className = base;
       box.innerHTML = `<img src="${escapeAttr(preview)}" alt="Preview: ${escapeAttr(move.name || "move")}" />`;
       return;
     }
-    box.className = "admin-preview admin-preview-empty";
-    box.innerHTML = `<span>No GIF selected</span>`;
+    box.className = `${base} admin-preview-empty`;
+    box.innerHTML = `<span>No GIF selected — tap to choose</span>`;
   }
 
   function syncDraftFromDom() {
@@ -640,9 +759,11 @@
     el.style.cssText = "";
     const gate = $("admin-gate");
     const editor = $("admin-editor");
+    const browser = $("gif-browser");
     const gateOpen = gate && !gate.hidden;
     const editorOpen = editor && !editor.hidden;
-    if (!gateOpen && !editorOpen) document.body.classList.remove("admin-open");
+    const browserOpen = browser && !browser.hidden;
+    if (!gateOpen && !editorOpen && !browserOpen) document.body.classList.remove("admin-open");
   }
 
   function openGate() {
@@ -758,42 +879,13 @@
     });
 
     on($("admin-moves"), "click", (e) => {
-      const catBtn = e.target.closest("[data-gif-cat]");
-      if (catBtn) {
-        const card = catBtn.closest(".admin-move");
-        const lib = catBtn.closest("[data-gif-library]");
-        if (lib) {
-          lib.querySelectorAll(".gif-cat").forEach((el) => el.classList.remove("is-active"));
-          catBtn.classList.add("is-active");
-          refreshPickerGrid(card);
-        }
-        return;
-      }
-
-      const pick = e.target.closest("[data-pick-gif]");
-      if (pick) {
-        const card = pick.closest(".admin-move");
+      const openGif = e.target.closest("[data-open-gif]");
+      if (openGif) {
+        const card = openGif.closest(".admin-move");
         const index = Number(card?.dataset.index);
-        if (Number.isNaN(index) || !draftMoves[index]) return;
+        if (Number.isNaN(index)) return;
         syncDraftFromDom();
-        const move = draftMoves[index];
-        if (move._objectUrl) {
-          URL.revokeObjectURL(move._objectUrl);
-          move._objectUrl = null;
-        }
-        move.pendingFile = null;
-        move.gif = pick.getAttribute("data-pick-gif") || "";
-        move.demo = "img";
-        const gifInput = card.querySelector('[data-field="gif"]');
-        const svgInput = card.querySelector('[data-field="svg"]');
-        const fileInput = card.querySelector('[data-field="file"]');
-        if (gifInput) gifInput.value = move.gif;
-        if (svgInput) svgInput.checked = false;
-        if (fileInput) fileInput.value = "";
-        card.querySelectorAll(".gif-pick").forEach((el) => {
-          el.classList.toggle("is-selected", el.getAttribute("data-pick-gif") === move.gif);
-        });
-        updateCardPreview(card, move);
+        openGifBrowser(index);
         return;
       }
 
@@ -817,11 +909,6 @@
     });
 
     on($("admin-moves"), "input", (e) => {
-      if (e.target.matches("[data-gif-search]")) {
-        const card = e.target.closest(".admin-move");
-        refreshPickerGrid(card);
-        return;
-      }
       const field = e.target.getAttribute("data-field");
       if (!field) return;
       const card = e.target.closest(".admin-move");
@@ -865,6 +952,34 @@
     });
 
     on($("publish-plan"), "click", () => publishPlan());
+
+    on($("gif-browser-close"), "click", () => closeGifBrowser());
+    on($("gif-browser-back"), "click", () => gifBrowserBack());
+    on($("gif-browser"), "click", (e) => {
+      if (e.target === $("gif-browser")) closeGifBrowser();
+      const group = e.target.closest("[data-gif-group]");
+      if (group) {
+        gifBrowser.group = group.getAttribute("data-gif-group") || "";
+        gifBrowser.level = "body";
+        gifBrowser.bodyPart = "";
+        gifBrowser.query = "";
+        renderGifBrowser();
+        return;
+      }
+      const bodyPart = e.target.closest("[data-gif-body]");
+      if (bodyPart) {
+        gifBrowser.bodyPart = bodyPart.getAttribute("data-gif-body") || "";
+        gifBrowser.level = "gifs";
+        gifBrowser.query = "";
+        renderGifBrowser();
+        return;
+      }
+      const pick = e.target.closest("[data-pick-gif]");
+      if (pick) {
+        selectGifForMove(pick.getAttribute("data-pick-gif") || "");
+      }
+    });
+
     window.__sapnaAdminReady = true;
   }
 

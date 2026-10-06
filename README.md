@@ -38,6 +38,10 @@ Exercise media remains under each upstream project's terms. This page is a perso
 
 ## GIF library (Admin picker)
 
+Hierarchical browse: **Choose GIF → Stretching | Exercises → body part → GIFs** (search + aliases inside).
+
+## GIF library (Admin picker)
+
 `data/gif-library.json` lists ~880 named GIFs for the Admin picker (search + category filters):
 
 - **Local** bundled files under `media/`
