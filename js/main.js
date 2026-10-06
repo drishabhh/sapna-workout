@@ -5,6 +5,20 @@
   const LS_TOKEN = "sapna_gh_token";
   const SS_UNLOCKED = "sapna_admin_unlocked";
 
+  const BUILTIN_GIFS = [
+    { path: "media/arm-circles.gif", label: "Arm circles" },
+    { path: "media/torso-rotations.gif", label: "Torso rotations" },
+    { path: "media/leg-swings.gif", label: "Leg swings" },
+    { path: "media/bodyweight-squats.gif", label: "Bodyweight squats" },
+    { path: "media/cycle-walk.gif", label: "Cycle / walk" },
+    { path: "media/chest-press.gif", label: "Chest press" },
+    { path: "media/shoulder-press.gif", label: "Shoulder press" },
+    { path: "media/lat-pulldown.gif", label: "Lat pulldown" },
+    { path: "media/cable-row.gif", label: "Cable row" },
+    { path: "media/leg-curl.gif", label: "Leg curl" },
+    { path: "media/db-squats.gif", label: "DB squats" },
+  ];
+
   const DEFAULT_PLAN = {
     updatedAt: null,
     headline: "Aaj ka workout",
@@ -47,8 +61,13 @@
     ],
   };
 
+  function clone(value) {
+    if (typeof structuredClone === "function") return structuredClone(value);
+    return JSON.parse(JSON.stringify(value));
+  }
+
   /** @type {any} */
-  let currentPlan = structuredClone(DEFAULT_PLAN);
+  let currentPlan = clone(DEFAULT_PLAN);
   /** @type {Array<{id:string,name:string,rx:string,gif:string,demo:string,kind:string,pendingFile?:File|null}>} */
   let draftMoves = [];
 
@@ -178,7 +197,7 @@
       if (!plan?.sections?.length) throw new Error("empty plan");
       return plan;
     } catch {
-      return structuredClone(DEFAULT_PLAN);
+      return clone(DEFAULT_PLAN);
     }
   }
 
@@ -271,6 +290,27 @@
     el.className = `admin-status is-${kind}`;
   }
 
+  function previewSrcForMove(move) {
+    if (move.pendingFile) {
+      if (!move._objectUrl) move._objectUrl = URL.createObjectURL(move.pendingFile);
+      return move._objectUrl;
+    }
+    if (move.gif) return move.gif;
+    if (move.demo === "svg-leg-swing") return "";
+    return "";
+  }
+
+  function builtinPickerHtml(selectedGif) {
+    const options = BUILTIN_GIFS.map((g) => {
+      const selected = selectedGif === g.path ? "is-selected" : "";
+      return `<button type="button" class="gif-pick ${selected}" data-pick-gif="${escapeAttr(g.path)}" title="${escapeAttr(g.label)}">
+        <img src="${escapeAttr(g.path)}" alt="" loading="lazy" />
+        <span>${escapeHtml(g.label)}</span>
+      </button>`;
+    }).join("");
+    return `<div class="gif-picker" role="listbox" aria-label="Built-in GIFs">${options}</div>`;
+  }
+
   function renderAdminMoves() {
     const root = $("admin-moves");
     if (!draftMoves.length) {
@@ -280,6 +320,13 @@
     root.innerHTML = draftMoves
       .map((move, index) => {
         const pending = move.pendingFile ? ` · pending upload: ${escapeHtml(move.pendingFile.name)}` : "";
+        const preview = previewSrcForMove(move);
+        const useSvg = move.demo === "svg-leg-swing" && !move.gif && !move.pendingFile;
+        const previewBlock = useSvg
+          ? `<div class="admin-preview admin-preview-svg" data-preview>${legSwingSvg()}</div>`
+          : preview
+            ? `<div class="admin-preview" data-preview><img src="${escapeAttr(preview)}" alt="Preview: ${escapeAttr(move.name)}" /></div>`
+            : `<div class="admin-preview admin-preview-empty" data-preview><span>No GIF selected</span></div>`;
         return `<article class="admin-move" data-index="${index}">
           <div class="admin-move-top">
             <strong>#${index + 1}</strong>
@@ -289,6 +336,7 @@
               <button type="button" class="btn-icon danger" data-act="remove" title="Remove">✕</button>
             </div>
           </div>
+          ${previewBlock}
           <label class="field">
             <span>Name</span>
             <input type="text" data-field="name" value="${escapeAttr(move.name)}" />
@@ -304,8 +352,12 @@
             <span>Sets / reps / weight (shown as written)</span>
             <input type="text" data-field="rx" value="${escapeAttr(move.rx)}" placeholder="e.g. 5 kg · 2 sets × 12" />
           </label>
+          <div class="field">
+            <span>Built-in GIF</span>
+            ${builtinPickerHtml(move.gif)}
+          </div>
           <label class="field">
-            <span>GIF URL or path</span>
+            <span>Custom GIF URL / path (optional)</span>
             <input type="text" data-field="gif" value="${escapeAttr(move.gif)}" placeholder="media/… or https://…" />
           </label>
           <label class="field">
@@ -313,12 +365,31 @@
             <input type="file" data-field="file" accept="image/gif,image/*,.gif" />
           </label>
           <label class="field check">
-            <input type="checkbox" data-field="svg" ${move.demo === "svg-leg-swing" && !move.gif ? "checked" : ""} />
+            <input type="checkbox" data-field="svg" ${useSvg ? "checked" : ""} />
             <span>Use built-in leg-swing SVG (only if no GIF)</span>
           </label>
         </article>`;
       })
       .join("");
+  }
+
+  function updateCardPreview(card, move) {
+    const box = card.querySelector("[data-preview]");
+    if (!box) return;
+    const useSvg = move.demo === "svg-leg-swing" && !move.gif && !move.pendingFile;
+    const preview = previewSrcForMove(move);
+    if (useSvg) {
+      box.className = "admin-preview admin-preview-svg";
+      box.innerHTML = legSwingSvg();
+      return;
+    }
+    if (preview) {
+      box.className = "admin-preview";
+      box.innerHTML = `<img src="${escapeAttr(preview)}" alt="Preview: ${escapeAttr(move.name || "move")}" />`;
+      return;
+    }
+    box.className = "admin-preview admin-preview-empty";
+    box.innerHTML = `<span>No GIF selected</span>`;
   }
 
   function syncDraftFromDom() {
@@ -332,7 +403,11 @@
       move.rx = card.querySelector('[data-field="rx"]').value.trim();
       move.gif = card.querySelector('[data-field="gif"]').value.trim();
       const fileInput = card.querySelector('[data-field="file"]');
-      if (fileInput?.files?.[0]) move.pendingFile = fileInput.files[0];
+      if (fileInput?.files?.[0]) {
+        if (move._objectUrl) URL.revokeObjectURL(move._objectUrl);
+        move.pendingFile = fileInput.files[0];
+        move._objectUrl = URL.createObjectURL(move.pendingFile);
+      }
       const useSvg = card.querySelector('[data-field="svg"]').checked;
       move.demo = useSvg && !move.gif && !move.pendingFile ? "svg-leg-swing" : "img";
       if (!move.id) move.id = uid(slugify(move.name));
@@ -452,38 +527,74 @@
     }
   }
 
+  function openOverlay(el) {
+    el.hidden = false;
+    document.body.classList.add("admin-open");
+  }
+
+  function closeOverlay(el) {
+    el.hidden = true;
+    const gateOpen = !$("admin-gate").hidden;
+    const editorOpen = !$("admin-editor").hidden;
+    if (!gateOpen && !editorOpen) document.body.classList.remove("admin-open");
+  }
+
   function openGate() {
     setStatus($("gate-status"), "");
     $("gate-password").value = "";
-    $("admin-gate").showModal();
-    $("gate-password").focus();
+    closeOverlay($("admin-editor"));
+    openOverlay($("admin-gate"));
+    // Delay focus so mobile keyboard doesn't fight the sheet animation
+    setTimeout(() => $("gate-password")?.focus(), 50);
   }
 
   function openEditor() {
     $("admin-token").value = getToken() ? "••••••••••••" : "";
     fillEditorFromPlan(currentPlan);
     setStatus($("publish-status"), "");
-    setStatus($("token-status"), getToken() ? "Token saved in this browser." : "", "ok");
-    $("admin-editor").showModal();
+    setStatus(
+      $("token-status"),
+      getToken()
+        ? "Token saved in this browser."
+        : "Token optional — only needed to Post / Publish online.",
+      getToken() ? "ok" : "info"
+    );
+    closeOverlay($("admin-gate"));
+    openOverlay($("admin-editor"));
+    // Scroll sheet to top for mobile
+    $("admin-editor").querySelector(".admin-sheet")?.scrollTo(0, 0);
+  }
+
+  function requestAdmin() {
+    if (sessionStorage.getItem(SS_UNLOCKED) === "1") openEditor();
+    else openGate();
   }
 
   function wireAdmin() {
-    $("admin-trigger").addEventListener("click", () => {
-      if (sessionStorage.getItem(SS_UNLOCKED) === "1") openEditor();
-      else openGate();
-    });
+    const openers = [$("admin-trigger"), $("admin-trigger-foot")].filter(Boolean);
+    openers.forEach((btn) => btn.addEventListener("click", requestAdmin));
 
-    $("gate-cancel").addEventListener("click", () => $("admin-gate").close());
-    $("admin-close").addEventListener("click", () => $("admin-editor").close());
+    $("gate-cancel").addEventListener("click", () => closeOverlay($("admin-gate")));
+    $("admin-close").addEventListener("click", () => closeOverlay($("admin-editor")));
+
+    // Tap backdrop to close
+    ["admin-gate", "admin-editor"].forEach((id) => {
+      $(id).addEventListener("click", (e) => {
+        if (e.target === $(id)) closeOverlay($(id));
+      });
+    });
 
     $("gate-form").addEventListener("submit", (e) => {
       e.preventDefault();
-      if ($("gate-password").value === ADMIN_PASSWORD) {
+      const typed = ($("gate-password").value || "").trim();
+      if (typed === ADMIN_PASSWORD) {
         sessionStorage.setItem(SS_UNLOCKED, "1");
-        $("admin-gate").close();
-        openEditor();
+        closeOverlay($("admin-gate"));
+        // Defer editor open — avoids mobile race after closing gate
+        setTimeout(openEditor, 30);
       } else {
-        setStatus($("gate-status"), "Wrong password.", "error");
+        setStatus($("gate-status"), "Wrong password. Try again.", "error");
+        $("gate-password").focus();
       }
     });
 
@@ -519,6 +630,33 @@
     });
 
     $("admin-moves").addEventListener("click", (e) => {
+      const pick = e.target.closest("[data-pick-gif]");
+      if (pick) {
+        const card = pick.closest(".admin-move");
+        const index = Number(card?.dataset.index);
+        if (Number.isNaN(index) || !draftMoves[index]) return;
+        syncDraftFromDom();
+        const move = draftMoves[index];
+        if (move._objectUrl) {
+          URL.revokeObjectURL(move._objectUrl);
+          move._objectUrl = null;
+        }
+        move.pendingFile = null;
+        move.gif = pick.getAttribute("data-pick-gif") || "";
+        move.demo = "img";
+        const gifInput = card.querySelector('[data-field="gif"]');
+        const svgInput = card.querySelector('[data-field="svg"]');
+        const fileInput = card.querySelector('[data-field="file"]');
+        if (gifInput) gifInput.value = move.gif;
+        if (svgInput) svgInput.checked = false;
+        if (fileInput) fileInput.value = "";
+        card.querySelectorAll(".gif-pick").forEach((el) => {
+          el.classList.toggle("is-selected", el.getAttribute("data-pick-gif") === move.gif);
+        });
+        updateCardPreview(card, move);
+        return;
+      }
+
       const btn = e.target.closest("[data-act]");
       if (!btn) return;
       const card = btn.closest(".admin-move");
@@ -538,12 +676,46 @@
       renderAdminMoves();
     });
 
+    $("admin-moves").addEventListener("input", (e) => {
+      const field = e.target.getAttribute("data-field");
+      if (!field) return;
+      const card = e.target.closest(".admin-move");
+      const index = Number(card?.dataset.index);
+      if (Number.isNaN(index) || !draftMoves[index]) return;
+      if (field === "gif") {
+        draftMoves[index].gif = e.target.value.trim();
+        draftMoves[index].demo = draftMoves[index].gif ? "img" : draftMoves[index].demo;
+        card.querySelectorAll(".gif-pick").forEach((el) => {
+          el.classList.toggle("is-selected", el.getAttribute("data-pick-gif") === draftMoves[index].gif);
+        });
+        updateCardPreview(card, draftMoves[index]);
+      }
+      if (field === "name") {
+        draftMoves[index].name = e.target.value;
+      }
+    });
+
+    $("admin-moves").addEventListener("change", (e) => {
+      const field = e.target.getAttribute("data-field");
+      if (!field) return;
+      const card = e.target.closest(".admin-move");
+      const index = Number(card?.dataset.index);
+      if (Number.isNaN(index) || !draftMoves[index]) return;
+      syncDraftFromDom();
+      if (field === "file" || field === "svg" || field === "gif") {
+        updateCardPreview(card, draftMoves[index]);
+        card.querySelectorAll(".gif-pick").forEach((el) => {
+          el.classList.toggle("is-selected", el.getAttribute("data-pick-gif") === draftMoves[index].gif);
+        });
+      }
+    });
+
     $("preview-plan").addEventListener("click", () => {
       syncDraftFromDom();
       const plan = buildPlanFromDraft();
       renderPlan(plan);
       setStatus($("publish-status"), "Preview applied on this page only (not posted yet).", "info");
-      $("admin-editor").close();
+      closeOverlay($("admin-editor"));
       document.getElementById("workout")?.scrollIntoView({ behavior: "smooth" });
     });
 
@@ -551,9 +723,18 @@
   }
 
   async function init() {
-    wireAdmin();
-    const plan = await loadPublishedPlan();
-    renderPlan(plan);
+    try {
+      wireAdmin();
+    } catch (err) {
+      console.error("Admin wiring failed", err);
+    }
+    try {
+      const plan = await loadPublishedPlan();
+      renderPlan(plan);
+    } catch (err) {
+      console.error("Plan render failed", err);
+      renderPlan(clone(DEFAULT_PLAN));
+    }
   }
 
   init();

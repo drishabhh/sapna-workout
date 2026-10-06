@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="description" content="Sapna's workout — stretches, strength, and form demos with GIFs." />
   <title>Sapna — Today's Workout</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -12,6 +12,8 @@
 </head>
 <body>
   <div class="atmosphere" aria-hidden="true"></div>
+
+  <button type="button" class="admin-fab" id="admin-trigger" aria-label="Open Admin">Admin</button>
 
   <header class="hero" id="top">
     <p class="brand">Sapna</p>
@@ -35,87 +37,91 @@
     <p>Made for Sapna · Form demos sourced from open exercise media (see README)</p>
     <div class="foot-actions">
       <a href="#top">Back to top</a>
-      <button type="button" class="admin-trigger" id="admin-trigger" aria-label="Open admin">Admin</button>
+      <button type="button" class="admin-foot-link" id="admin-trigger-foot">Admin</button>
     </div>
   </footer>
 
-  <!-- Admin gate -->
-  <dialog class="admin-dialog" id="admin-gate" aria-labelledby="gate-title">
-    <form method="dialog" id="gate-form" class="admin-panel-inner">
-      <h2 id="gate-title">Admin</h2>
-      <p class="admin-hint">Enter the password to edit today’s plan.</p>
-      <label class="field">
-        <span>Password</span>
-        <input type="password" id="gate-password" autocomplete="current-password" required />
-      </label>
-      <p class="admin-status" id="gate-status" hidden></p>
-      <div class="admin-actions">
-        <button type="submit" class="btn-primary">Unlock</button>
-        <button type="button" class="btn-ghost" id="gate-cancel" value="cancel">Cancel</button>
-      </div>
-    </form>
-  </dialog>
+  <!-- Password gate (custom overlay — works better than &lt;dialog&gt; on mobile) -->
+  <div class="admin-overlay" id="admin-gate" hidden>
+    <div class="admin-sheet" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+      <form id="gate-form" class="admin-panel-inner">
+        <h2 id="gate-title">Admin unlock</h2>
+        <p class="admin-hint">Enter the password to edit today’s plan. No GitHub token needed to open or preview.</p>
+        <label class="field">
+          <span>Password</span>
+          <input type="password" id="gate-password" autocomplete="current-password" enterkeyhint="go" required />
+        </label>
+        <p class="admin-status" id="gate-status" hidden></p>
+        <div class="admin-actions">
+          <button type="submit" class="btn-primary">Unlock</button>
+          <button type="button" class="btn-ghost" id="gate-cancel">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Admin editor -->
-  <dialog class="admin-dialog admin-editor-dialog" id="admin-editor" aria-labelledby="editor-title">
-    <div class="admin-panel-inner admin-editor-inner">
-      <header class="admin-head">
-        <h2 id="editor-title">Edit today’s plan</h2>
-        <button type="button" class="btn-ghost" id="admin-close">Close</button>
-      </header>
+  <div class="admin-overlay" id="admin-editor" hidden>
+    <div class="admin-sheet admin-sheet-tall" role="dialog" aria-modal="true" aria-labelledby="editor-title">
+      <div class="admin-panel-inner admin-editor-inner">
+        <header class="admin-head">
+          <h2 id="editor-title">Edit today’s plan</h2>
+          <button type="button" class="btn-ghost" id="admin-close">Close</button>
+        </header>
 
-      <section class="admin-block">
-        <h3>Publish setup</h3>
-        <p class="admin-hint">Paste a GitHub PAT with <code>repo</code> scope once. It stays only in this browser’s localStorage and is used to write <code>data/today.json</code> so Sapna sees the plan on any device.</p>
-        <label class="field">
-          <span>GitHub token</span>
-          <input type="password" id="admin-token" autocomplete="off" placeholder="ghp_…" />
-        </label>
-        <div class="admin-actions">
-          <button type="button" class="btn-ghost" id="save-token">Save token</button>
-          <button type="button" class="btn-ghost" id="clear-token">Clear token</button>
-        </div>
-        <p class="admin-status" id="token-status" hidden></p>
-      </section>
+        <section class="admin-block">
+          <h3>Page copy</h3>
+          <label class="field">
+            <span>Headline</span>
+            <input type="text" id="edit-headline" />
+          </label>
+          <label class="field">
+            <span>Support line</span>
+            <input type="text" id="edit-support" />
+          </label>
+          <label class="field">
+            <span>Rest note title</span>
+            <input type="text" id="edit-rest-title" />
+          </label>
+          <label class="field">
+            <span>Rest note (HTML ok: &lt;strong&gt;, &lt;em&gt;)</span>
+            <textarea id="edit-rest-body" rows="3"></textarea>
+          </label>
+        </section>
 
-      <section class="admin-block">
-        <h3>Page copy</h3>
-        <label class="field">
-          <span>Headline</span>
-          <input type="text" id="edit-headline" />
-        </label>
-        <label class="field">
-          <span>Support line</span>
-          <input type="text" id="edit-support" />
-        </label>
-        <label class="field">
-          <span>Rest note title</span>
-          <input type="text" id="edit-rest-title" />
-        </label>
-        <label class="field">
-          <span>Rest note (HTML ok: &lt;strong&gt;, &lt;em&gt;)</span>
-          <textarea id="edit-rest-body" rows="3"></textarea>
-        </label>
-      </section>
+        <section class="admin-block">
+          <div class="admin-block-head">
+            <h3>Exercises</h3>
+            <button type="button" class="btn-ghost" id="add-move">+ Add move</button>
+          </div>
+          <p class="admin-hint">Order, stretch vs main, sets/reps/weight. Tap a built-in GIF thumbnail (preview updates live). Custom URL/upload optional. Preview works without a token.</p>
+          <div id="admin-moves" class="admin-moves"></div>
+        </section>
 
-      <section class="admin-block">
-        <div class="admin-block-head">
-          <h3>Exercises</h3>
-          <button type="button" class="btn-ghost" id="add-move">+ Add move</button>
-        </div>
-        <p class="admin-hint">Set order, stretch vs main, prescription, and GIF URL or upload a file (uploaded files go to <code>media/</code> on publish).</p>
-        <div id="admin-moves" class="admin-moves"></div>
-      </section>
+        <section class="admin-block admin-publish-block">
+          <h3>Post online (optional)</h3>
+          <p class="admin-hint">Only needed so Sapna sees the plan on another phone. Paste a GitHub PAT with <code>repo</code> scope once — saved only in this browser.</p>
+          <label class="field">
+            <span>GitHub token</span>
+            <input type="password" id="admin-token" autocomplete="off" placeholder="ghp_…" />
+          </label>
+          <div class="admin-actions">
+            <button type="button" class="btn-ghost" id="save-token">Save token</button>
+            <button type="button" class="btn-ghost" id="clear-token">Clear token</button>
+          </div>
+          <p class="admin-status" id="token-status" hidden></p>
+        </section>
 
-      <footer class="admin-footer">
-        <p class="admin-status" id="publish-status" hidden></p>
-        <div class="admin-actions">
-          <button type="button" class="btn-primary" id="publish-plan">Post / Publish</button>
-          <button type="button" class="btn-ghost" id="preview-plan">Preview on page</button>
-        </div>
-      </footer>
+        <footer class="admin-footer">
+          <p class="admin-status" id="publish-status" hidden></p>
+          <div class="admin-actions admin-actions-sticky">
+            <button type="button" class="btn-primary" id="preview-plan">Preview</button>
+            <button type="button" class="btn-primary btn-publish" id="publish-plan">Post / Publish</button>
+          </div>
+        </footer>
+      </div>
     </div>
-  </dialog>
+  </div>
 
   <script src="js/main.js"></script>
 </body>

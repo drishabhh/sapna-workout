@@ -16,7 +16,7 @@ npx --yes serve .
 
 The public page loads `data/today.json`. If missing/invalid, it falls back to the built-in default workout.
 
-1. Open the live site → scroll to the footer → click **Admin** (low-contrast link).
+1. Open the live site → tap the **Admin** button (top-right). Footer also has an Admin link.
 2. Password: `SapnaJim`
 3. **One-time setup:** create a GitHub Personal Access Token with **`repo`** scope (classic PAT is fine), paste it under “Publish setup”, click **Save token**. It stays only in that browser’s `localStorage`.
 4. Edit headline / rest note / exercises (order, stretch vs main, sets·reps·weight, GIF URL or file upload).
