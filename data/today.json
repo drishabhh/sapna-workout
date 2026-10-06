@@ -4,7 +4,8 @@
   "support": "Stretch, cycle or walk, then strength — with form demos for every move.",
   "restNote": {
     "title": "Rest & water",
-    "bodyHtml": "<strong>Rest 1–1.5 min</strong> between sets. Drink water — <em>not cold</em>; warm or room temp, sip by sip."
+    "bodyHtml": "<strong>Rest 1–1.5 min</strong> between sets. Drink water — <em>not cold</em>; warm or room temp, sip by sip.",
+    "body": "Rest 1–1.5 min between sets. Drink water — not cold; warm or room temp, sip by sip."
   },
   "sections": [
     {

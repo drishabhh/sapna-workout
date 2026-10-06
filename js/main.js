@@ -36,7 +36,6 @@
 
   /** @type {{step:string, kind:string, group:string, name:string, gif:string, rx:string}} */
   let addWizard = { step: "type", kind: "main", group: "exercises", name: "", gif: "", rx: "" };
-  let adminMovesSortable = null;
 
   const DEFAULT_PLAN = {
     updatedAt: null,
@@ -44,6 +43,7 @@
     support: "Stretch, cycle or walk, then strength — with form demos for every move.",
     restNote: {
       title: "Rest & water",
+      body: "Rest 1–1.5 min between sets. Drink water — not cold; warm or room temp, sip by sip.",
       bodyHtml:
         "<strong>Rest 1–1.5 min</strong> between sets. Drink water — <em>not cold</em>; warm or room temp, sip by sip.",
     },
@@ -152,12 +152,50 @@
       .replace(/>/g, "&gt;");
   }
 
+
+  function htmlToPlainText(html) {
+    if (!html) return "";
+    const tmp = document.createElement("div");
+    // normalize br/p to newlines before textContent
+    const normalized = String(html)
+      .replace(/<\s*br\s*\/?\s*>/gi, "\n")
+      .replace(/<\s*\/\s*p\s*>/gi, "\n")
+      .replace(/<\s*p[^>]*>/gi, "");
+    tmp.innerHTML = normalized;
+    return (tmp.textContent || "").replace(/\u00a0/g, " ").replace(/\n{3,}/g, "\n\n").trim();
+  }
+
+  function plainTextToRestHtml(text) {
+    const plain = String(text || "").replace(/\r\n/g, "\n").trim();
+    if (!plain) return DEFAULT_PLAN.restNote.bodyHtml;
+    return escapeHtml(plain).replace(/\n/g, "<br>");
+  }
+
+  function applyOrderNumber(fromIndex, requestedOrder) {
+    syncDraftFromDom();
+    const n = draftMoves.length;
+    if (!n) return;
+    let target = Number(requestedOrder);
+    if (!Number.isFinite(target)) target = fromIndex + 1;
+    target = Math.max(1, Math.min(n, Math.round(target)));
+    const item = draftMoves[fromIndex];
+    if (!item) return;
+    const without = draftMoves.filter((_, i) => i !== fromIndex);
+    without.splice(target - 1, 0, item);
+    draftMoves = without;
+    renderAdminMoves();
+  }
+
+
   function renderPlan(plan) {
     currentPlan = plan;
     $("hero-headline").textContent = plan.headline || DEFAULT_PLAN.headline;
     $("hero-support").textContent = plan.support || DEFAULT_PLAN.support;
     $("rest-title").textContent = plan.restNote?.title || DEFAULT_PLAN.restNote.title;
-    $("rest-body").innerHTML = plan.restNote?.bodyHtml || DEFAULT_PLAN.restNote.bodyHtml;
+    const restPlain = plan.restNote?.body;
+    $("rest-body").innerHTML = restPlain
+      ? plainTextToRestHtml(restPlain)
+      : (plan.restNote?.bodyHtml || DEFAULT_PLAN.restNote.bodyHtml);
 
     const root = $("sections");
     root.innerHTML = (plan.sections || [])
@@ -262,10 +300,11 @@
       updatedAt: new Date().toISOString(),
       headline: $("edit-headline").value.trim() || DEFAULT_PLAN.headline,
       support: $("edit-support").value.trim() || DEFAULT_PLAN.support,
-      restNote: {
-        title: $("edit-rest-title").value.trim() || DEFAULT_PLAN.restNote.title,
-        bodyHtml: $("edit-rest-body").value.trim() || DEFAULT_PLAN.restNote.bodyHtml,
-      },
+      restNote: (() => {
+        const title = $("edit-rest-title").value.trim() || DEFAULT_PLAN.restNote.title;
+        const body = $("edit-rest-body").value.trim() || DEFAULT_PLAN.restNote.body || htmlToPlainText(DEFAULT_PLAN.restNote.bodyHtml);
+        return { title, body, bodyHtml: plainTextToRestHtml(body) };
+      })(),
       sections: [
         {
           id: "stretching",
@@ -291,7 +330,11 @@
     $("edit-headline").value = plan.headline || "";
     $("edit-support").value = plan.support || "";
     $("edit-rest-title").value = plan.restNote?.title || "";
-    $("edit-rest-body").value = plan.restNote?.bodyHtml || "";
+    $("edit-rest-body").value =
+      plan.restNote?.body ||
+      htmlToPlainText(plan.restNote?.bodyHtml || DEFAULT_PLAN.restNote.bodyHtml) ||
+      DEFAULT_PLAN.restNote.body ||
+      "";
     draftMoves = flattenMoves(plan);
     renderAdminMoves();
   }
@@ -653,30 +696,6 @@
     renderAdminMoves();
   }
 
-  function wireAdminMovesSortable() {
-    const root = $("admin-moves");
-    if (!root || typeof Sortable === "undefined") return;
-    if (adminMovesSortable) {
-      adminMovesSortable.destroy();
-      adminMovesSortable = null;
-    }
-    adminMovesSortable = Sortable.create(root, {
-      handle: ".drag-handle",
-      animation: 160,
-      draggable: ".admin-move",
-      forceFallback: true,
-      fallbackTolerance: 4,
-      onStart: () => {
-        syncDraftFromDom();
-      },
-      onEnd: (evt) => {
-        if (evt.oldIndex == null || evt.newIndex == null || evt.oldIndex === evt.newIndex) return;
-        const [item] = draftMoves.splice(evt.oldIndex, 1);
-        draftMoves.splice(evt.newIndex, 0, item);
-        renderAdminMoves();
-      },
-    });
-  }
 
   function renderAdminMoves() {
     const root = $("admin-moves");
@@ -697,10 +716,10 @@
         const previewBlock = `<button type="button" class="admin-preview ${useSvg ? "admin-preview-svg" : preview ? "" : "admin-preview-empty"}" data-preview data-open-gif title="Choose GIF">${previewInner}</button>`;
         return `<article class="admin-move" data-index="${index}">
           <div class="admin-move-top">
-            <div class="admin-move-leading">
-              <button type="button" class="drag-handle" aria-label="Drag to reorder" title="Drag to reorder">⠿</button>
-              <strong>#${index + 1}</strong>
-            </div>
+            <label class="order-field">
+              <span>Order</span>
+              <input type="number" inputmode="numeric" min="1" max="${draftMoves.length}" step="1" data-field="order" value="${index + 1}" aria-label="Order number" />
+            </label>
             <div class="admin-move-tools">
               <button type="button" class="btn-icon danger" data-act="remove" title="Remove">✕</button>
             </div>
@@ -739,7 +758,6 @@
         </article>`;
       })
       .join("");
-    wireAdminMovesSortable();
   }
 
   function updateCardPreview(card, move) {
@@ -1067,13 +1085,22 @@
       const card = e.target.closest(".admin-move");
       const index = Number(card?.dataset.index);
       if (Number.isNaN(index) || !draftMoves[index]) return;
+      if (field === "order") {
+        applyOrderNumber(index, e.target.value);
+        return;
+      }
       syncDraftFromDom();
       if (field === "file" || field === "svg" || field === "gif") {
         updateCardPreview(card, draftMoves[index]);
-        card.querySelectorAll(".gif-pick").forEach((el) => {
-          el.classList.toggle("is-selected", el.getAttribute("data-pick-gif") === draftMoves[index].gif);
-        });
       }
+    });
+
+    on($("admin-moves"), "keydown", (e) => {
+      if (e.key !== "Enter") return;
+      const field = e.target.getAttribute("data-field");
+      if (field !== "order") return;
+      e.preventDefault();
+      e.target.blur();
     });
 
     on($("preview-plan"), "click", () => {

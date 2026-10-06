@@ -128,11 +128,11 @@
       return false;
     };
   </script>
-  <script src="./js/admin-auth.js?v=20261006dumbbell"></script>
+  <script src="./js/admin-auth.js?v=20261006ordercopy"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Outfit:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./css/styles.css?v=20261006dumbbell" />
+  <link rel="stylesheet" href="./css/styles.css?v=20261006ordercopy" />
 </head>
 <body>
   <div class="atmosphere" aria-hidden="true"></div>
@@ -194,24 +194,29 @@
           <button type="button" class="btn-ghost" id="admin-close">Close</button>
         </header>
 
-        <section class="admin-block">
+        <section class="admin-block admin-copy-block">
           <h3>Page copy</h3>
+          <p class="admin-hint">Shown on Sapna’s public page. Keep it short and clear.</p>
           <label class="field">
             <span>Headline</span>
-            <input type="text" id="edit-headline" />
+            <input type="text" id="edit-headline" placeholder="Aaj ka workout" />
           </label>
           <label class="field">
             <span>Support line</span>
-            <input type="text" id="edit-support" />
+            <textarea id="edit-support" rows="2" placeholder="One short line under the headline"></textarea>
           </label>
-          <label class="field">
-            <span>Rest note title</span>
-            <input type="text" id="edit-rest-title" />
-          </label>
-          <label class="field">
-            <span>Rest note (HTML ok: &lt;strong&gt;, &lt;em&gt;)</span>
-            <textarea id="edit-rest-body" rows="3"></textarea>
-          </label>
+          <div class="admin-subcard">
+            <h4 class="admin-subhead">Rest &amp; water</h4>
+            <label class="field">
+              <span>Title</span>
+              <input type="text" id="edit-rest-title" placeholder="Rest & water" />
+            </label>
+            <label class="field">
+              <span>Note</span>
+              <textarea id="edit-rest-body" rows="4" placeholder="Rest 1–1.5 min between sets. Drink water — not cold; warm or room temp."></textarea>
+            </label>
+            <p class="admin-hint admin-hint-tight">Plain text only — line breaks are kept on the public page.</p>
+          </div>
         </section>
 
         <section class="admin-block">
@@ -219,7 +224,7 @@
             <h3>Exercises</h3>
             <button type="button" class="btn-ghost" id="add-move">+ Add move</button>
           </div>
-          <p class="admin-hint">Drag the <strong>⠿</strong> handle to reorder. <strong>+ Add move</strong> walks you through type → pick GIF → sets/reps/weight. Tap a tile’s GIF to change it.</p>
+          <p class="admin-hint">Change <strong>Order</strong> numbers to reorder. <strong>+ Add move</strong> walks you through type → pick GIF → sets/reps/weight.</p>
           <div id="admin-moves" class="admin-moves"></div>
         </section>
 
@@ -278,7 +283,6 @@
     </div>
   </div>
 
-  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
-  <script src="./js/main.js?v=20261006dumbbell"></script>
+  <script src="./js/main.js?v=20261006ordercopy"></script>
 </body>
 </html>
