@@ -1,7 +1,6 @@
 (() => {
   const REPO = { owner: "drishabhh", name: "sapna-workout", branch: "main" };
   const PLAN_PATH = "data/today.json";
-  const ADMIN_PASSWORD = "SapnaJim";
   const LS_TOKEN = "sapna_gh_token";
   const SS_UNLOCKED = "sapna_admin_unlocked";
 
@@ -916,6 +915,10 @@
     }
     setStatus($("gate-status"), "");
     if ($("gate-password")) $("gate-password").value = "";
+    const lock = window.__sapnaAdminAuth?.getLockStatus?.();
+    if (lock?.locked) {
+      setStatus($("gate-status"), `Too many attempts. Try again in ${lock.secs}s.`, "error");
+    }
     closeOverlay($("admin-editor"));
     openOverlay($("admin-gate"));
     setTimeout(() => $("gate-password") && $("gate-password").focus(), 50);
@@ -976,19 +979,6 @@
       });
     });
 
-    on($("gate-form"), "submit", (e) => {
-      e.preventDefault();
-      const typed = (($("gate-password") || {}).value || "").trim();
-      if (typed === ADMIN_PASSWORD) {
-        sessionStorage.setItem(SS_UNLOCKED, "1");
-        closeOverlay($("admin-gate"));
-        // Defer editor open — avoids mobile race after closing gate
-        setTimeout(openEditor, 30);
-      } else {
-        setStatus($("gate-status"), "Wrong password. Try again.", "error");
-        $("gate-password")?.focus();
-      }
-    });
 
     on($("save-token"), "click", () => {
       const raw = $("admin-token").value.trim();

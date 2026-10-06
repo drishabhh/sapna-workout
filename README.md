@@ -17,7 +17,7 @@ npx --yes serve .
 The public page loads `data/today.json`. If missing/invalid, it falls back to the built-in default workout.
 
 1. Open the live site → tap the **Admin** button (top-right). Footer also has an Admin link.
-2. Password: `SapnaJim`
+2. Enter the Admin password (ask the site owner if you don’t have it).
 3. **One-time setup:** create a GitHub Personal Access Token with **`repo`** scope (classic PAT is fine), paste it under “Publish setup”, click **Save token**. It stays only in that browser’s `localStorage`.
 4. Edit headline / rest note / exercises (order, stretch vs main, sets·reps·weight, GIF URL or file upload).
 5. Click **Post / Publish**. That commits `data/today.json` (and any uploaded GIFs under `media/`) to this repo’s `main` branch via the GitHub Contents API.
@@ -47,3 +47,8 @@ Hierarchical browse: **Choose GIF → Stretching | Exercises → body part → G
 - **Local** bundled files under `media/`
 - **[ExerciseGymGifsDB](https://github.com/JahelCuadrado/ExerciseGymGifsDB)** via jsDelivr CDN (`@v1.1.0`) — all stretching + cardio/plyo + common strength movements (presses, rows, curls, squats, etc.). Hotlinked per that project’s static API docs; not scraped from commercial sites.
 
+
+
+## Admin security note
+
+Admin unlock is a **strengthened client-side gate** (PBKDF2-SHA256 hash + browser rate limiting). It is meant to stop casual View Source bypasses, **not** bank-grade auth — a determined attacker with the shipped hash can still offline-brute. There is no server. Keep the GitHub PAT only for Post online, and treat the unlock password as a shared secret among trusted editors.
