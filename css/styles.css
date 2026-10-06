@@ -29,6 +29,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Only apply scroll offset when user taps Start workout — never on initial paint */
+main#workout {
+  scroll-margin-top: 0;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -86,8 +91,8 @@ body {
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: clamp(2.25rem, 7vw, 4.5rem) clamp(1.25rem, 5vw, 2.75rem) 3.25rem;
+  justify-content: flex-start;
+  padding: clamp(4.5rem, 14vw, 6.5rem) clamp(1.25rem, 5vw, 2.75rem) 3.25rem;
   max-width: var(--max);
   margin: 0 auto;
   position: relative;

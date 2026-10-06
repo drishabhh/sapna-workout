@@ -1171,7 +1171,31 @@
     window.__sapnaAdminReady = true;
   }
 
+  function pinInitialLanding() {
+    try {
+      if (location.hash && location.hash !== "#top") {
+        history.replaceState(null, "", location.pathname + location.search);
+      }
+    } catch (_) {}
+    window.scrollTo(0, 0);
+  }
+
+  function wireLandingCta() {
+    const cta = document.querySelector('a.cta[href="#workout"]');
+    if (!cta || cta.dataset.wired === "1") return;
+    cta.dataset.wired = "1";
+    cta.addEventListener("click", (e) => {
+      const target = document.getElementById("workout");
+      if (!target) return;
+      e.preventDefault();
+      history.replaceState(null, "", "#workout");
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+  }
+
   async function init() {
+    pinInitialLanding();
+    wireLandingCta();
     try {
       wireAdmin();
     } catch (err) {
@@ -1189,6 +1213,9 @@
       console.error("Plan render failed", err);
       renderPlan(clone(DEFAULT_PLAN));
     }
+    /* Layout can shift after plan/GIF load — keep first paint at hero top */
+    pinInitialLanding();
+    requestAnimationFrame(pinInitialLanding);
   }
 
   init();
