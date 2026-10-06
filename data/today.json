@@ -1,0 +1,106 @@
+{
+  "updatedAt": "2026-10-06T00:00:00.000Z",
+  "headline": "Aaj ka workout",
+  "support": "Stretch, cycle or walk, then strength — with form demos for every move.",
+  "restNote": {
+    "title": "Rest & water",
+    "bodyHtml": "<strong>Rest 1–1.5 min</strong> between sets. Drink water — <em>not cold</em>; warm or room temp, sip by sip."
+  },
+  "sections": [
+    {
+      "id": "stretching",
+      "eyebrow": "Warm-up",
+      "title": "Stretching",
+      "subtitle": "10 reps each — easy and controlled",
+      "kind": "stretch",
+      "moves": [
+        {
+          "id": "arm-circles",
+          "name": "Arm circles",
+          "rx": "10 reps each direction",
+          "gif": "media/arm-circles.gif",
+          "demo": "img"
+        },
+        {
+          "id": "torso-rotations",
+          "name": "Torso rotations",
+          "rx": "10 reps each side",
+          "gif": "media/torso-rotations.gif",
+          "demo": "img"
+        },
+        {
+          "id": "leg-swings",
+          "name": "Leg swings",
+          "rx": "10 reps each leg — hold a wall if needed",
+          "gif": "",
+          "demo": "svg-leg-swing"
+        },
+        {
+          "id": "bodyweight-squats",
+          "name": "Bodyweight squats",
+          "rx": "10 reps — warm-up pace",
+          "gif": "media/bodyweight-squats.gif",
+          "demo": "img"
+        }
+      ]
+    },
+    {
+      "id": "exercise",
+      "eyebrow": "Main session",
+      "title": "Exercise",
+      "subtitle": "Cardio pehle, phir strength — follow the prescriptions",
+      "kind": "main",
+      "moves": [
+        {
+          "id": "cycle-walk",
+          "name": "Cycle / treadmill walk",
+          "rx": "3 min cycle (normal pace) ya 5 min walk",
+          "gif": "media/cycle-walk.gif",
+          "demo": "img"
+        },
+        {
+          "id": "chest-press",
+          "name": "Chest press flat bench",
+          "rx": "5 kg · 2 sets × 12",
+          "gif": "media/chest-press.gif",
+          "demo": "img"
+        },
+        {
+          "id": "shoulder-press",
+          "name": "Shoulder press",
+          "rx": "2.5 kg · 2 sets × 12",
+          "gif": "media/shoulder-press.gif",
+          "demo": "img"
+        },
+        {
+          "id": "lat-pulldown",
+          "name": "Lat pull down",
+          "rx": "20 kg · 2 sets × 12",
+          "gif": "media/lat-pulldown.gif",
+          "demo": "img"
+        },
+        {
+          "id": "cable-row",
+          "name": "Seated Cable Row",
+          "rx": "20 kg · 2 sets × 12",
+          "gif": "media/cable-row.gif",
+          "demo": "img"
+        },
+        {
+          "id": "leg-curl",
+          "name": "Seated Leg Curl",
+          "rx": "15–20 kg · 2 sets × 12",
+          "gif": "media/leg-curl.gif",
+          "demo": "img"
+        },
+        {
+          "id": "db-squats",
+          "name": "Dumbbell squats",
+          "rx": "7.5 kg · 2 sets × 12",
+          "gif": "media/db-squats.gif",
+          "demo": "img"
+        }
+      ]
+    }
+  ]
+}
