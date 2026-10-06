@@ -31,8 +31,12 @@
     gifs: FALLBACK_GIFS,
   };
 
-  /** @type {{moveIndex:number, level:string, group:string, bodyPart:string, query:string}} */
-  let gifBrowser = { moveIndex: -1, level: "root", group: "", bodyPart: "", query: "" };
+  /** @type {{moveIndex:number, level:string, group:string, bodyPart:string, query:string, mode:string}} */
+  let gifBrowser = { moveIndex: -1, level: "root", group: "", bodyPart: "", query: "", mode: "edit" };
+
+  /** @type {{step:string, kind:string, group:string, name:string, gif:string, rx:string}} */
+  let addWizard = { step: "type", kind: "main", group: "exercises", name: "", gif: "", rx: "" };
+  let adminMovesSortable = null;
 
   const DEFAULT_PLAN = {
     updatedAt: null,
@@ -379,8 +383,11 @@
     el.style.cssText = "";
   }
 
-  function openGifBrowser(moveIndex) {
-    gifBrowser = { moveIndex, level: "root", group: "", bodyPart: "", query: "" };
+  function openGifBrowser(moveIndex, opts = {}) {
+    const mode = opts.mode || "edit";
+    const group = opts.group || "";
+    const level = opts.level || (group ? "body" : "root");
+    gifBrowser = { moveIndex, level, group, bodyPart: "", query: "", mode };
     openOverlayEl($("gif-browser"));
     renderGifBrowser();
   }
@@ -388,6 +395,7 @@
   function closeGifBrowser() {
     closeOverlayEl($("gif-browser"));
     gifBrowser.moveIndex = -1;
+    gifBrowser.mode = "edit";
   }
 
   function gifBrowserBack() {
@@ -396,6 +404,13 @@
       gifBrowser.bodyPart = "";
       gifBrowser.query = "";
     } else if (gifBrowser.level === "body") {
+      if (gifBrowser.mode === "wizard") {
+        // Return to type step of add wizard
+        closeGifBrowser();
+        addWizard.step = "type";
+        openAddWizard();
+        return;
+      }
       gifBrowser.level = "root";
       gifBrowser.group = "";
     } else {
@@ -414,8 +429,8 @@
     const selected = move?.gif || "";
 
     if (gifBrowser.level === "root") {
-      title.textContent = "Choose GIF";
-      back.hidden = true;
+      title.textContent = gifBrowser.mode === "wizard" ? "Pick a move" : "Choose GIF";
+      back.hidden = gifBrowser.mode === "wizard";
       const groups = gifLibrary.groups || [];
       body.innerHTML = `<p class="admin-hint">${(gifLibrary.gifs || []).length} demos · pick a category</p>
         <div class="gif-menu-list">
@@ -510,7 +525,20 @@
     }
   }
 
+  function libraryEntryByPath(path) {
+    return (gifLibrary.gifs || []).find((g) => g.path === path) || null;
+  }
+
   function selectGifForMove(path) {
+    if (gifBrowser.mode === "wizard") {
+      const entry = libraryEntryByPath(path);
+      addWizard.gif = path;
+      addWizard.name = entry?.name || "New move";
+      closeGifBrowser();
+      addWizard.step = "rx";
+      openAddWizard();
+      return;
+    }
     const idx = gifBrowser.moveIndex;
     if (idx < 0 || !draftMoves[idx]) return;
     const move = draftMoves[idx];
@@ -521,8 +549,119 @@
     move.pendingFile = null;
     move.gif = path;
     move.demo = "img";
+    const entry = libraryEntryByPath(path);
+    if (entry?.name && (!move.name || move.name === "New move")) move.name = entry.name;
     closeGifBrowser();
     renderAdminMoves();
+  }
+
+  function openAddWizard() {
+    openOverlayEl($("add-wizard"));
+    renderAddWizard();
+  }
+
+  function closeAddWizard() {
+    closeOverlayEl($("add-wizard"));
+    addWizard = { step: "type", kind: "main", group: "exercises", name: "", gif: "", rx: "" };
+  }
+
+  function renderAddWizard() {
+    const title = $("add-wizard-title");
+    const back = $("add-wizard-back");
+    const body = $("add-wizard-body");
+    if (!body) return;
+
+    if (addWizard.step === "type") {
+      title.textContent = "Add move";
+      back.hidden = true;
+      body.innerHTML = `<p class="admin-hint">Step 1 of 3 — what kind of move?</p>
+        <div class="gif-menu-list">
+          <button type="button" class="gif-menu-item" data-wizard-type="stretch" data-wizard-group="stretching">
+            <strong>Stretching</strong>
+            <span>Warm-up / mobility</span>
+          </button>
+          <button type="button" class="gif-menu-item" data-wizard-type="main" data-wizard-group="exercises">
+            <strong>Exercise</strong>
+            <span>Strength / cardio</span>
+          </button>
+        </div>`;
+      return;
+    }
+
+    if (addWizard.step === "rx") {
+      title.textContent = "Prescription";
+      back.hidden = false;
+      const preview = addWizard.gif
+        ? `<div class="admin-preview" style="pointer-events:none"><img src="${escapeAttr(addWizard.gif)}" alt="" /></div>`
+        : "";
+      body.innerHTML = `${preview}
+        <p class="admin-hint">Step 3 of 3 — sets / reps / weight for <strong>${escapeHtml(addWizard.name)}</strong></p>
+        <label class="field">
+          <span>Shown on the plan as written</span>
+          <input type="text" id="wizard-rx" value="${escapeAttr(addWizard.rx || (addWizard.kind === "stretch" ? "10 reps" : "2 sets × 12"))}" placeholder="e.g. 5 kg · 2 sets × 12" />
+        </label>
+        <div class="admin-actions">
+          <button type="button" class="btn-primary" id="wizard-confirm">Add to plan</button>
+        </div>`;
+      $("wizard-rx")?.focus();
+      return;
+    }
+  }
+
+  function startAddWizardPick(kind, group) {
+    addWizard.kind = kind;
+    addWizard.group = group;
+    addWizard.step = "pick";
+    closeOverlayEl($("add-wizard"));
+    // Hierarchical picker locked to chosen group
+    openGifBrowser(-1, { mode: "wizard", group, level: "body" });
+  }
+
+  function confirmAddWizard() {
+    const rxInput = $("wizard-rx");
+    const rx = (rxInput?.value || addWizard.rx || "").trim() || (addWizard.kind === "stretch" ? "10 reps" : "2 sets × 12");
+    if (!addWizard.gif) {
+      addWizard.step = "type";
+      renderAddWizard();
+      return;
+    }
+    syncDraftFromDom();
+    draftMoves.push({
+      id: uid(slugify(addWizard.name || "move")),
+      name: addWizard.name || "New move",
+      rx,
+      gif: addWizard.gif,
+      demo: "img",
+      kind: addWizard.kind === "stretch" ? "stretch" : "main",
+      pendingFile: null,
+    });
+    closeAddWizard();
+    renderAdminMoves();
+  }
+
+  function wireAdminMovesSortable() {
+    const root = $("admin-moves");
+    if (!root || typeof Sortable === "undefined") return;
+    if (adminMovesSortable) {
+      adminMovesSortable.destroy();
+      adminMovesSortable = null;
+    }
+    adminMovesSortable = Sortable.create(root, {
+      handle: ".drag-handle",
+      animation: 160,
+      draggable: ".admin-move",
+      forceFallback: true,
+      fallbackTolerance: 4,
+      onStart: () => {
+        syncDraftFromDom();
+      },
+      onEnd: (evt) => {
+        if (evt.oldIndex == null || evt.newIndex == null || evt.oldIndex === evt.newIndex) return;
+        const [item] = draftMoves.splice(evt.oldIndex, 1);
+        draftMoves.splice(evt.newIndex, 0, item);
+        renderAdminMoves();
+      },
+    });
   }
 
   function renderAdminMoves() {
@@ -544,10 +683,11 @@
         const previewBlock = `<button type="button" class="admin-preview ${useSvg ? "admin-preview-svg" : preview ? "" : "admin-preview-empty"}" data-preview data-open-gif title="Choose GIF">${previewInner}</button>`;
         return `<article class="admin-move" data-index="${index}">
           <div class="admin-move-top">
-            <strong>#${index + 1}</strong>
+            <div class="admin-move-leading">
+              <button type="button" class="drag-handle" aria-label="Drag to reorder" title="Drag to reorder">⠿</button>
+              <strong>#${index + 1}</strong>
+            </div>
             <div class="admin-move-tools">
-              <button type="button" class="btn-icon" data-act="up" title="Move up" ${index === 0 ? "disabled" : ""}>↑</button>
-              <button type="button" class="btn-icon" data-act="down" title="Move down" ${index === draftMoves.length - 1 ? "disabled" : ""}>↓</button>
               <button type="button" class="btn-icon danger" data-act="remove" title="Remove">✕</button>
             </div>
           </div>
@@ -585,6 +725,7 @@
         </article>`;
       })
       .join("");
+    wireAdminMovesSortable();
   }
 
   function updateCardPreview(card, move) {
@@ -760,10 +901,12 @@
     const gate = $("admin-gate");
     const editor = $("admin-editor");
     const browser = $("gif-browser");
+    const wizard = $("add-wizard");
     const gateOpen = gate && !gate.hidden;
     const editorOpen = editor && !editor.hidden;
     const browserOpen = browser && !browser.hidden;
-    if (!gateOpen && !editorOpen && !browserOpen) document.body.classList.remove("admin-open");
+    const wizardOpen = wizard && !wizard.hidden;
+    if (!gateOpen && !editorOpen && !browserOpen && !wizardOpen) document.body.classList.remove("admin-open");
   }
 
   function openGate() {
@@ -866,16 +1009,8 @@
 
     on($("add-move"), "click", () => {
       syncDraftFromDom();
-      draftMoves.push({
-        id: uid("move"),
-        name: "New move",
-        rx: "2 sets × 12",
-        gif: "",
-        demo: "img",
-        kind: "main",
-        pendingFile: null,
-      });
-      renderAdminMoves();
+      addWizard = { step: "type", kind: "main", group: "exercises", name: "", gif: "", rx: "" };
+      openAddWizard();
     });
 
     on($("admin-moves"), "click", (e) => {
@@ -896,16 +1031,10 @@
       if (Number.isNaN(index)) return;
       syncDraftFromDom();
       const act = btn.dataset.act;
-      if (act === "remove") draftMoves.splice(index, 1);
-      if (act === "up" && index > 0) {
-        const [item] = draftMoves.splice(index, 1);
-        draftMoves.splice(index - 1, 0, item);
+      if (act === "remove") {
+        draftMoves.splice(index, 1);
+        renderAdminMoves();
       }
-      if (act === "down" && index < draftMoves.length - 1) {
-        const [item] = draftMoves.splice(index, 1);
-        draftMoves.splice(index + 1, 0, item);
-      }
-      renderAdminMoves();
     });
 
     on($("admin-moves"), "input", (e) => {
@@ -977,6 +1106,33 @@
       const pick = e.target.closest("[data-pick-gif]");
       if (pick) {
         selectGifForMove(pick.getAttribute("data-pick-gif") || "");
+      }
+    });
+
+
+    on($("add-wizard-close"), "click", () => closeAddWizard());
+    on($("add-wizard-back"), "click", () => {
+      if (addWizard.step === "rx") {
+        // Back to picker for same group
+        closeOverlayEl($("add-wizard"));
+        openGifBrowser(-1, { mode: "wizard", group: addWizard.group, level: "body" });
+        return;
+      }
+      addWizard.step = "type";
+      renderAddWizard();
+    });
+    on($("add-wizard"), "click", (e) => {
+      if (e.target === $("add-wizard")) closeAddWizard();
+      const typeBtn = e.target.closest("[data-wizard-type]");
+      if (typeBtn) {
+        startAddWizardPick(
+          typeBtn.getAttribute("data-wizard-type") || "main",
+          typeBtn.getAttribute("data-wizard-group") || "exercises"
+        );
+        return;
+      }
+      if (e.target.id === "wizard-confirm" || e.target.closest("#wizard-confirm")) {
+        confirmAddWizard();
       }
     });
 

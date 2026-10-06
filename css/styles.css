@@ -1050,3 +1050,41 @@ body.admin-open {
     transition: none;
   }
 }
+
+.admin-move-leading {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.drag-handle {
+  appearance: none;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(5, 15, 14, 0.55);
+  color: rgba(243, 238, 228, 0.75);
+  font-size: 1.05rem;
+  line-height: 1;
+  min-width: 40px;
+  min-height: 40px;
+  cursor: grab;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.drag-handle:active {
+  cursor: grabbing;
+  border-color: var(--jade);
+  color: var(--cream);
+}
+
+.admin-move.sortable-chosen,
+.admin-move.sortable-ghost {
+  opacity: 0.92;
+}
+
+.admin-move.sortable-drag {
+  box-shadow: var(--shadow-soft);
+}
