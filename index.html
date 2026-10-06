@@ -5,15 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="description" content="Sapna's workout — stretches, strength, and form demos with GIFs." />
   <title>Sapna — Today's Workout</title>
+  <!-- Force correct base for GitHub Pages project site (trailing-slash safe) -->
+  <script>
+    (function () {
+      var path = location.pathname;
+      // If path looks like a file, strip it; ensure trailing slash for relative assets
+      if (!/\/$/.test(path)) {
+        if (/\.[a-zA-Z0-9]+$/.test(path.split("/").pop() || "")) {
+          path = path.replace(/\/[^/]*$/, "/");
+        } else {
+          path = path + "/";
+        }
+      }
+      var base = document.createElement("base");
+      base.href = location.origin + path;
+      document.head.insertBefore(base, document.head.firstChild);
+      window.__SAPNA_BASE__ = base.href;
+    })();
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Sora:wght@400;500;600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="css/styles.css" />
+  <!-- v= cache-bust so mobile browsers pick up Admin fixes -->
+  <link rel="stylesheet" href="css/styles.css?v=20261006p0" />
 </head>
 <body>
   <div class="atmosphere" aria-hidden="true"></div>
 
-  <button type="button" class="admin-fab" id="admin-trigger" aria-label="Open Admin">Admin</button>
+  <button type="button" class="admin-fab" id="admin-trigger" data-admin-open aria-label="Open Admin">Admin</button>
 
   <header class="hero" id="top">
     <p class="brand">Sapna</p>
@@ -21,6 +40,7 @@
     <p class="support" id="hero-support">Stretch, cycle or walk, then strength — with form demos for every move.</p>
     <div class="cta-row">
       <a class="cta" href="#workout">Start workout</a>
+      <button type="button" class="admin-hero-btn" id="admin-trigger-hero" data-admin-open>Admin</button>
     </div>
   </header>
 
@@ -37,11 +57,11 @@
     <p>Made for Sapna · Form demos sourced from open exercise media (see README)</p>
     <div class="foot-actions">
       <a href="#top">Back to top</a>
-      <button type="button" class="admin-foot-link" id="admin-trigger-foot">Admin</button>
+      <button type="button" class="admin-foot-link" id="admin-trigger-foot" data-admin-open>Admin</button>
     </div>
   </footer>
 
-  <!-- Password gate (custom overlay — works better than &lt;dialog&gt; on mobile) -->
+  <!-- Password gate -->
   <div class="admin-overlay" id="admin-gate" hidden>
     <div class="admin-sheet" role="dialog" aria-modal="true" aria-labelledby="gate-title">
       <form id="gate-form" class="admin-panel-inner">
@@ -123,6 +143,129 @@
     </div>
   </div>
 
-  <script src="js/main.js"></script>
+  <!-- Inline Admin open bootstrap: works even if js/main.js is cached/broken -->
+  <script>
+    (function () {
+      var PASS = "SapnaJim";
+      function $(id) { return document.getElementById(id); }
+      function openGate(e) {
+        if (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+        var gate = $("admin-gate");
+        var editor = $("admin-editor");
+        if (editor) editor.hidden = true;
+        if (gate) {
+          gate.hidden = false;
+          document.body.classList.add("admin-open");
+          var pw = $("gate-password");
+          if (pw) {
+            pw.value = "";
+            setTimeout(function () { try { pw.focus(); } catch (_) {} }, 40);
+          }
+          var st = $("gate-status");
+          if (st) { st.hidden = true; st.textContent = ""; }
+        }
+        return false;
+      }
+      function closeGate() {
+        var gate = $("admin-gate");
+        if (gate) gate.hidden = true;
+        if ($("admin-editor") && $("admin-editor").hidden) {
+          document.body.classList.remove("admin-open");
+        }
+      }
+      function openEditor() {
+        var gate = $("admin-gate");
+        var editor = $("admin-editor");
+        if (gate) gate.hidden = true;
+        if (editor) {
+          editor.hidden = false;
+          document.body.classList.add("admin-open");
+        }
+        // Prefer enhanced editor from main.js when available
+        if (typeof window.__sapnaOpenEditor === "function") {
+          try { window.__sapnaOpenEditor(); } catch (_) {}
+        }
+      }
+      function onOpenClick(e) {
+        // If already unlocked this session, jump to editor when main.js available
+        try {
+          if (sessionStorage.getItem("sapna_admin_unlocked") === "1") {
+            openEditor();
+            if (e) { e.preventDefault(); e.stopPropagation(); }
+            return false;
+          }
+        } catch (_) {}
+        return openGate(e);
+      }
+      function bindOpeners() {
+        var nodes = document.querySelectorAll("[data-admin-open]");
+        for (var i = 0; i < nodes.length; i++) {
+          var el = nodes[i];
+          if (el.__sapnaBound) continue;
+          el.__sapnaBound = true;
+          el.addEventListener("click", onOpenClick, true);
+          el.addEventListener("pointerup", function (ev) {
+            // Extra path for stubborn mobile browsers; ignore pen/right-click noise
+            if (ev.pointerType === "mouse" && ev.button !== 0) return;
+          }, true);
+        }
+      }
+      bindOpeners();
+      document.addEventListener("DOMContentLoaded", bindOpeners);
+
+      var cancel = $("gate-cancel");
+      if (cancel) cancel.addEventListener("click", function (e) {
+        e.preventDefault();
+        closeGate();
+      });
+
+      var form = $("gate-form");
+      if (form) {
+        form.addEventListener("submit", function (e) {
+          e.preventDefault();
+          var typed = (($("gate-password") || {}).value || "").trim();
+          var st = $("gate-status");
+          if (typed === PASS) {
+            try { sessionStorage.setItem("sapna_admin_unlocked", "1"); } catch (_) {}
+            openEditor();
+          } else if (st) {
+            st.hidden = false;
+            st.textContent = "Wrong password. Try again.";
+            st.className = "admin-status is-error";
+          }
+        });
+      }
+
+      // Backdrop tap closes
+      ["admin-gate", "admin-editor"].forEach(function (id) {
+        var overlay = $(id);
+        if (!overlay) return;
+        overlay.addEventListener("click", function (e) {
+          if (e.target === overlay) {
+            overlay.hidden = true;
+            if ($("admin-gate").hidden && $("admin-editor").hidden) {
+              document.body.classList.remove("admin-open");
+            }
+          }
+        });
+      });
+
+      var closeBtn = $("admin-close");
+      if (closeBtn) {
+        closeBtn.addEventListener("click", function () {
+          $("admin-editor").hidden = true;
+          if ($("admin-gate").hidden) document.body.classList.remove("admin-open");
+        });
+      }
+
+      // Expose for main.js coordination
+      window.__sapnaOpenGate = openGate;
+      window.__sapnaAdminBoot = true;
+    })();
+  </script>
+  <script src="js/main.js?v=20261006p0"></script>
 </body>
 </html>

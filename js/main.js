@@ -565,28 +565,47 @@
     $("admin-editor").querySelector(".admin-sheet")?.scrollTo(0, 0);
   }
 
-  function requestAdmin() {
-    if (sessionStorage.getItem(SS_UNLOCKED) === "1") openEditor();
-    else openGate();
+  function requestAdmin(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    try {
+      if (sessionStorage.getItem(SS_UNLOCKED) === "1") openEditor();
+      else openGate();
+    } catch (err) {
+      console.error(err);
+      if (typeof window.__sapnaOpenGate === "function") window.__sapnaOpenGate(e);
+    }
+  }
+
+  // Used by inline bootstrap after password unlock
+  window.__sapnaOpenEditor = openEditor;
+
+  function on(el, evt, fn) {
+    if (!el) return;
+    el.addEventListener(evt, fn);
   }
 
   function wireAdmin() {
-    const openers = [$("admin-trigger"), $("admin-trigger-foot")].filter(Boolean);
-    openers.forEach((btn) => btn.addEventListener("click", requestAdmin));
+    // Bootstrap already opens the gate; still bind as backup on all Admin controls
+    document.querySelectorAll("[data-admin-open]").forEach((btn) => {
+      on(btn, "click", requestAdmin);
+    });
 
-    $("gate-cancel").addEventListener("click", () => closeOverlay($("admin-gate")));
-    $("admin-close").addEventListener("click", () => closeOverlay($("admin-editor")));
+    on($("gate-cancel"), "click", () => closeOverlay($("admin-gate")));
+    on($("admin-close"), "click", () => closeOverlay($("admin-editor")));
 
     // Tap backdrop to close
     ["admin-gate", "admin-editor"].forEach((id) => {
-      $(id).addEventListener("click", (e) => {
+      on($(id), "click", (e) => {
         if (e.target === $(id)) closeOverlay($(id));
       });
     });
 
-    $("gate-form").addEventListener("submit", (e) => {
+    on($("gate-form"), "submit", (e) => {
       e.preventDefault();
-      const typed = ($("gate-password").value || "").trim();
+      const typed = (($("gate-password") || {}).value || "").trim();
       if (typed === ADMIN_PASSWORD) {
         sessionStorage.setItem(SS_UNLOCKED, "1");
         closeOverlay($("admin-gate"));
@@ -594,11 +613,11 @@
         setTimeout(openEditor, 30);
       } else {
         setStatus($("gate-status"), "Wrong password. Try again.", "error");
-        $("gate-password").focus();
+        $("gate-password")?.focus();
       }
     });
 
-    $("save-token").addEventListener("click", () => {
+    on($("save-token"), "click", () => {
       const raw = $("admin-token").value.trim();
       if (!raw || raw.startsWith("••")) {
         setStatus($("token-status"), "Paste a new token to save.", "error");
@@ -609,13 +628,13 @@
       setStatus($("token-status"), "Token saved in this browser only.", "ok");
     });
 
-    $("clear-token").addEventListener("click", () => {
+    on($("clear-token"), "click", () => {
       localStorage.removeItem(LS_TOKEN);
       $("admin-token").value = "";
       setStatus($("token-status"), "Token cleared.", "info");
     });
 
-    $("add-move").addEventListener("click", () => {
+    on($("add-move"), "click", () => {
       syncDraftFromDom();
       draftMoves.push({
         id: uid("move"),
@@ -629,7 +648,7 @@
       renderAdminMoves();
     });
 
-    $("admin-moves").addEventListener("click", (e) => {
+    on($("admin-moves"), "click", (e) => {
       const pick = e.target.closest("[data-pick-gif]");
       if (pick) {
         const card = pick.closest(".admin-move");
@@ -676,7 +695,7 @@
       renderAdminMoves();
     });
 
-    $("admin-moves").addEventListener("input", (e) => {
+    on($("admin-moves"), "input", (e) => {
       const field = e.target.getAttribute("data-field");
       if (!field) return;
       const card = e.target.closest(".admin-move");
@@ -695,7 +714,7 @@
       }
     });
 
-    $("admin-moves").addEventListener("change", (e) => {
+    on($("admin-moves"), "change", (e) => {
       const field = e.target.getAttribute("data-field");
       if (!field) return;
       const card = e.target.closest(".admin-move");
@@ -710,7 +729,7 @@
       }
     });
 
-    $("preview-plan").addEventListener("click", () => {
+    on($("preview-plan"), "click", () => {
       syncDraftFromDom();
       const plan = buildPlanFromDraft();
       renderPlan(plan);
@@ -719,7 +738,8 @@
       document.getElementById("workout")?.scrollIntoView({ behavior: "smooth" });
     });
 
-    $("publish-plan").addEventListener("click", () => publishPlan());
+    on($("publish-plan"), "click", () => publishPlan());
+    window.__sapnaAdminReady = true;
   }
 
   async function init() {
