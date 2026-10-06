@@ -32,7 +32,7 @@
   };
 
   /** @type {{moveIndex:number, level:string, group:string, bodyPart:string, query:string, mode:string}} */
-  let gifBrowser = { moveIndex: -1, level: "root", group: "", bodyPart: "", query: "", mode: "edit" };
+  let gifBrowser = { moveIndex: -1, level: "root", group: "", bodyPart: "", equipment: "", query: "", mode: "edit" };
 
   /** @type {{step:string, kind:string, group:string, name:string, gif:string, rx:string}} */
   let addWizard = { step: "type", kind: "main", group: "exercises", name: "", gif: "", rx: "" };
@@ -407,17 +407,23 @@
     return hay.includes("dumbbell") || /(^|\s)db(\s|$)/.test(hay);
   }
 
-  function filterLibrary({ group, bodyPart, query } = {}) {
+  function filterLibrary({ group, bodyPart, query, equipment } = {}) {
     const q = normalizeQuery(query);
     let list = gifLibrary.gifs || [];
     if (group) list = list.filter((g) => g.group === group || (!g.group && group === "exercises"));
-    if (bodyPart === "dumbbell") {
+    const equip = equipment || (bodyPart === "dumbbell" ? "dumbbell" : "");
+    if (equip === "dumbbell") {
       list = list.filter((g) => isDumbbellGif(g));
-    } else if (bodyPart) {
+    }
+    if (bodyPart && bodyPart !== "dumbbell") {
       list = list.filter((g) => (g.bodyPart || "full-body") === bodyPart);
     }
     if (q) list = list.filter((g) => gifMatchesQuery(g, q));
     return list;
+  }
+
+  function anatomicalBodyParts() {
+    return (gifLibrary.bodyParts || []).filter((p) => p.kind !== "equipment" && p.id !== "dumbbell");
   }
 
   function openOverlayEl(el) {
@@ -442,7 +448,7 @@
     const mode = opts.mode || "edit";
     const group = opts.group || "";
     const level = opts.level || (group ? "body" : "root");
-    gifBrowser = { moveIndex, level, group, bodyPart: "", query: "", mode };
+    gifBrowser = { moveIndex, level, group, bodyPart: "", equipment: "", query: "", mode };
     openOverlayEl($("gif-browser"));
     renderGifBrowser();
   }
@@ -455,7 +461,18 @@
 
   function gifBrowserBack() {
     if (gifBrowser.level === "gifs") {
+      if (gifBrowser.equipment) {
+        gifBrowser.level = "equip-body";
+        gifBrowser.bodyPart = "";
+        gifBrowser.query = "";
+      } else {
+        gifBrowser.level = "body";
+        gifBrowser.bodyPart = "";
+        gifBrowser.query = "";
+      }
+    } else if (gifBrowser.level === "equip-body") {
       gifBrowser.level = "body";
+      gifBrowser.equipment = "";
       gifBrowser.bodyPart = "";
       gifBrowser.query = "";
     } else if (gifBrowser.level === "body") {
@@ -468,6 +485,7 @@
       }
       gifBrowser.level = "root";
       gifBrowser.group = "";
+      gifBrowser.equipment = "";
     } else {
       closeGifBrowser();
       return;
@@ -507,17 +525,20 @@
       title.textContent = groupLabel;
       back.hidden = false;
       const parts = gifLibrary.bodyParts || [];
-      // Only show body parts that have items in this group
       const available = parts.filter((p) => filterLibrary({ group: gifBrowser.group, bodyPart: p.id }).length);
-      body.innerHTML = `<p class="admin-hint">Pick Dumbbell (all DB moves) or a body part</p>
+      const hint =
+        gifBrowser.group === "exercises"
+          ? "Pick Dumbbell (by body part) or browse a body part"
+          : "Pick a body part";
+      body.innerHTML = `<p class="admin-hint">${hint}</p>
         <div class="gif-menu-list">
           ${available
             .map((p) => {
               const count = filterLibrary({ group: gifBrowser.group, bodyPart: p.id }).length;
               const equip = p.kind === "equipment" || p.id === "dumbbell";
-              return `<button type="button" class="gif-menu-item ${equip ? "is-equipment" : ""}" data-gif-body="${escapeAttr(p.id)}">
+              return `<button type="button" class="gif-menu-item ${equip ? "is-equipment" : ""}" data-gif-body="${escapeAttr(p.id)}" ${equip ? 'data-equip="1"' : ""}>
                 <strong>${escapeHtml(p.label)}</strong>
-                <span>${count}${equip ? " · all dumbbell" : ""}</span>
+                <span>${count}${equip ? " · by body part" : ""}</span>
               </button>`;
             })
             .join("")}
@@ -525,19 +546,88 @@
       return;
     }
 
+    if (gifBrowser.level === "equip-body") {
+      const equipLabel =
+        (gifLibrary.bodyParts || []).find((p) => p.id === (gifBrowser.equipment || "dumbbell"))?.label || "Dumbbell";
+      title.textContent = equipLabel;
+      back.hidden = false;
+      const parts = anatomicalBodyParts().filter(
+        (p) =>
+          filterLibrary({
+            group: gifBrowser.group,
+            equipment: gifBrowser.equipment || "dumbbell",
+            bodyPart: p.id,
+          }).length
+      );
+      const totalDb = filterLibrary({
+        group: gifBrowser.group,
+        equipment: gifBrowser.equipment || "dumbbell",
+        query: gifBrowser.query,
+      }).length;
+      const q = gifBrowser.query.trim();
+      if (q) {
+        // Search across all dumbbell moves from this hub
+        renderGifGridLevel({
+          titleText: `${equipLabel} · search`,
+          filterOpts: {
+            group: gifBrowser.group,
+            equipment: gifBrowser.equipment || "dumbbell",
+            query: gifBrowser.query,
+          },
+          searchPh: "Search all dumbbell moves…",
+          max: 120,
+          selected,
+        });
+        return;
+      }
+      body.innerHTML = `
+        <input type="search" class="gif-search" id="gif-browser-search" placeholder="Search all dumbbell moves…" value="${escapeAttr(gifBrowser.query)}" enterkeyhint="search" />
+        <p class="admin-hint">${totalDb} dumbbell GIFs · pick a body part</p>
+        <div class="gif-menu-list">
+          ${parts
+            .map((p) => {
+              const count = filterLibrary({
+                group: gifBrowser.group,
+                equipment: gifBrowser.equipment || "dumbbell",
+                bodyPart: p.id,
+              }).length;
+              return `<button type="button" class="gif-menu-item" data-gif-body="${escapeAttr(p.id)}">
+                <strong>${escapeHtml(p.label)}</strong>
+                <span>${count}</span>
+              </button>`;
+            })
+            .join("")}
+        </div>`;
+      bindGifBrowserSearch(() => {
+        renderGifBrowser();
+      });
+      return;
+    }
+
     // gifs level
     const groupLabel = (gifLibrary.groups || []).find((g) => g.id === gifBrowser.group)?.label || "";
     const partLabel = (gifLibrary.bodyParts || []).find((p) => p.id === gifBrowser.bodyPart)?.label || "";
-    title.textContent = `${groupLabel} · ${partLabel}`;
-    back.hidden = false;
-    const filtered = filterLibrary({
-      group: gifBrowser.group,
-      bodyPart: gifBrowser.bodyPart,
-      query: gifBrowser.query,
+    const equipLabel = gifBrowser.equipment
+      ? (gifLibrary.bodyParts || []).find((p) => p.id === gifBrowser.equipment)?.label || "Dumbbell"
+      : "";
+    const titleText = equipLabel ? `${equipLabel} · ${partLabel}` : `${groupLabel} · ${partLabel}`;
+    renderGifGridLevel({
+      titleText,
+      filterOpts: {
+        group: gifBrowser.group,
+        bodyPart: gifBrowser.bodyPart,
+        equipment: gifBrowser.equipment || "",
+        query: gifBrowser.query,
+      },
+      searchPh: gifBrowser.equipment ? "Search dumbbell moves…" : "Search (try “lat pull down”)…",
+      max: gifBrowser.equipment ? 120 : 60,
+      selected,
     });
-    const MAX = gifBrowser.bodyPart === "dumbbell" ? 120 : 60;
-    const shown = filtered.slice(0, MAX);
-    const grid = shown
+  }
+
+  function gifPickButtonsHtml(list, selected, max) {
+    return list
+      .slice(0, max)
       .map((g) => {
         const sel = selected === g.path ? "is-selected" : "";
         return `<button type="button" class="gif-pick ${sel}" data-pick-gif="${escapeAttr(g.path)}" title="${escapeAttr(g.name)}">
@@ -546,40 +636,49 @@
         </button>`;
       })
       .join("");
-    const searchPh = gifBrowser.bodyPart === "dumbbell" ? "Search dumbbell moves (try “db press”)…" : "Search (try “lat pull down”)…";
+  }
+
+  function bindGifBrowserSearch(onInput) {
+    const search = $("gif-browser-search");
+    if (!search || search.__bound) return;
+    search.__bound = true;
+    search.addEventListener("input", () => {
+      gifBrowser.query = search.value;
+      onInput();
+    });
+  }
+
+  function renderGifGridLevel({ titleText, filterOpts, searchPh, max, selected }) {
+    const title = $("gif-browser-title");
+    const back = $("gif-browser-back");
+    const body = $("gif-browser-body");
+    if (title) title.textContent = titleText;
+    if (back) back.hidden = false;
+    const filtered = filterLibrary(filterOpts);
+    const grid = gifPickButtonsHtml(filtered, selected, max);
     body.innerHTML = `
       <input type="search" class="gif-search" id="gif-browser-search" placeholder="${escapeAttr(searchPh)}" value="${escapeAttr(gifBrowser.query)}" enterkeyhint="search" />
-      <p class="gif-picker-more">${filtered.length} result${filtered.length === 1 ? "" : "s"}${filtered.length > MAX ? ` · showing ${MAX}` : ""}</p>
+      <p class="gif-picker-more">${filtered.length} result${filtered.length === 1 ? "" : "s"}${filtered.length > max ? ` · showing ${max}` : ""}</p>
       <div class="gif-picker">${grid || `<p class="admin-hint">No matches — try another search</p>`}</div>`;
-    const search = $("gif-browser-search");
-    if (search && !search.__bound) {
-      search.__bound = true;
-      search.addEventListener("input", () => {
-        gifBrowser.query = search.value;
-        const filtered = filterLibrary({
-          group: gifBrowser.group,
-          bodyPart: gifBrowser.bodyPart,
-          query: gifBrowser.query,
-        });
-        const move = draftMoves[gifBrowser.moveIndex];
-        const selected = move?.gif || "";
-        const MAX = gifBrowser.bodyPart === "dumbbell" ? 120 : 60;
-        const shown = filtered.slice(0, MAX);
-        const gridHtml = shown
-          .map((g) => {
-            const sel = selected === g.path ? "is-selected" : "";
-            return `<button type="button" class="gif-pick ${sel}" data-pick-gif="${escapeAttr(g.path)}" title="${escapeAttr(g.name)}">
-              <img src="${escapeAttr(g.path)}" alt="" loading="lazy" decoding="async" />
-              <span>${escapeHtml(g.name)}</span>
-            </button>`;
-          })
-          .join("");
-        const more = body.querySelector(".gif-picker-more");
-        const grid = body.querySelector(".gif-picker");
-        if (more) more.textContent = `${filtered.length} result${filtered.length === 1 ? "" : "s"}${filtered.length > MAX ? ` · showing ${MAX}` : ""}`;
-        if (grid) grid.innerHTML = gridHtml || `<p class="admin-hint">No matches — try another search</p>`;
+    bindGifBrowserSearch(() => {
+      const move = draftMoves[gifBrowser.moveIndex];
+      const sel = move?.gif || "";
+      // Re-enter current level so equip-body can flip between menu and results
+      if (gifBrowser.level === "equip-body") {
+        renderGifBrowser();
+        return;
+      }
+      const next = filterLibrary({
+        group: gifBrowser.group,
+        bodyPart: gifBrowser.bodyPart,
+        equipment: gifBrowser.equipment || "",
+        query: gifBrowser.query,
       });
-    }
+      const more = body.querySelector(".gif-picker-more");
+      const gridEl = body.querySelector(".gif-picker");
+      if (more) more.textContent = `${next.length} result${next.length === 1 ? "" : "s"}${next.length > max ? ` · showing ${max}` : ""}`;
+      if (gridEl) gridEl.innerHTML = gifPickButtonsHtml(next, sel, max) || `<p class="admin-hint">No matches — try another search</p>`;
+    });
   }
 
   function libraryEntryByPath(path) {
@@ -1124,15 +1223,24 @@
         gifBrowser.group = group.getAttribute("data-gif-group") || "";
         gifBrowser.level = "body";
         gifBrowser.bodyPart = "";
+        gifBrowser.equipment = "";
         gifBrowser.query = "";
         renderGifBrowser();
         return;
       }
       const bodyPart = e.target.closest("[data-gif-body]");
       if (bodyPart) {
-        gifBrowser.bodyPart = bodyPart.getAttribute("data-gif-body") || "";
-        gifBrowser.level = "gifs";
+        const id = bodyPart.getAttribute("data-gif-body") || "";
+        const isEquip = bodyPart.getAttribute("data-equip") === "1" || id === "dumbbell";
         gifBrowser.query = "";
+        if (isEquip && gifBrowser.level === "body") {
+          gifBrowser.equipment = id;
+          gifBrowser.bodyPart = "";
+          gifBrowser.level = "equip-body";
+        } else {
+          gifBrowser.bodyPart = id;
+          gifBrowser.level = "gifs";
+        }
         renderGifBrowser();
         return;
       }
