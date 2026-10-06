@@ -358,9 +358,9 @@
     const options = shown
       .map((g) => {
         const selected = selectedGif === g.path ? "is-selected" : "";
-        const thumb = g.thumb || g.path;
+        const thumb = g.path || g.thumb; // GIF URL — .thumb.webp 404s on jsDelivr @v1.1.0
         return `<button type="button" class="gif-pick ${selected}" data-pick-gif="${escapeAttr(g.path)}" title="${escapeAttr(g.name)}">
-          <img src="${escapeAttr(thumb)}" alt="" loading="lazy" decoding="async" />
+          <img src="${escapeAttr(thumb)}" alt="" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${escapeAttr(g.path)}';" />
           <span>${escapeHtml(g.name)}</span>
         </button>`;
       })
