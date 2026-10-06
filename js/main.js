@@ -528,28 +528,41 @@
   }
 
   function openOverlay(el) {
+    if (!el) return;
     el.hidden = false;
+    el.removeAttribute("hidden");
+    el.classList.add("is-open");
+    el.style.cssText = "display:flex !important; position:fixed !important; inset:0 !important; z-index:99999 !important; opacity:1 !important; visibility:visible !important; pointer-events:auto !important; background:rgba(4,14,12,0.82);";
     document.body.classList.add("admin-open");
   }
 
   function closeOverlay(el) {
+    if (!el) return;
     el.hidden = true;
-    const gateOpen = !$("admin-gate").hidden;
-    const editorOpen = !$("admin-editor").hidden;
+    el.setAttribute("hidden", "");
+    el.classList.remove("is-open");
+    el.style.cssText = "";
+    const gate = $("admin-gate");
+    const editor = $("admin-editor");
+    const gateOpen = gate && !gate.hidden;
+    const editorOpen = editor && !editor.hidden;
     if (!gateOpen && !editorOpen) document.body.classList.remove("admin-open");
   }
 
   function openGate() {
+    if (typeof window.sapnaAdminOpen === "function") {
+      window.sapnaAdminOpen();
+      return;
+    }
     setStatus($("gate-status"), "");
-    $("gate-password").value = "";
+    if ($("gate-password")) $("gate-password").value = "";
     closeOverlay($("admin-editor"));
     openOverlay($("admin-gate"));
-    // Delay focus so mobile keyboard doesn't fight the sheet animation
-    setTimeout(() => $("gate-password")?.focus(), 50);
+    setTimeout(() => $("gate-password") && $("gate-password").focus(), 50);
   }
 
   function openEditor() {
-    $("admin-token").value = getToken() ? "••••••••••••" : "";
+    if ($("admin-token")) $("admin-token").value = getToken() ? "••••••••••••" : "";
     fillEditorFromPlan(currentPlan);
     setStatus($("publish-status"), "");
     setStatus(
@@ -561,25 +574,25 @@
     );
     closeOverlay($("admin-gate"));
     openOverlay($("admin-editor"));
-    // Scroll sheet to top for mobile
-    $("admin-editor").querySelector(".admin-sheet")?.scrollTo(0, 0);
+    const sheet = $("admin-editor") && $("admin-editor").querySelector(".admin-sheet");
+    if (sheet) sheet.scrollTop = 0;
   }
 
   function requestAdmin(e) {
-    if (e) {
-      e.preventDefault();
-      e.stopPropagation();
+    // onclick= already handles open; keep as backup only (do not stopPropagation)
+    if (typeof window.sapnaAdminOpen === "function") {
+      window.sapnaAdminOpen(e);
+      return;
     }
     try {
       if (sessionStorage.getItem(SS_UNLOCKED) === "1") openEditor();
       else openGate();
     } catch (err) {
       console.error(err);
-      if (typeof window.__sapnaOpenGate === "function") window.__sapnaOpenGate(e);
     }
   }
 
-  // Used by inline bootstrap after password unlock
+  // Used by head unlock helper after password success
   window.__sapnaOpenEditor = openEditor;
 
   function on(el, evt, fn) {
