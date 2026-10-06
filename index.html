@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Sapna's workout — stretches, strength, and form demos with GIFs." />
+  <title>Sapna — Today's Workout</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Sora:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="atmosphere" aria-hidden="true"></div>
+
+  <header class="hero" id="top">
+    <p class="brand">Sapna</p>
+    <h1 class="headline">Aaj ka workout</h1>
+    <p class="support">Stretch, cycle or walk, then strength — with form demos for every move.</p>
+    <div class="cta-row">
+      <a class="cta" href="#stretching">Start workout</a>
+    </div>
+  </header>
+
+  <main>
+    <aside class="rest-note" id="rest" aria-label="Rest and water guidance">
+      <h2>Rest &amp; water</h2>
+      <p><strong>Rest 1–1.5 min</strong> between sets. Drink water — <em>not cold</em>; warm or room temp, sip by sip.</p>
+    </aside>
+
+    <section class="block" id="stretching">
+      <header class="block-head">
+        <p class="eyebrow">Warm-up</p>
+        <h2>Stretching</h2>
+        <p class="block-sub">10 reps each — easy and controlled</p>
+      </header>
+
+      <ul class="moves">
+        <li class="move">
+          <div class="move-copy">
+            <h3>Arm circles</h3>
+            <p class="rx">10 reps each direction</p>
+          </div>
+          <figure class="demo">
+            <img src="media/arm-circles.gif" alt="Demo: standing arm circles" width="360" height="360" loading="lazy" />
+          </figure>
+        </li>
+        <li class="move">
+          <div class="move-copy">
+            <h3>Torso rotations</h3>
+            <p class="rx">10 reps each side</p>
+          </div>
+          <figure class="demo">
+            <img src="media/torso-rotations.gif" alt="Demo: standing torso rotations" width="360" height="240" loading="lazy" />
+          </figure>
+        </li>
+        <li class="move">
+          <div class="move-copy">
+            <h3>Leg swings</h3>
+            <p class="rx">10 reps each leg — hold a wall if needed</p>
+          </div>
+          <figure class="demo demo-svg" aria-label="Animated demo of forward and back leg swings">
+            <svg class="leg-swing" viewBox="0 0 240 280" role="img" aria-labelledby="legSwingTitle">
+              <title id="legSwingTitle">Leg swings demo</title>
+              <rect width="240" height="280" fill="#0f2f2c" rx="12"/>
+              <line x1="40" y1="230" x2="200" y2="230" stroke="#3d6b64" stroke-width="4"/>
+              <!-- standing leg -->
+              <g transform="translate(110,70)">
+                <circle cx="0" cy="0" r="14" fill="#f3e6d0"/>
+                <rect x="-10" y="12" width="20" height="48" rx="8" fill="#7ec8b8"/>
+                <rect x="-8" y="58" width="12" height="70" rx="6" fill="#f3e6d0"/>
+                <rect x="-18" y="122" width="28" height="10" rx="4" fill="#e8a838"/>
+                <!-- swinging leg -->
+                <g class="swing-leg">
+                  <rect x="2" y="58" width="12" height="72" rx="6" fill="#f3e6d0"/>
+                  <rect x="-2" y="124" width="28" height="10" rx="4" fill="#e8a838"/>
+                </g>
+                <rect x="-28" y="28" width="18" height="10" rx="4" fill="#f3e6d0" transform="rotate(-25 -19 33)"/>
+                <rect x="10" y="28" width="18" height="10" rx="4" fill="#f3e6d0" transform="rotate(25 19 33)"/>
+              </g>
+            </svg>
+          </figure>
+        </li>
+        <li class="move">
+          <div class="move-copy">
+            <h3>Bodyweight squats</h3>
+            <p class="rx">10 reps — warm-up pace</p>
+          </div>
+          <figure class="demo">
+            <img src="media/bodyweight-squats.gif" alt="Demo: bodyweight squat" width="360" height="360" loading="lazy" />
+          </figure>
+        </li>
+      </ul>
+    </section>
+
+    <section class="block" id="exercise">
+      <header class="block-head">
+        <p class="eyebrow">Main session</p>
+        <h2>Exercise</h2>
+        <p class="block-sub">Cardio pehle, phir strength — follow the prescriptions</p>
+      </header>
+
+      <ul class="moves">
+        <li class="move">
+          <div class="move-copy">
+            <h3>Cycle / treadmill walk</h3>
+            <p class="rx">3 min cycle (normal pace) <span class="or">ya</span> 5 min walk</p>
+          </div>
+          <figure class="demo">
+            <img src="media/cycle-walk.gif" alt="Demo: incline treadmill walk" width="360" height="360" loading="lazy" />
+          </figure>
+        </li>
+        <li class="move">
+          <div class="move-copy">
+            <h3>Chest press flat bench</h3>
+            <p class="rx">5 kg · 2 sets × 12</p>
+          </div>
+          <figure class="demo">
+            <img src="media/chest-press.gif" alt="Demo: dumbbell flat bench chest press" width="360" height="360" loading="lazy" />
+          </figure>
+        </li>
+        <li class="move">
+          <div class="move-copy">
+            <h3>Shoulder press</h3>
+            <p class="rx">2.5 kg · 2 sets × 12</p>
+          </div>
+          <figure class="demo">
+            <img src="media/shoulder-press.gif" alt="Demo: seated dumbbell shoulder press" width="360" height="360" loading="lazy" />
+          </figure>
+        </li>
+        <li class="move">
+          <div class="move-copy">
+            <h3>Lat pull down</h3>
+            <p class="rx">20 kg · 2 sets × 12</p>
+          </div>
+          <figure class="demo">
+            <img src="media/lat-pulldown.gif" alt="Demo: cable lat pulldown" width="360" height="360" loading="lazy" />
+          </figure>
+        </li>
+        <li class="move">
+          <div class="move-copy">
+            <h3>Seated Cable Row</h3>
+            <p class="rx">20 kg · 2 sets × 12</p>
+          </div>
+          <figure class="demo">
+            <img src="media/cable-row.gif" alt="Demo: seated cable row" width="360" height="360" loading="lazy" />
+          </figure>
+        </li>
+        <li class="move">
+          <div class="move-copy">
+            <h3>Seated Leg Curl</h3>
+            <p class="rx">15–20 kg · 2 sets × 12</p>
+          </div>
+          <figure class="demo">
+            <img src="media/leg-curl.gif" alt="Demo: seated leg curl machine" width="360" height="360" loading="lazy" />
+          </figure>
+        </li>
+        <li class="move">
+          <div class="move-copy">
+            <h3>Dumbbell squats</h3>
+            <p class="rx">7.5 kg · 2 sets × 12</p>
+          </div>
+          <figure class="demo">
+            <img src="media/db-squats.gif" alt="Demo: dumbbell squat" width="360" height="360" loading="lazy" />
+          </figure>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <p>Made for Sapna · Form demos sourced from open exercise media (see README)</p>
+    <a href="#top">Back to top</a>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
