@@ -768,6 +768,65 @@ body.admin-open {
   outline: 2px solid rgba(126, 200, 184, 0.55);
   outline-offset: 1px;
 }
+.gif-library {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.gif-lib-meta {
+  margin: 0;
+}
+
+.gif-search {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: rgba(7, 26, 24, 0.85);
+  color: var(--cream);
+  font: inherit;
+  font-size: 16px;
+  padding: 0.7rem 0.8rem;
+  min-height: 44px;
+}
+
+.gif-cats {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.4rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.15rem;
+}
+
+.gif-cat {
+  appearance: none;
+  flex: 0 0 auto;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(244, 239, 230, 0.8);
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  min-height: 36px;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gif-cat.is-active {
+  border-color: var(--amber);
+  color: var(--ink);
+  background: var(--amber);
+}
+
+.gif-picker-more {
+  margin: 0.25rem 0 0;
+  font-size: 0.75rem;
+  color: rgba(244, 239, 230, 0.55);
+}
+
 
 .admin-move-top {
   display: flex;

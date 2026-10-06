@@ -34,3 +34,12 @@ The public page loads `data/today.json`. If missing/invalid, it falls back to th
 ## License note
 
 Exercise media remains under each upstream project's terms. This page is a personal, non-commercial workout helper.
+
+
+## GIF library (Admin picker)
+
+`data/gif-library.json` lists ~880 named GIFs for the Admin picker (search + category filters):
+
+- **Local** bundled files under `media/`
+- **[ExerciseGymGifsDB](https://github.com/JahelCuadrado/ExerciseGymGifsDB)** via jsDelivr CDN (`@v1.1.0`) — all stretching + cardio/plyo + common strength movements (presses, rows, curls, squats, etc.). Hotlinked per that project’s static API docs; not scraped from commercial sites.
+
