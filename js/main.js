@@ -190,6 +190,8 @@
 
   /* ── Exercise weight logs (device; shared key with sapna-health) ── */
   const WEIGHTS_LS = "sapna_health_weights_v1";
+  let logSheetExercise = "";
+  let logSheetScrollY = 0;
 
   function loadWeightLogs() {
     try {
@@ -210,72 +212,241 @@
     return new Date().toISOString().slice(0, 10);
   }
 
-  function lastWeightFor(name) {
-    const entries = loadWeightLogs()
+  function parseSetsReps(rx) {
+    const s = String(rx || "");
+    let m = s.match(/(\d+)\s*(?:sets?|×|x)\s*[×x]?\s*(\d+)/i);
+    if (m) return { sets: Number(m[1]), reps: Number(m[2]) };
+    m = s.match(/(\d+)\s*[×x]\s*(\d+)/);
+    if (m) return { sets: Number(m[1]), reps: Number(m[2]) };
+    return { sets: null, reps: null };
+  }
+
+  function entrySets(e) {
+    if (e.sets != null && e.sets !== "") return Number(e.sets);
+    return parseSetsReps(e.rx).sets;
+  }
+
+  function entryReps(e) {
+    if (e.reps != null && e.reps !== "") return Number(e.reps);
+    return parseSetsReps(e.rx).reps;
+  }
+
+  function entriesForExercise(name) {
+    return loadWeightLogs()
       .entries.filter((e) => e.exercise === name && (e.kind || "main") === "main")
-      .sort((a, b) => a.date.localeCompare(b.date));
+      .sort((a, b) => a.date.localeCompare(b.date) || Number(a.id) - Number(b.id));
+  }
+
+  function lastWeightFor(name) {
+    const entries = entriesForExercise(name);
     return entries[entries.length - 1] || null;
   }
 
-  function addWeightLog({ exercise, weight, rx }) {
+  function addWeightLog({ exercise, weight, sets, reps }) {
     const data = loadWeightLogs();
+    const s = Number(sets);
+    const r = Number(reps);
     data.entries.push({
       id: Date.now() + Math.floor(Math.random() * 999),
       exercise,
       weight: Number(weight),
       date: todayISO(),
-      rx: rx || "",
+      sets: Number.isFinite(s) ? s : null,
+      reps: Number.isFinite(r) ? r : null,
+      rx: Number.isFinite(s) && Number.isFinite(r) ? `${s} × ${r}` : "",
       note: "",
       kind: "main",
     });
     saveWeightLogs(data);
   }
 
+  function lastLogSummary(name) {
+    const last = lastWeightFor(name);
+    if (!last) return "Tap LOG to record";
+    const s = entrySets(last);
+    const r = entryReps(last);
+    const sr = Number.isFinite(s) && Number.isFinite(r) ? ` · ${s}×${r}` : "";
+    return `Last: ${last.weight} kg · ${last.date}${sr}`;
+  }
+
   function moveLogHtml(move, sectionKind) {
     if (sectionKind === "stretch") return "";
     const name = move.name || "Move";
-    const last = lastWeightFor(name);
-    const lastLine = last
-      ? `Last: ${last.weight} kg · ${last.date}${last.rx ? " · " + escapeHtml(last.rx) : ""}`
-      : "Log weight for this exercise";
     return `<div class="move-log" data-move-name="${escapeAttr(name)}">
-      <p class="move-log-last">${lastLine}</p>
-      <div class="move-log-row">
-        <label>kg
-          <input type="number" inputmode="decimal" min="0" step="0.5" data-log-kg placeholder="0" />
-        </label>
-        <label>Sets × reps
-          <input type="text" data-log-rx placeholder="${escapeAttr(move.rx || "2 sets × 12")}" />
-        </label>
-        <button type="button" class="btn-log-weight" data-log-save>Log</button>
-      </div>
+      <p class="move-log-last">${escapeHtml(lastLogSummary(name))}</p>
+      <button type="button" class="btn-log-weight" data-log-open>LOG</button>
     </div>`;
+  }
+
+  function refreshMoveLogSummaries() {
+    document.querySelectorAll(".move-log[data-move-name]").forEach((box) => {
+      const name = box.getAttribute("data-move-name") || "";
+      const last = box.querySelector(".move-log-last");
+      if (last) last.textContent = lastLogSummary(name);
+    });
+  }
+
+  function fillLogSheetTable() {
+    const tbody = $("log-sheet-tbody");
+    const empty = $("log-sheet-empty");
+    if (!tbody) return;
+    const rows = entriesForExercise(logSheetExercise);
+    tbody.innerHTML = rows
+      .map((e) => {
+        const s = entrySets(e);
+        const r = entryReps(e);
+        return `<tr>
+          <td>${escapeHtml(e.date)}</td>
+          <td>${escapeHtml(String(e.weight))}</td>
+          <td>${Number.isFinite(s) ? s : "—"}</td>
+          <td>${Number.isFinite(r) ? r : "—"}</td>
+        </tr>`;
+      })
+      .join("");
+    if (empty) empty.hidden = rows.length > 0;
+  }
+
+  function syncLogSheetViewport() {
+    const overlay = $("log-sheet");
+    if (!overlay || overlay.hidden) return;
+    const vv = window.visualViewport;
+    if (!vv) {
+      overlay.style.cssText = "";
+      return;
+    }
+    overlay.style.position = "fixed";
+    overlay.style.top = vv.offsetTop + "px";
+    overlay.style.left = vv.offsetLeft + "px";
+    overlay.style.width = vv.width + "px";
+    overlay.style.height = vv.height + "px";
+    overlay.style.right = "auto";
+    overlay.style.bottom = "auto";
+  }
+
+  function openLogSheet(name) {
+    const overlay = $("log-sheet");
+    const title = $("log-sheet-title");
+    if (!overlay || !name) return;
+    logSheetExercise = name;
+    if (title) title.textContent = name;
+    fillLogSheetTable();
+    const status = $("log-sheet-status");
+    if (status) {
+      status.hidden = true;
+      status.textContent = "";
+    }
+    const kg = $("log-sheet-kg");
+    const sets = $("log-sheet-sets");
+    const reps = $("log-sheet-reps");
+    if (kg) kg.value = "";
+    if (sets) sets.value = "";
+    if (reps) reps.value = "";
+    logSheetScrollY = window.scrollY || 0;
+    overlay.hidden = false;
+    overlay.classList.add("is-open");
+    document.body.classList.add("log-sheet-open");
+    document.body.style.top = `-${logSheetScrollY}px`;
+    syncLogSheetViewport();
+    /* Focus after paint; avoid remounting — inputs are static in index.html */
+    setTimeout(() => {
+      try {
+        kg?.focus({ preventScroll: true });
+      } catch {
+        try {
+          kg?.focus();
+        } catch (_) {}
+      }
+    }, 80);
+  }
+
+  function closeLogSheet() {
+    const overlay = $("log-sheet");
+    if (!overlay) return;
+    const active = document.activeElement;
+    if (active && overlay.contains(active)) {
+      try {
+        active.blur();
+      } catch (_) {}
+    }
+    overlay.hidden = true;
+    overlay.classList.remove("is-open");
+    overlay.style.cssText = "";
+    document.body.classList.remove("log-sheet-open");
+    document.body.style.top = "";
+    window.scrollTo(0, logSheetScrollY);
+    logSheetExercise = "";
+    refreshMoveLogSummaries();
   }
 
   function wireMoveLogs() {
     const root = $("sections");
-    if (!root || root.dataset.logWired === "1") return;
-    root.dataset.logWired = "1";
-    root.addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-log-save]");
-      if (!btn) return;
-      const box = btn.closest(".move-log");
-      if (!box) return;
-      const name = box.getAttribute("data-move-name") || "";
-      const kgInput = box.querySelector("[data-log-kg]");
-      const rxInput = box.querySelector("[data-log-rx]");
-      const weight = Number(kgInput?.value);
-      if (!name || !Number.isFinite(weight)) {
-        const last = box.querySelector(".move-log-last");
-        if (last) last.textContent = "Enter a weight in kg.";
+    if (root && root.dataset.logWired !== "1") {
+      root.dataset.logWired = "1";
+      root.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-log-open]");
+        if (!btn) return;
+        const box = btn.closest(".move-log");
+        const name = box?.getAttribute("data-move-name") || "";
+        if (name) openLogSheet(name);
+      });
+    }
+
+    const overlay = $("log-sheet");
+    if (!overlay || overlay.dataset.logWired === "1") return;
+    overlay.dataset.logWired = "1";
+
+    $("log-sheet-close")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      closeLogSheet();
+    });
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) closeLogSheet();
+    });
+    $("log-sheet-form")?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const kg = Number($("log-sheet-kg")?.value);
+      const sets = Number($("log-sheet-sets")?.value);
+      const reps = Number($("log-sheet-reps")?.value);
+      const status = $("log-sheet-status");
+      if (!logSheetExercise || !Number.isFinite(kg)) {
+        if (status) {
+          status.hidden = false;
+          status.textContent = "Enter kg.";
+          status.className = "log-sheet-status is-error";
+        }
         return;
       }
-      const rx = (rxInput?.value || "").trim();
-      addWeightLog({ exercise: name, weight, rx });
-      if (kgInput) kgInput.value = "";
-      const last = box.querySelector(".move-log-last");
-      if (last) last.textContent = `Logged ${weight} kg today${rx ? " · " + rx : ""}.`;
+      if (!Number.isFinite(sets) || !Number.isFinite(reps)) {
+        if (status) {
+          status.hidden = false;
+          status.textContent = "Enter sets and reps.";
+          status.className = "log-sheet-status is-error";
+        }
+        return;
+      }
+      addWeightLog({ exercise: logSheetExercise, weight: kg, sets, reps });
+      /* Update table only — do not remount the sheet or page */
+      fillLogSheetTable();
+      if ($("log-sheet-kg")) $("log-sheet-kg").value = "";
+      if ($("log-sheet-sets")) $("log-sheet-sets").value = "";
+      if ($("log-sheet-reps")) $("log-sheet-reps").value = "";
+      if (status) {
+        status.hidden = false;
+        status.textContent = `Saved ${kg} kg · ${sets}×${reps}.`;
+        status.className = "log-sheet-status is-ok";
+      }
+      refreshMoveLogSummaries();
+      try {
+        $("log-sheet-kg")?.focus({ preventScroll: true });
+      } catch (_) {}
     });
+
+    const onVv = () => syncLogSheetViewport();
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener("resize", onVv);
+      window.visualViewport.addEventListener("scroll", onVv);
+    }
+    window.addEventListener("resize", onVv);
   }
 
 
