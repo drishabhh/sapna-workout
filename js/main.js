@@ -187,6 +187,98 @@
   }
 
 
+
+  /* ── Exercise weight logs (device; shared key with sapna-health) ── */
+  const WEIGHTS_LS = "sapna_health_weights_v1";
+
+  function loadWeightLogs() {
+    try {
+      const raw = localStorage.getItem(WEIGHTS_LS);
+      if (!raw) return { entries: [] };
+      const data = JSON.parse(raw);
+      return { entries: Array.isArray(data.entries) ? data.entries : [] };
+    } catch {
+      return { entries: [] };
+    }
+  }
+
+  function saveWeightLogs(data) {
+    localStorage.setItem(WEIGHTS_LS, JSON.stringify(data));
+  }
+
+  function todayISO() {
+    return new Date().toISOString().slice(0, 10);
+  }
+
+  function lastWeightFor(name) {
+    const entries = loadWeightLogs()
+      .entries.filter((e) => e.exercise === name && (e.kind || "main") === "main")
+      .sort((a, b) => a.date.localeCompare(b.date));
+    return entries[entries.length - 1] || null;
+  }
+
+  function addWeightLog({ exercise, weight, rx }) {
+    const data = loadWeightLogs();
+    data.entries.push({
+      id: Date.now() + Math.floor(Math.random() * 999),
+      exercise,
+      weight: Number(weight),
+      date: todayISO(),
+      rx: rx || "",
+      note: "",
+      kind: "main",
+    });
+    saveWeightLogs(data);
+  }
+
+  function moveLogHtml(move, sectionKind) {
+    if (sectionKind === "stretch") return "";
+    const name = move.name || "Move";
+    const last = lastWeightFor(name);
+    const lastLine = last
+      ? `Last: ${last.weight} kg · ${last.date}${last.rx ? " · " + escapeHtml(last.rx) : ""}`
+      : "Log weight for this exercise";
+    return `<div class="move-log" data-move-name="${escapeAttr(name)}">
+      <p class="move-log-last">${lastLine}</p>
+      <div class="move-log-row">
+        <label>kg
+          <input type="number" inputmode="decimal" min="0" step="0.5" data-log-kg placeholder="0" />
+        </label>
+        <label>Sets × reps
+          <input type="text" data-log-rx placeholder="${escapeAttr(move.rx || "2 sets × 12")}" />
+        </label>
+        <button type="button" class="btn-log-weight" data-log-save>Log</button>
+      </div>
+    </div>`;
+  }
+
+  function wireMoveLogs() {
+    const root = $("sections");
+    if (!root || root.dataset.logWired === "1") return;
+    root.dataset.logWired = "1";
+    root.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-log-save]");
+      if (!btn) return;
+      const box = btn.closest(".move-log");
+      if (!box) return;
+      const name = box.getAttribute("data-move-name") || "";
+      const kgInput = box.querySelector("[data-log-kg]");
+      const rxInput = box.querySelector("[data-log-rx]");
+      const weight = Number(kgInput?.value);
+      if (!name || !Number.isFinite(weight)) {
+        const last = box.querySelector(".move-log-last");
+        if (last) last.textContent = "Enter a weight in kg.";
+        return;
+      }
+      const rx = (rxInput?.value || "").trim();
+      addWeightLog({ exercise: name, weight, rx });
+      if (kgInput) kgInput.value = "";
+      const last = box.querySelector(".move-log-last");
+      if (last) last.textContent = `Logged ${weight} kg today${rx ? " · " + rx : ""}.`;
+    });
+  }
+
+
   function renderPlan(plan) {
     currentPlan = plan;
     $("hero-headline").textContent = plan.headline || DEFAULT_PLAN.headline;
@@ -200,12 +292,14 @@
     const root = $("sections");
     root.innerHTML = (plan.sections || [])
       .map((section) => {
+        const sectionKind = section.kind === "stretch" || section.id === "stretching" ? "stretch" : "main";
         const moves = (section.moves || [])
           .map(
-            (move) => `<li class="move">
+            (move) => `<li class="move" data-kind="${sectionKind}">
             <div class="move-copy">
               <h3>${escapeHtml(move.name)}</h3>
               <p class="rx">${formatRx(move.rx)}</p>
+              ${moveLogHtml(move, sectionKind)}
             </div>
             ${moveDemoHtml(move)}
           </li>`
@@ -223,6 +317,7 @@
       .join("");
 
     observeMoves();
+    wireMoveLogs();
   }
 
   function observeMoves() {

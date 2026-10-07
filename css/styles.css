@@ -1153,3 +1153,73 @@ body.admin-open {
 .gif-menu-item.is-equipment strong {
   color: var(--gold-soft, #e8c98a);
 }
+
+
+/* —— Per-exercise weight log (main moves only) —— */
+.move-log {
+  margin-top: 0.75rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--line);
+}
+
+.move-log-last {
+  margin: 0 0 0.5rem;
+  font-size: 0.8rem;
+  color: var(--gold-soft, #e8c98a);
+}
+
+.move-log-row {
+  display: grid;
+  grid-template-columns: 4.5rem 1fr auto;
+  gap: 0.45rem;
+  align-items: end;
+}
+
+.move-log-row label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: rgba(243, 238, 228, 0.5);
+}
+
+.move-log-row input {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(5, 15, 14, 0.75);
+  color: var(--cream);
+  font: inherit;
+  font-size: 16px;
+  padding: 0.45rem 0.55rem;
+}
+
+.btn-log-weight {
+  appearance: none;
+  border: none;
+  border-radius: 999px;
+  min-height: 42px;
+  padding: 0.45rem 0.95rem;
+  background: var(--gold);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.btn-log-weight:active {
+  transform: scale(0.98);
+}
+
+@media (min-width: 640px) {
+  .move-log-row {
+    max-width: 22rem;
+  }
+}
