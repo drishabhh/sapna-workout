@@ -40,7 +40,7 @@
   const DEFAULT_PLAN = {
     updatedAt: null,
     headline: "Aaj ka workout",
-    support: "Stretch, cycle or walk, then strength — with form demos for every move.",
+    support: "Stretch · move · lift — every demo ready when she is.",
     restNote: {
       title: "Rest & water",
       body: "Rest 1–1.5 min between sets. Drink water — not cold; warm or room temp, sip by sip.",
