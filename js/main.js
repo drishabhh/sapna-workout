@@ -130,11 +130,139 @@
     </figure>`;
   }
 
-  function moveDemoHtml(move) {
-    if (move.demo === "svg-leg-swing" && !move.gif) return legSwingSvg();
-    const src = move.gif || "media/bodyweight-squats.gif";
-    const alt = `Demo: ${move.name}`;
-    return `<figure class="demo"><img src="${escapeAttr(src)}" alt="${escapeAttr(alt)}" width="360" height="360" loading="lazy" /></figure>`;
+  function resolveGifSrc(move) {
+    if (move?.gif) return move.gif;
+    if (move?.demo === "svg-leg-swing") return "media/leg-swings.gif";
+    return "media/bodyweight-squats.gif";
+  }
+
+  /** Compact preview above LOG — lazy via data-src + IntersectionObserver */
+  function moveGifPreviewHtml(move) {
+    const name = move.name || "Move";
+    if (move.demo === "svg-leg-swing" && !move.gif) {
+      /* Prefer real GIF when available; SVG kept as admin/offline fallback via lightbox kind */
+      const src = "media/leg-swings.gif";
+      return `<button type="button" class="gif-preview" data-gif-open data-gif-src="${escapeAttr(src)}" aria-label="Enlarge form demo for ${escapeAttr(name)}">
+        <span class="gif-preview-frame">
+          <img data-src="${escapeAttr(src)}" alt="" width="320" height="140" decoding="async" />
+        </span>
+        <span class="gif-preview-hint">Tap to enlarge</span>
+      </button>`;
+    }
+    const src = resolveGifSrc(move);
+    return `<button type="button" class="gif-preview" data-gif-open data-gif-src="${escapeAttr(src)}" aria-label="Enlarge form demo for ${escapeAttr(name)}">
+      <span class="gif-preview-frame">
+        <img data-src="${escapeAttr(src)}" alt="" width="320" height="140" decoding="async" />
+      </span>
+      <span class="gif-preview-hint">Tap to enlarge</span>
+    </button>`;
+  }
+
+  function wireGifLazyLoad(root) {
+    const imgs = (root || document).querySelectorAll(".gif-preview img[data-src]");
+    const load = (img) => {
+      const src = img.getAttribute("data-src");
+      if (!src || img.dataset.loaded === "1") return;
+      img.src = src;
+      img.dataset.loaded = "1";
+    };
+    if (!("IntersectionObserver" in window)) {
+      imgs.forEach(load);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          load(entry.target);
+          io.unobserve(entry.target);
+        });
+      },
+      { rootMargin: "120px 0px", threshold: 0.01 }
+    );
+    imgs.forEach((img) => io.observe(img));
+  }
+
+  function openGifLightbox({ src, kind, title }) {
+    const overlay = $("gif-lightbox");
+    const img = $("gif-lightbox-img");
+    const svgHost = $("gif-lightbox-svg");
+    const label = $("gif-lightbox-title");
+    if (!overlay) return;
+    if (label) label.textContent = title || "Form demo";
+    if (kind === "svg") {
+      if (img) {
+        img.hidden = true;
+        img.removeAttribute("src");
+      }
+      if (svgHost) {
+        svgHost.hidden = false;
+        svgHost.innerHTML = legSwingSvg();
+      }
+    } else {
+      if (svgHost) {
+        svgHost.hidden = true;
+        svgHost.innerHTML = "";
+      }
+      if (img) {
+        img.hidden = false;
+        img.alt = title ? `Form demo: ${title}` : "Form demo";
+        img.src = src || "";
+      }
+    }
+    overlay.hidden = false;
+    document.body.classList.add("gif-lightbox-open");
+    requestAnimationFrame(() => overlay.classList.add("is-open"));
+    try {
+      $("gif-lightbox-close")?.focus({ preventScroll: true });
+    } catch (_) {}
+  }
+
+  function closeGifLightbox() {
+    const overlay = $("gif-lightbox");
+    if (!overlay || overlay.hidden) return;
+    overlay.classList.remove("is-open");
+    document.body.classList.remove("gif-lightbox-open");
+    setTimeout(() => {
+      overlay.hidden = true;
+      const img = $("gif-lightbox-img");
+      if (img) {
+        img.removeAttribute("src");
+        img.alt = "";
+      }
+      const svgHost = $("gif-lightbox-svg");
+      if (svgHost) svgHost.innerHTML = "";
+    }, 220);
+  }
+
+  function wireGifLightbox() {
+    const root = $("sections");
+    if (root && root.dataset.gifWired !== "1") {
+      root.dataset.gifWired = "1";
+      root.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-gif-open]");
+        if (!btn) return;
+        e.preventDefault();
+        const card = btn.closest(".move");
+        const title = card?.querySelector("h3")?.textContent?.trim() || "Form demo";
+        const kind = btn.getAttribute("data-gif-kind") || "img";
+        const src = btn.getAttribute("data-gif-src") || btn.querySelector("img")?.getAttribute("data-src") || btn.querySelector("img")?.src || "";
+        openGifLightbox({ src, kind, title });
+      });
+    }
+    const overlay = $("gif-lightbox");
+    if (!overlay || overlay.dataset.gifWired === "1") return;
+    overlay.dataset.gifWired = "1";
+    $("gif-lightbox-close")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      closeGifLightbox();
+    });
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) closeGifLightbox();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeGifLightbox();
+    });
   }
 
   function escapeAttr(s) {
@@ -524,9 +652,9 @@
             <div class="move-copy">
               <h3>${escapeHtml(move.name)}</h3>
               <p class="rx">${formatRx(move.rx)}</p>
-              ${moveLogHtml(move, sectionKind)}
             </div>
-            ${moveDemoHtml(move)}
+            ${moveGifPreviewHtml(move)}
+            ${moveLogHtml(move, sectionKind)}
           </li>`
           )
           .join("");
@@ -548,6 +676,8 @@
 
     observeMoves();
     wireMoveLogs();
+    wireGifLightbox();
+    wireGifLazyLoad($("sections"));
     updateSessionSteps();
   }
 
