@@ -432,10 +432,11 @@
       if ($("log-sheet-reps")) $("log-sheet-reps").value = "";
       if (status) {
         status.hidden = false;
-        status.textContent = `Saved ${kg} kg · ${sets}×${reps}.`;
+        status.textContent = `Saved ${kg} kg · ${sets}×${reps}. Nice — keep going.`;
         status.className = "log-sheet-status is-ok";
       }
       refreshMoveLogSummaries();
+      updateSessionSteps();
       try {
         $("log-sheet-kg")?.focus({ preventScroll: true });
       } catch (_) {}
@@ -450,10 +451,58 @@
   }
 
 
+  function updateSessionSteps() {
+    const plan = currentPlan || DEFAULT_PLAN;
+    const sections = plan.sections || [];
+    const stretch = sections.find((s) => s.kind === "stretch" || s.id === "stretching");
+    const mains = sections
+      .filter((s) => s.kind !== "stretch" && s.id !== "stretching")
+      .flatMap((s) => s.moves || []);
+    const logged = mains.filter((m) => lastWeightFor(m.name)).length;
+    const anyLog = logged > 0;
+    const allDone = mains.length > 0 && logged >= mains.length;
+    const hasStretch = !!(stretch && (stretch.moves || []).length);
+
+    document.querySelectorAll(".session-step").forEach((el) => {
+      const step = el.getAttribute("data-step");
+      el.classList.remove("is-active", "is-done");
+      if (step === "stretch") {
+        el.classList.add(anyLog || !hasStretch ? "is-done" : "is-active");
+      } else if (step === "lift") {
+        if (allDone) el.classList.add("is-done");
+        else if (anyLog || !hasStretch) el.classList.add("is-active");
+      } else if (step === "done" && allDone) {
+        el.classList.add("is-active", "is-done");
+      }
+    });
+
+    const bar = $("session-done-bar");
+    if (bar) {
+      bar.hidden = !allDone;
+      if (allDone) {
+        const p = bar.querySelector("p");
+        if (p) {
+          p.innerHTML = `<strong>Session complete.</strong> ${logged}/${mains.length} lifts logged on this phone.`;
+        }
+      }
+    }
+
+    const start = $("start-session");
+    if (start) {
+      start.setAttribute("href", hasStretch && !anyLog ? "#session-stretch" : "#session-lifts");
+      start.textContent = allDone ? "Review session" : anyLog ? "Continue lifts" : "Start session";
+    }
+  }
+
   function renderPlan(plan) {
     currentPlan = plan;
     $("hero-headline").textContent = plan.headline || DEFAULT_PLAN.headline;
-    $("hero-support").textContent = plan.support || DEFAULT_PLAN.support;
+    /* Keep flow-oriented support; admin support still shown as secondary if present */
+    const supportEl = $("hero-support");
+    if (supportEl) {
+      supportEl.textContent =
+        plan.support || "Start → Stretch (view) → Lift & LOG — big targets, clear history.";
+    }
     $("rest-title").textContent = plan.restNote?.title || DEFAULT_PLAN.restNote.title;
     const restPlain = plan.restNote?.body;
     $("rest-body").innerHTML = restPlain
@@ -464,6 +513,11 @@
     root.innerHTML = (plan.sections || [])
       .map((section) => {
         const sectionKind = section.kind === "stretch" || section.id === "stretching" ? "stretch" : "main";
+        const sessionId = sectionKind === "stretch" ? "session-stretch" : "session-lifts";
+        const stepLabel =
+          sectionKind === "stretch"
+            ? `<span class="block-step">1 · Stretch · view only</span>`
+            : `<span class="block-step">2 · Lift · tap LOG</span>`;
         const moves = (section.moves || [])
           .map(
             (move) => `<li class="move" data-kind="${sectionKind}">
@@ -476,11 +530,16 @@
           </li>`
           )
           .join("");
-        return `<section class="block" id="${escapeAttr(section.id)}">
+        return `<section class="block" id="${escapeAttr(section.id || sessionId)}" data-session="${sessionId}">
           <header class="block-head">
+            ${stepLabel}
             <p class="eyebrow">${escapeHtml(section.eyebrow || "")}</p>
-            <h2>${escapeHtml(section.title || "")}</h2>
-            <p class="block-sub">${escapeHtml(section.subtitle || "")}</p>
+            <h2 id="${sessionId}">${escapeHtml(section.title || "")}</h2>
+            <p class="block-sub">${escapeHtml(
+              sectionKind === "stretch"
+                ? "Warm up here — no weight logs on stretches."
+                : section.subtitle || "Open LOG for kg · sets · reps."
+            )}</p>
           </header>
           <ul class="moves">${moves}</ul>
         </section>`;
@@ -489,6 +548,7 @@
 
     observeMoves();
     wireMoveLogs();
+    updateSessionSteps();
   }
 
   function observeMoves() {
@@ -1556,15 +1616,17 @@
   }
 
   function wireLandingCta() {
-    const cta = document.querySelector('a.cta[href="#workout"]');
+    const cta = $("start-session") || document.querySelector("a.cta[href^='#']");
     if (!cta || cta.dataset.wired === "1") return;
     cta.dataset.wired = "1";
     cta.addEventListener("click", (e) => {
-      const target = document.getElementById("workout");
+      const href = cta.getAttribute("href") || "#session-stretch";
+      const id = href.replace(/^#/, "") || "session-stretch";
+      const target = document.getElementById(id) || document.getElementById("workout");
       if (!target) return;
       e.preventDefault();
       window.__sapnaAllowScroll = true;
-      history.replaceState(null, "", "#workout");
+      history.replaceState(null, "", "#" + (target.id || "workout"));
       target.scrollIntoView({ behavior: "smooth", block: "start" });
     });
   }

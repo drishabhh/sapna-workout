@@ -171,11 +171,11 @@
       return false;
     };
   </script>
-  <script src="./js/admin-auth.js?v=20261008crazy"></script>
+  <script src="./js/admin-auth.js?v=20261011inspired"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./css/styles.css?v=20261008crazy" />
+  <link rel="stylesheet" href="./css/styles.css?v=20261011inspired" />
 </head>
 <body>
   <div class="atmosphere" aria-hidden="true"></div>
@@ -187,9 +187,15 @@
     <div class="hero-stage">
       <p class="brand">Sapna</p>
       <h1 class="headline" id="hero-headline">Aaj ka workout</h1>
-      <p class="support" id="hero-support">Stretch · move · lift — every demo ready when she is.</p>
+      <p class="support" id="hero-support">Start → Stretch (view) → Lift &amp; LOG — big targets, clear history.</p>
+      <div class="session-steps" aria-label="Session steps">
+        <span class="session-step is-active" data-step="stretch">1 Stretch</span>
+        <span class="session-step" data-step="lift">2 Lift &amp; log</span>
+        <span class="session-step" data-step="done">3 Done</span>
+      </div>
       <div class="cta-row">
-        <a class="cta" href="#workout">Start workout</a>
+        <a class="cta" id="start-session" href="#session-stretch">Start session</a>
+        <a class="cta cta-ghost" href="https://drishabhh.github.io/sapna-health/#logs" target="_blank" rel="noopener">Health logs</a>
       </div>
     </div>
   </header>
@@ -201,6 +207,10 @@
     </aside>
 
     <div id="sections"></div>
+    <div class="session-done-bar" id="session-done-bar" hidden>
+      <p><strong>Nice work.</strong> Lifts are saved on this phone.</p>
+      <a class="cta" href="https://drishabhh.github.io/sapna-health/#logs" target="_blank" rel="noopener">See all logs</a>
+    </div>
   </main>
 
   <footer class="site-foot">
@@ -366,6 +376,6 @@
     </div>
   </div>
 
-  <script src="./js/main.js?v=20261008crazy2"></script>
+  <script src="./js/main.js?v=20261011inspired"></script>
 </body>
 </html>
