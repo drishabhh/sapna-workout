@@ -321,10 +321,14 @@
 
 
 
-  /* ── Exercise weight logs (device; shared key with sapna-health) ── */
+  /* ── Exercise weight logs (device + cloud sync via sapna-health) ── */
   const WEIGHTS_LS = "sapna_health_weights_v1";
+  const WEIGHTS_CLOUD_URL = "https://drishabhh.github.io/sapna-health/data/weights.json";
+  const WEIGHTS_REPO = { owner: "drishabhh", name: "sapna-health", branch: "main" };
+  const WEIGHTS_PATH = "data/weights.json";
   let logSheetExercise = "";
   let logSheetScrollY = 0;
+  let weightsAutoSyncTimer = 0;
 
   function loadWeightLogs() {
     try {
@@ -339,6 +343,96 @@
 
   function saveWeightLogs(data) {
     localStorage.setItem(WEIGHTS_LS, JSON.stringify(data));
+  }
+
+  function mergeWeightCloud(cloud) {
+    if (!cloud || !Array.isArray(cloud.entries)) return 0;
+    const data = loadWeightLogs();
+    const byId = new Map(data.entries.map((e) => [String(e.id), e]));
+    let added = 0;
+    cloud.entries.forEach((e) => {
+      if (!e || e.id == null) return;
+      if ((e.kind || "main") === "stretch") return;
+      const key = String(e.id);
+      if (byId.has(key)) return;
+      byId.set(key, { ...e, kind: "main" });
+      added += 1;
+    });
+    if (added) saveWeightLogs({ entries: [...byId.values()] });
+    return added;
+  }
+
+  async function pullWeightCloud() {
+    try {
+      const res = await fetch(`${WEIGHTS_CLOUD_URL}?t=${Date.now()}`, { cache: "no-store" });
+      if (!res.ok) return 0;
+      const added = mergeWeightCloud(await res.json());
+      if (added) refreshMoveLogSummaries();
+      return added;
+    } catch {
+      return 0;
+    }
+  }
+
+  async function githubPutHealthFile(path, contentBase64, message, token) {
+    const api = `https://api.github.com/repos/${WEIGHTS_REPO.owner}/${WEIGHTS_REPO.name}/contents/${path}`;
+    let sha;
+    const getRes = await fetch(api, {
+      headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json" },
+    });
+    if (getRes.ok) {
+      const cur = await getRes.json();
+      sha = cur.sha;
+    }
+    const body = { message, content: contentBase64, branch: WEIGHTS_REPO.branch };
+    if (sha) body.sha = sha;
+    const putRes = await fetch(api, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Accept: "application/vnd.github+json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(body),
+    });
+    if (!putRes.ok) {
+      const err = await putRes.json().catch(() => ({}));
+      throw new Error(err.message || `GitHub ${putRes.status}`);
+    }
+  }
+
+  function b64EncodeUnicodeWeights(str) {
+    return btoa(unescape(encodeURIComponent(str)));
+  }
+
+  async function publishWeightCloud() {
+    const token = localStorage.getItem(LS_TOKEN) || "";
+    if (!token) return false;
+    await pullWeightCloud();
+    const data = loadWeightLogs();
+    const entries = (data.entries || []).filter((e) => (e.kind || "main") === "main");
+    const payload = {
+      version: 1,
+      updatedAt: new Date().toISOString(),
+      label: "Sapna lift logs — synced across her phones via Pages.",
+      entries,
+    };
+    await githubPutHealthFile(
+      WEIGHTS_PATH,
+      b64EncodeUnicodeWeights(JSON.stringify(payload, null, 2) + "\n"),
+      `Update lift logs (${todayISO()})`,
+      token
+    );
+    return true;
+  }
+
+  function scheduleWeightAutoSync() {
+    if (!localStorage.getItem(LS_TOKEN)) return;
+    if (weightsAutoSyncTimer) clearTimeout(weightsAutoSyncTimer);
+    weightsAutoSyncTimer = setTimeout(() => {
+      weightsAutoSyncTimer = 0;
+      publishWeightCloud().catch(() => {});
+    }, 1400);
   }
 
   function todayISO() {
@@ -391,6 +485,7 @@
       kind: "main",
     });
     saveWeightLogs(data);
+    scheduleWeightAutoSync();
   }
 
   function lastLogSummary(name) {
@@ -565,7 +660,9 @@
       if ($("log-sheet-reps")) $("log-sheet-reps").value = "";
       if (status) {
         status.hidden = false;
-        status.textContent = `Saved ${kg} kg · ${sets}×${reps}. Nice — keep going.`;
+        status.textContent = localStorage.getItem(LS_TOKEN)
+          ? `Saved ${kg} kg · ${sets}×${reps}. Syncing to other phones…`
+          : `Saved ${kg} kg · ${sets}×${reps}. Save Admin PAT to sync phones.`;
         status.className = "log-sheet-status is-ok";
       }
       refreshMoveLogSummaries();
@@ -1786,6 +1883,10 @@
       console.error("Plan render failed", err);
       renderPlan(clone(DEFAULT_PLAN));
     }
+    try {
+      await pullWeightCloud();
+      updateSessionSteps();
+    } catch (_) {}
     /* Layout can shift after plan/GIF load — keep first paint at hero top */
     pinInitialLanding();
     requestAnimationFrame(pinInitialLanding);
