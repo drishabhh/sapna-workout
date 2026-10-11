@@ -327,38 +327,59 @@
   const WEIGHTS_REPO = { owner: "drishabhh", name: "sapna-health", branch: "main" };
   const WEIGHTS_PATH = "data/weights.json";
   let logSheetExercise = "";
+  let logSheetEditingId = null;
   let logSheetScrollY = 0;
   let weightsAutoSyncTimer = 0;
 
   function loadWeightLogs() {
     try {
       const raw = localStorage.getItem(WEIGHTS_LS);
-      if (!raw) return { entries: [] };
+      if (!raw) return { entries: [], deletedIds: [] };
       const data = JSON.parse(raw);
-      return { entries: Array.isArray(data.entries) ? data.entries : [] };
+      return {
+        entries: Array.isArray(data.entries) ? data.entries : [],
+        deletedIds: Array.isArray(data.deletedIds) ? data.deletedIds.map(String) : [],
+      };
     } catch {
-      return { entries: [] };
+      return { entries: [], deletedIds: [] };
     }
   }
 
   function saveWeightLogs(data) {
-    localStorage.setItem(WEIGHTS_LS, JSON.stringify(data));
+    localStorage.setItem(
+      WEIGHTS_LS,
+      JSON.stringify({
+        entries: Array.isArray(data.entries) ? data.entries : [],
+        deletedIds: Array.isArray(data.deletedIds) ? data.deletedIds.map(String) : [],
+      })
+    );
   }
 
   function mergeWeightCloud(cloud) {
     if (!cloud || !Array.isArray(cloud.entries)) return 0;
     const data = loadWeightLogs();
-    const byId = new Map(data.entries.map((e) => [String(e.id), e]));
+    const deleted = new Set([
+      ...(data.deletedIds || []).map(String),
+      ...(Array.isArray(cloud.deletedIds) ? cloud.deletedIds.map(String) : []),
+    ]);
+    const byId = new Map(
+      data.entries
+        .filter((e) => e && e.id != null && !deleted.has(String(e.id)))
+        .map((e) => [String(e.id), e])
+    );
     let added = 0;
     cloud.entries.forEach((e) => {
       if (!e || e.id == null) return;
       if ((e.kind || "main") === "stretch") return;
       const key = String(e.id);
-      if (byId.has(key)) return;
+      if (deleted.has(key) || byId.has(key)) return;
       byId.set(key, { ...e, kind: "main" });
       added += 1;
     });
-    if (added) saveWeightLogs({ entries: [...byId.values()] });
+    const next = { entries: [...byId.values()], deletedIds: [...deleted] };
+    if (added || next.deletedIds.length !== (data.deletedIds || []).length || next.entries.length !== data.entries.length) {
+      saveWeightLogs(next);
+    }
     return added;
   }
 
@@ -412,12 +433,16 @@
     if (!token) return false;
     await pullWeightCloud();
     const data = loadWeightLogs();
-    const entries = (data.entries || []).filter((e) => (e.kind || "main") === "main");
+    const deleted = new Set((data.deletedIds || []).map(String));
+    const entries = (data.entries || []).filter(
+      (e) => (e.kind || "main") === "main" && e && e.id != null && !deleted.has(String(e.id))
+    );
     const payload = {
       version: 1,
       updatedAt: new Date().toISOString(),
       label: "Sapna lift logs — synced across her phones via Pages.",
       entries,
+      deletedIds: [...deleted],
     };
     await githubPutHealthFile(
       WEIGHTS_PATH,
@@ -499,6 +524,48 @@
     scheduleWeightAutoSync();
   }
 
+  function getWeightLog(id) {
+    const key = String(id);
+    return loadWeightLogs().entries.find((e) => String(e.id) === key) || null;
+  }
+
+  function updateWeightLog(id, { weight, sets, reps } = {}) {
+    const data = loadWeightLogs();
+    const key = String(id);
+    const idx = data.entries.findIndex((e) => String(e.id) === key);
+    if (idx < 0) return false;
+    const cur = data.entries[idx];
+    const s = sets != null && sets !== "" ? Number(sets) : entrySets(cur);
+    const r = reps != null && reps !== "" ? Number(reps) : entryReps(cur);
+    const w = weight != null && weight !== "" ? Number(weight) : Number(cur.weight);
+    if (!Number.isFinite(w) || !Number.isFinite(s) || !Number.isFinite(r)) return false;
+    data.entries[idx] = {
+      ...cur,
+      weight: w,
+      sets: s,
+      reps: r,
+      rx: `${s} × ${r}`,
+      kind: "main",
+    };
+    saveWeightLogs(data);
+    scheduleWeightAutoSync();
+    return true;
+  }
+
+  function removeWeightLog(id) {
+    const data = loadWeightLogs();
+    const key = String(id);
+    const before = data.entries.length;
+    data.entries = data.entries.filter((e) => String(e.id) !== key);
+    if (data.entries.length === before) return false;
+    const deleted = new Set((data.deletedIds || []).map(String));
+    deleted.add(key);
+    data.deletedIds = [...deleted];
+    saveWeightLogs(data);
+    scheduleWeightAutoSync();
+    return true;
+  }
+
   function lastLogSummary(name) {
     const last = lastWeightFor(name);
     if (!last) return "Tap LOG to record";
@@ -525,6 +592,48 @@
     });
   }
 
+  function setLogSheetEditMode(id) {
+    logSheetEditingId = id == null ? null : id;
+    const banner = $("log-sheet-edit-banner");
+    const save = $("log-sheet-save");
+    const del = $("log-sheet-delete");
+    const cancel = $("log-sheet-cancel");
+    const editing = logSheetEditingId != null;
+    if (banner) banner.hidden = !editing;
+    if (save) save.textContent = editing ? "Update" : "Save entry";
+    if (del) del.hidden = !editing;
+    if (cancel) cancel.hidden = !editing;
+    document.querySelectorAll("#log-sheet-tbody tr").forEach((tr) => {
+      tr.classList.toggle("is-selected", String(tr.getAttribute("data-log-id")) === String(logSheetEditingId || ""));
+    });
+  }
+
+  function clearLogSheetForm() {
+    if ($("log-sheet-kg")) $("log-sheet-kg").value = "";
+    if ($("log-sheet-sets")) $("log-sheet-sets").value = "";
+    if ($("log-sheet-reps")) $("log-sheet-reps").value = "";
+    setLogSheetEditMode(null);
+  }
+
+  function selectLogSheetRow(id) {
+    const entry = getWeightLog(id);
+    if (!entry) return;
+    if ($("log-sheet-kg")) $("log-sheet-kg").value = String(entry.weight ?? "");
+    if ($("log-sheet-sets")) $("log-sheet-sets").value = String(entrySets(entry) ?? "");
+    if ($("log-sheet-reps")) $("log-sheet-reps").value = String(entryReps(entry) ?? "");
+    setLogSheetEditMode(entry.id);
+    fillLogSheetTable();
+    const status = $("log-sheet-status");
+    if (status) {
+      status.hidden = false;
+      status.textContent = "Selected — change values & Update, or Delete.";
+      status.className = "log-sheet-status is-ok";
+    }
+    try {
+      $("log-sheet-kg")?.focus({ preventScroll: true });
+    } catch (_) {}
+  }
+
   function fillLogSheetTable() {
     const tbody = $("log-sheet-tbody");
     const empty = $("log-sheet-empty");
@@ -534,7 +643,8 @@
       .map((e) => {
         const s = entrySets(e);
         const r = entryReps(e);
-        return `<tr>
+        const selected = logSheetEditingId != null && String(logSheetEditingId) === String(e.id);
+        return `<tr data-log-id="${escapeHtml(String(e.id))}" class="log-sheet-row${selected ? " is-selected" : ""}" role="button" tabindex="0" aria-label="Edit log ${escapeHtml(e.date)}">
           <td>${escapeHtml(e.date)}</td>
           <td>${escapeHtml(String(e.weight))}</td>
           <td>${Number.isFinite(s) ? s : "—"}</td>
@@ -574,12 +684,7 @@
       status.hidden = true;
       status.textContent = "";
     }
-    const kg = $("log-sheet-kg");
-    const sets = $("log-sheet-sets");
-    const reps = $("log-sheet-reps");
-    if (kg) kg.value = "";
-    if (sets) sets.value = "";
-    if (reps) reps.value = "";
+    clearLogSheetForm();
     logSheetScrollY = window.scrollY || 0;
     overlay.hidden = false;
     overlay.classList.add("is-open");
@@ -589,10 +694,10 @@
     /* Focus after paint; avoid remounting — inputs are static in index.html */
     setTimeout(() => {
       try {
-        kg?.focus({ preventScroll: true });
+        $("log-sheet-kg")?.focus({ preventScroll: true });
       } catch {
         try {
-          kg?.focus();
+          $("log-sheet-kg")?.focus();
         } catch (_) {}
       }
     }, 80);
@@ -614,6 +719,7 @@
     document.body.style.top = "";
     window.scrollTo(0, logSheetScrollY);
     logSheetExercise = "";
+    logSheetEditingId = null;
     refreshMoveLogSummaries();
   }
 
@@ -663,24 +769,80 @@
         }
         return;
       }
-      addWeightLog({ exercise: logSheetExercise, weight: kg, sets, reps });
-      /* Update table only — do not remount the sheet or page */
-      fillLogSheetTable();
-      if ($("log-sheet-kg")) $("log-sheet-kg").value = "";
-      if ($("log-sheet-sets")) $("log-sheet-sets").value = "";
-      if ($("log-sheet-reps")) $("log-sheet-reps").value = "";
-      if (status) {
-        status.hidden = false;
-        status.textContent = localStorage.getItem(LS_TOKEN)
-          ? `Saved ${kg} kg · ${sets}×${reps}. Syncing to other phones…`
-          : `Saved ${kg} kg · ${sets}×${reps}. Save Admin PAT to sync phones.`;
-        status.className = "log-sheet-status is-ok";
+      if (logSheetEditingId != null) {
+        const ok = updateWeightLog(logSheetEditingId, { weight: kg, sets, reps });
+        if (!ok) {
+          if (status) {
+            status.hidden = false;
+            status.textContent = "Could not update that log.";
+            status.className = "log-sheet-status is-error";
+          }
+          return;
+        }
+        if (status) {
+          status.hidden = false;
+          status.textContent = localStorage.getItem(LS_TOKEN)
+            ? `Updated · ${kg} kg · ${sets}×${reps}. Syncing…`
+            : `Updated · ${kg} kg · ${sets}×${reps}.`;
+          status.className = "log-sheet-status is-ok";
+        }
+      } else {
+        addWeightLog({ exercise: logSheetExercise, weight: kg, sets, reps });
+        if (status) {
+          status.hidden = false;
+          status.textContent = localStorage.getItem(LS_TOKEN)
+            ? `Saved ${kg} kg · ${sets}×${reps}. Syncing to other phones…`
+            : `Saved ${kg} kg · ${sets}×${reps}. Save Admin PAT to sync phones.`;
+          status.className = "log-sheet-status is-ok";
+        }
       }
+      clearLogSheetForm();
+      fillLogSheetTable();
       refreshMoveLogSummaries();
       updateSessionSteps();
       try {
         $("log-sheet-kg")?.focus({ preventScroll: true });
       } catch (_) {}
+    });
+    $("log-sheet-cancel")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      clearLogSheetForm();
+      fillLogSheetTable();
+      const status = $("log-sheet-status");
+      if (status) {
+        status.hidden = false;
+        status.textContent = "Ready for a new entry.";
+        status.className = "log-sheet-status is-ok";
+      }
+    });
+    $("log-sheet-delete")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (logSheetEditingId == null) return;
+      if (!confirm("Delete this log?")) return;
+      const id = logSheetEditingId;
+      removeWeightLog(id);
+      clearLogSheetForm();
+      fillLogSheetTable();
+      refreshMoveLogSummaries();
+      updateSessionSteps();
+      const status = $("log-sheet-status");
+      if (status) {
+        status.hidden = false;
+        status.textContent = "Log deleted.";
+        status.className = "log-sheet-status is-ok";
+      }
+    });
+    $("log-sheet-tbody")?.addEventListener("click", (e) => {
+      const row = e.target.closest("tr[data-log-id]");
+      if (!row) return;
+      selectLogSheetRow(row.getAttribute("data-log-id"));
+    });
+    $("log-sheet-tbody")?.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" && e.key !== " ") return;
+      const row = e.target.closest("tr[data-log-id]");
+      if (!row) return;
+      e.preventDefault();
+      selectLogSheetRow(row.getAttribute("data-log-id"));
     });
 
     const onVv = () => syncLogSheetViewport();
@@ -1585,10 +1747,13 @@
 
   function openOverlay(el) {
     if (!el) return;
+    try {
+      if (typeof window.sapnaAdminDismissTokenSetup === "function") window.sapnaAdminDismissTokenSetup();
+    } catch (_) {}
     el.hidden = false;
     el.removeAttribute("hidden");
     el.classList.add("is-open");
-    el.style.cssText = "display:flex !important; position:fixed !important; inset:0 !important; z-index:99999 !important; opacity:1 !important; visibility:visible !important; pointer-events:auto !important; background:rgba(4,14,12,0.82);";
+    el.style.cssText = "display:flex !important; position:fixed !important; inset:0 !important; z-index:100002 !important; opacity:1 !important; visibility:visible !important; pointer-events:auto !important; background:rgba(4,14,12,0.82);";
     document.body.classList.add("admin-open");
   }
 
@@ -1626,8 +1791,11 @@
   }
 
   function openEditor() {
+    try {
+      if (typeof window.sapnaAdminDismissTokenSetup === "function") window.sapnaAdminDismissTokenSetup();
+    } catch (_) {}
     if ($("admin-token")) $("admin-token").value = getToken() ? "••••••••••••" : "";
-    fillEditorFromPlan(currentPlan);
+    fillEditorFromPlan(currentPlan || DEFAULT_PLAN);
     setStatus($("publish-status"), "");
     setStatus(
       $("token-status"),
@@ -1665,7 +1833,7 @@
   }
 
   function wireAdmin() {
-    // Bootstrap already opens the gate; still bind as backup on all Admin controls
+    /* #admin-trigger uses head onclick=sapnaAdminOpen — only bind extra data-admin-open controls */
     document.querySelectorAll("[data-admin-open]").forEach((btn) => {
       on(btn, "click", requestAdmin);
     });

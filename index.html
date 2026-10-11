@@ -50,8 +50,19 @@
   <title>Sapna — Today's Workout</title>
   <script>
     /* Must be in <head> so onclick= handlers work immediately — no dependency on main.js */
+    window.sapnaAdminDismissTokenSetup = function () {
+      var token = document.getElementById("token-setup");
+      if (!token) return;
+      token.hidden = true;
+      token.setAttribute("hidden", "");
+      token.classList.remove("is-open");
+      token.style.cssText = "";
+      document.body.classList.remove("token-setup-open");
+    };
     window.sapnaAdminOpen = function (ev) {
       try { if (ev && ev.preventDefault) ev.preventDefault(); } catch (e) {}
+      try { if (ev && ev.stopPropagation) ev.stopPropagation(); } catch (e) {}
+      window.sapnaAdminDismissTokenSetup();
       var gate = document.getElementById("admin-gate");
       var editor = document.getElementById("admin-editor");
       if (!gate) {
@@ -65,6 +76,7 @@
       } catch (e) {}
       if (editor) {
         editor.hidden = true;
+        editor.setAttribute("hidden", "");
         editor.classList.remove("is-open");
         editor.style.cssText = "";
       }
@@ -72,7 +84,7 @@
       gate.removeAttribute("hidden");
       gate.classList.add("is-open");
       /* Force visibility — beats stubborn mobile CSS/cache */
-      gate.style.cssText = "display:flex !important; position:fixed !important; inset:0 !important; z-index:99999 !important; opacity:1 !important; visibility:visible !important; pointer-events:auto !important; background:rgba(4,14,12,0.82);";
+      gate.style.cssText = "display:flex !important; position:fixed !important; inset:0 !important; z-index:100002 !important; opacity:1 !important; visibility:visible !important; pointer-events:auto !important; background:rgba(4,14,12,0.82);";
       document.body.classList.add("admin-open");
       var pw = document.getElementById("gate-password");
       var st = document.getElementById("gate-status");
@@ -106,6 +118,7 @@
       return false;
     };
     window.sapnaAdminShowEditor = function () {
+      window.sapnaAdminDismissTokenSetup();
       var gate = document.getElementById("admin-gate");
       var editor = document.getElementById("admin-editor");
       if (gate) {
@@ -118,11 +131,18 @@
         editor.hidden = false;
         editor.removeAttribute("hidden");
         editor.classList.add("is-open");
-        editor.style.cssText = "display:flex !important; position:fixed !important; inset:0 !important; z-index:99999 !important; opacity:1 !important; visibility:visible !important; pointer-events:auto !important; background:rgba(4,14,12,0.82);";
+        editor.style.cssText = "display:flex !important; position:fixed !important; inset:0 !important; z-index:100002 !important; opacity:1 !important; visibility:visible !important; pointer-events:auto !important; background:rgba(4,14,12,0.82);";
         document.body.classList.add("admin-open");
       }
-      if (typeof window.__sapnaOpenEditor === "function") {
-        try { window.__sapnaOpenEditor(); } catch (e) {}
+      function fill() {
+        if (typeof window.__sapnaOpenEditor === "function") {
+          try { window.__sapnaOpenEditor(); return true; } catch (e) { return false; }
+        }
+        return false;
+      }
+      if (!fill()) {
+        setTimeout(fill, 80);
+        setTimeout(fill, 250);
       }
       return false;
     };
@@ -171,11 +191,11 @@
       return false;
     };
   </script>
-  <script src="./js/admin-auth.js?v=20261011wlogfix"></script>
+  <script src="./js/admin-auth.js?v=20261011logtap"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./css/styles.css?v=20261011wlogfix" />
+  <link rel="stylesheet" href="./css/styles.css?v=20261011logtap" />
 </head>
 <body>
   <div class="atmosphere" aria-hidden="true"></div>
@@ -365,7 +385,7 @@
         <button type="button" class="btn-ghost" id="log-sheet-close">Close</button>
       </header>
       <div class="log-sheet-scroll">
-        <p class="log-sheet-order">Saved logs · oldest → newest</p>
+        <p class="log-sheet-order">Oldest → newest · tap a row to change or delete it</p>
         <div class="log-sheet-table-wrap">
           <table class="log-sheet-table">
             <thead>
@@ -382,6 +402,7 @@
         <p class="log-sheet-empty" id="log-sheet-empty">No logs yet for this exercise.</p>
       </div>
       <form class="log-sheet-form" id="log-sheet-form" autocomplete="off">
+        <p class="log-sheet-edit-banner" id="log-sheet-edit-banner" hidden>Editing selected log</p>
         <label>kg
           <input id="log-sheet-kg" name="kg" type="number" inputmode="decimal" min="0" step="0.5" placeholder="0" enterkeyhint="next" />
         </label>
@@ -391,7 +412,11 @@
         <label>Reps
           <input id="log-sheet-reps" name="reps" type="number" inputmode="numeric" min="1" step="1" placeholder="12" enterkeyhint="done" />
         </label>
-        <button type="submit" class="log-sheet-save">Save entry</button>
+        <div class="log-sheet-form-actions">
+          <button type="submit" class="log-sheet-save" id="log-sheet-save">Save entry</button>
+          <button type="button" class="log-sheet-delete" id="log-sheet-delete" hidden>Delete</button>
+          <button type="button" class="btn-ghost log-sheet-cancel" id="log-sheet-cancel" hidden>Cancel</button>
+        </div>
         <p class="log-sheet-status" id="log-sheet-status" hidden></p>
       </form>
     </div>
@@ -412,6 +437,6 @@
     </div>
   </div>
 
-  <script src="./js/main.js?v=20261011wlogfix"></script>
+  <script src="./js/main.js?v=20261011logtap"></script>
 </body>
 </html>
