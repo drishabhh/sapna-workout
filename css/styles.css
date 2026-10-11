@@ -466,7 +466,7 @@ main {
   position: fixed;
   top: max(0.75rem, env(safe-area-inset-top));
   right: max(0.75rem, env(safe-area-inset-right));
-  z-index: 100;
+  z-index: 100050;
   appearance: none;
   border: 1px solid rgba(143, 206, 192, 0.35);
   border-radius: 999px;
@@ -1387,19 +1387,77 @@ body.admin-open {
   appearance: none;
 }
 
-.log-sheet-form .log-sheet-save {
+.log-sheet-edit-banner {
   grid-column: 1 / -1;
+  margin: 0 0 0.15rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--gold);
+}
+
+.log-sheet-form-actions {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.45rem;
+  margin-top: 0.15rem;
+}
+
+.log-sheet-form-actions:has(#log-sheet-delete:not([hidden])) {
+  grid-template-columns: 1.4fr 1fr;
+}
+
+.log-sheet-form-actions:has(#log-sheet-cancel:not([hidden])) {
+  grid-template-columns: 1.4fr 1fr;
+}
+
+.log-sheet-form-actions:has(#log-sheet-delete:not([hidden])):has(#log-sheet-cancel:not([hidden])) {
+  grid-template-columns: 1.35fr 1fr 0.9fr;
+}
+
+.log-sheet-form .log-sheet-save {
   appearance: none;
   border: none;
   border-radius: 12px;
   min-height: 46px;
-  margin-top: 0.15rem;
   background: var(--gold);
   color: var(--ink);
   font: inherit;
   font-size: 1rem;
   font-weight: 700;
   cursor: pointer;
+}
+
+.log-sheet-delete {
+  appearance: none;
+  border: 1px solid rgba(240, 160, 160, 0.45);
+  border-radius: 12px;
+  min-height: 46px;
+  background: rgba(80, 24, 24, 0.55);
+  color: #f0c0c0;
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.log-sheet-form-actions .log-sheet-cancel {
+  min-height: 46px;
+  border-radius: 12px;
+}
+
+.log-sheet-table tbody tr.log-sheet-row {
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.log-sheet-table tbody tr.log-sheet-row:active {
+  background: rgba(226, 182, 90, 0.12);
+}
+
+.log-sheet-table tbody tr.log-sheet-row.is-selected td {
+  background: rgba(226, 182, 90, 0.18);
+  color: var(--cream);
 }
 
 .log-sheet-status {
