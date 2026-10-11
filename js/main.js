@@ -2188,16 +2188,42 @@
     open();
   }
 
+  function openAdminFromQuery() {
+    try {
+      const params = new URLSearchParams(location.search || "");
+      if (params.get("admin") !== "1") return;
+      /* Strip flag so refresh doesn't keep reopening after unlock */
+      params.delete("admin");
+      const q = params.toString();
+      history.replaceState(null, "", location.pathname + (q ? "?" + q : "") + (location.hash || ""));
+    } catch (_) {
+      return;
+    }
+    setTimeout(() => {
+      try {
+        if (typeof window.sapnaAdminOpen === "function") window.sapnaAdminOpen();
+        else requestAdmin();
+      } catch (err) {
+        console.warn(err);
+      }
+    }, 350);
+  }
+
   async function init() {
     pinInitialLanding();
     wireLandingCta();
-    /* Ask for PAT first on a fresh phone */
-    promptTokenSetupIfNeeded();
+    /* Ask for PAT first on a fresh phone — skip when deep-linking into Admin */
+    let openAdmin = false;
+    try {
+      openAdmin = new URLSearchParams(location.search || "").get("admin") === "1";
+    } catch (_) {}
+    if (!openAdmin) promptTokenSetupIfNeeded();
     try {
       wireAdmin();
     } catch (err) {
       console.error("Admin wiring failed", err);
     }
+    if (openAdmin) openAdminFromQuery();
     try {
       await loadGifLibrary();
     } catch (err) {
