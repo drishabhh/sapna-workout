@@ -615,6 +615,59 @@
     setLogSheetEditMode(null);
   }
 
+  function blurLogSheetInputs() {
+    ["log-sheet-kg", "log-sheet-sets", "log-sheet-reps"].forEach((id) => {
+      try {
+        $(id)?.blur();
+      } catch (_) {}
+    });
+    try {
+      const active = document.activeElement;
+      if (active && typeof active.blur === "function" && $("log-sheet")?.contains(active)) active.blur();
+    } catch (_) {}
+  }
+
+  function hideLogSheetConfirm() {
+    const panel = $("log-sheet-confirm");
+    if (!panel) return;
+    panel.hidden = true;
+    panel.setAttribute("hidden", "");
+  }
+
+  function showLogSheetConfirm() {
+    const panel = $("log-sheet-confirm");
+    if (!panel) return;
+    blurLogSheetInputs();
+    panel.hidden = false;
+    panel.removeAttribute("hidden");
+    setTimeout(() => {
+      try {
+        $("log-sheet-confirm-ok")?.focus({ preventScroll: true });
+      } catch (_) {
+        try {
+          $("log-sheet-confirm-ok")?.focus();
+        } catch (__) {}
+      }
+    }, 80);
+  }
+
+  function performLogSheetDelete() {
+    if (logSheetEditingId == null) return;
+    const id = logSheetEditingId;
+    hideLogSheetConfirm();
+    removeWeightLog(id);
+    clearLogSheetForm();
+    fillLogSheetTable();
+    refreshMoveLogSummaries();
+    updateSessionSteps();
+    const status = $("log-sheet-status");
+    if (status) {
+      status.hidden = false;
+      status.textContent = "Log deleted.";
+      status.className = "log-sheet-status is-ok";
+    }
+  }
+
   function selectLogSheetRow(id) {
     const entry = getWeightLog(id);
     if (!entry) return;
@@ -720,6 +773,7 @@
     window.scrollTo(0, logSheetScrollY);
     logSheetExercise = "";
     logSheetEditingId = null;
+    hideLogSheetConfirm();
     refreshMoveLogSummaries();
   }
 
@@ -818,19 +872,18 @@
     $("log-sheet-delete")?.addEventListener("click", (e) => {
       e.preventDefault();
       if (logSheetEditingId == null) return;
-      if (!confirm("Delete this log?")) return;
-      const id = logSheetEditingId;
-      removeWeightLog(id);
-      clearLogSheetForm();
-      fillLogSheetTable();
-      refreshMoveLogSummaries();
-      updateSessionSteps();
-      const status = $("log-sheet-status");
-      if (status) {
-        status.hidden = false;
-        status.textContent = "Log deleted.";
-        status.className = "log-sheet-status is-ok";
-      }
+      showLogSheetConfirm();
+    });
+    $("log-sheet-confirm-cancel")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      hideLogSheetConfirm();
+    });
+    $("log-sheet-confirm-ok")?.addEventListener("click", (e) => {
+      e.preventDefault();
+      performLogSheetDelete();
+    });
+    $("log-sheet-confirm")?.addEventListener("click", (e) => {
+      if (e.target === $("log-sheet-confirm")) hideLogSheetConfirm();
     });
     $("log-sheet-tbody")?.addEventListener("click", (e) => {
       const row = e.target.closest("tr[data-log-id]");
