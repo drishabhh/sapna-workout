@@ -1863,9 +1863,104 @@
     });
   }
 
+  /* ── First-visit token setup (shared key with sapna-health) ── */
+  function promptTokenSetupIfNeeded() {
+    const SS_LATER = "sapna_token_setup_later";
+    const overlay = $("token-setup");
+    if (!overlay) return;
+    const has = !!(localStorage.getItem(LS_TOKEN) || "").trim();
+    if (has) {
+      if ($("admin-token")) $("admin-token").placeholder = "Token saved — paste to replace";
+      return;
+    }
+    try {
+      if (sessionStorage.getItem(SS_LATER) === "1") return;
+    } catch (_) {}
+
+    const status = $("token-setup-status");
+    const setSt = (msg, kind) => {
+      if (!status) return;
+      if (!msg) {
+        status.hidden = true;
+        status.textContent = "";
+        return;
+      }
+      status.hidden = false;
+      status.textContent = msg;
+      status.className = "admin-status is-" + (kind || "info");
+    };
+
+    const close = () => {
+      overlay.hidden = true;
+      overlay.classList.remove("is-open");
+      overlay.style.cssText = "";
+      document.body.classList.remove("admin-open", "token-setup-open");
+    };
+
+    const open = () => {
+      overlay.hidden = false;
+      overlay.removeAttribute("hidden");
+      overlay.classList.add("is-open");
+      overlay.style.cssText =
+        "display:flex !important; position:fixed !important; inset:0 !important; z-index:100001 !important;";
+      document.body.classList.add("admin-open", "token-setup-open");
+      const input = $("token-setup-input");
+      if (input) {
+        input.value = "";
+        setTimeout(() => {
+          try {
+            input.focus({ preventScroll: true });
+          } catch (_) {}
+        }, 80);
+      }
+      setSt("");
+    };
+
+    if (overlay.dataset.wired !== "1") {
+      overlay.dataset.wired = "1";
+      $("token-setup-save")?.addEventListener("click", () => {
+        const raw = ($("token-setup-input")?.value || "").trim();
+        if (!raw) {
+          setSt("Paste your GitHub token first.", "error");
+          return;
+        }
+        if (raw.length < 20) {
+          setSt("That doesn’t look like a GitHub token.", "error");
+          return;
+        }
+        localStorage.setItem(LS_TOKEN, raw);
+        try {
+          sessionStorage.removeItem(SS_LATER);
+        } catch (_) {}
+        if ($("admin-token")) {
+          $("admin-token").value = "••••••••••••";
+          $("admin-token").placeholder = "Token saved — paste to replace";
+        }
+        setSt("Saved — lift sync & Admin publish ready.", "info");
+        setTimeout(close, 450);
+      });
+      $("token-setup-later")?.addEventListener("click", () => {
+        try {
+          sessionStorage.setItem(SS_LATER, "1");
+        } catch (_) {}
+        close();
+      });
+      $("token-setup-input")?.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          $("token-setup-save")?.click();
+        }
+      });
+    }
+
+    open();
+  }
+
   async function init() {
     pinInitialLanding();
     wireLandingCta();
+    /* Ask for PAT first on a fresh phone */
+    promptTokenSetupIfNeeded();
     try {
       wireAdmin();
     } catch (err) {

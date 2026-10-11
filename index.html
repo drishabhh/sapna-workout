@@ -171,11 +171,11 @@
       return false;
     };
   </script>
-  <script src="./js/admin-auth.js?v=20261011wsync"></script>
+  <script src="./js/admin-auth.js?v=20261011token"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="./css/styles.css?v=20261011wsync" />
+  <link rel="stylesheet" href="./css/styles.css?v=20261011token" />
 </head>
 <body>
   <div class="atmosphere" aria-hidden="true"></div>
@@ -219,6 +219,27 @@
       <a href="#top">Back to top</a>
     </div>
   </footer>
+
+  <!-- First-visit GitHub token setup (shared with sapna-health) -->
+  <div class="admin-overlay token-setup-overlay" id="token-setup" hidden>
+    <div class="admin-sheet token-setup-sheet" role="dialog" aria-modal="true" aria-labelledby="token-setup-title">
+      <div class="admin-panel-inner">
+        <p class="brand token-setup-brand">Sapna</p>
+        <h2 id="token-setup-title">Connect this phone</h2>
+        <p class="admin-hint">Paste a GitHub token once. Used for <strong>lift log sync</strong> across phones and <strong>Admin publish</strong>. Saved only in this browser — same token as Sapna Health.</p>
+        <label class="field">
+          <span>GitHub PAT (repo scope)</span>
+          <input type="password" id="token-setup-input" autocomplete="off" placeholder="ghp_…" enterkeyhint="done" />
+        </label>
+        <p class="admin-hint">GitHub → Settings → Developer settings → Personal access tokens → enable <code>repo</code>.</p>
+        <div class="admin-actions">
+          <button type="button" class="btn-primary" id="token-setup-save">Save &amp; continue</button>
+          <button type="button" class="btn-ghost" id="token-setup-later">Later</button>
+        </div>
+        <p class="admin-status" id="token-setup-status" hidden></p>
+      </div>
+    </div>
+  </div>
 
   <div class="admin-overlay" id="admin-gate" hidden>
     <div class="admin-sheet" role="dialog" aria-modal="true" aria-labelledby="gate-title">
@@ -391,6 +412,6 @@
     </div>
   </div>
 
-  <script src="./js/main.js?v=20261011wsync"></script>
+  <script src="./js/main.js?v=20261011token"></script>
 </body>
 </html>
