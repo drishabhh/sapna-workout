@@ -367,7 +367,9 @@
       const res = await fetch(`${WEIGHTS_CLOUD_URL}?t=${Date.now()}`, { cache: "no-store" });
       if (!res.ok) return 0;
       const added = mergeWeightCloud(await res.json());
-      if (added) refreshMoveLogSummaries();
+      /* Always refresh per-exercise Last: lines (not only when new ids arrive) */
+      refreshMoveLogSummaries();
+      updateSessionSteps();
       return added;
     } catch {
       return 0;
@@ -458,9 +460,18 @@
     return parseSetsReps(e.rx).reps;
   }
 
+  function normExercise(name) {
+    return String(name || "")
+      .toLowerCase()
+      .replace(/[–—]/g, "-")
+      .replace(/\s+/g, " ")
+      .trim();
+  }
+
   function entriesForExercise(name) {
+    const n = normExercise(name);
     return loadWeightLogs()
-      .entries.filter((e) => e.exercise === name && (e.kind || "main") === "main")
+      .entries.filter((e) => (e.kind || "main") === "main" && normExercise(e.exercise) === n)
       .sort((a, b) => a.date.localeCompare(b.date) || Number(a.id) - Number(b.id));
   }
 
@@ -1971,6 +1982,10 @@
     } catch (err) {
       console.warn(err);
     }
+    /* Pull shared lift logs BEFORE rendering moves so each exercise shows Last: */
+    try {
+      await pullWeightCloud();
+    } catch (_) {}
     try {
       const plan = await loadPublishedPlan();
       renderPlan(plan);
@@ -1980,6 +1995,7 @@
     }
     try {
       await pullWeightCloud();
+      refreshMoveLogSummaries();
       updateSessionSteps();
     } catch (_) {}
     /* Layout can shift after plan/GIF load — keep first paint at hero top */
